@@ -13,12 +13,18 @@ class ImageViewCache: UIImageView {
     var task: URLSessionDataTask?
     var curentImageUrl: String?
     var placeHolderImage: UIImage?
+    var svgView: SVGView?
     
     public func loadImage(url: String) {
         self.loadImage(url: url, placeHolder: nil)
     }
     
     public func loadImage(url: String, placeHolder: UIImage?) {
+        //remove all subviews
+        for view in self.subviews {
+            view.removeFromSuperview()
+        }
+        
         placeHolderImage = placeHolder        
         if let holder = placeHolderImage {
             self.image = holder
@@ -29,10 +35,13 @@ class ImageViewCache: UIImageView {
             if let image = UIImage(contentsOfFile: filePath) {
                 self.setImageAnimated(img: image)
                 return
+            } else { //not png or jpeg, trying to load as svg
+                self.svgView = SVGView.init(frame: self.frame)
+                svgView!.loadSVGfromPath(filePath)
             }
         }
         
-        if task != nil && task?.state == .running && url == curentImageUrl {
+        if let task = task, task.state == .running, url == curentImageUrl {
             return
         } else {
             task?.cancel()
@@ -62,6 +71,21 @@ class ImageViewCache: UIImageView {
             print(error.localizedDescription);
         }
         
+        if (newImage == nil) { //not png or jpeg, trying to load as svg
+            loadSVGImage(url)
+        } else {
+            loadUIImage(newImage)
+        }
+    }
+    
+    func loadSVGImage(_ url: String) {
+        DispatchQueue.main.async {
+            self.svgView = SVGView.load(url: url, view: self)
+        }
+    }
+    
+    func loadUIImage(_ newImage: UIImage?)
+    {
         DispatchQueue.main.async {
             if let holder = self.placeHolderImage {
                 self.image = holder
@@ -106,4 +130,61 @@ class ImageViewCache: UIImageView {
         let md5Hex =  digestData.map { String(format: "%02hhx", $0) }.joined()
         return md5Hex
     }
+}
+
+class SVGView : UIWebView, UIWebViewDelegate {
+    var viewForImage: UIImageView?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    class func load(url: String, view: UIImageView) -> SVGView {
+        
+        var frame: CGRect = .zero
+        frame.size = view.frame.size
+        let svgView = SVGView(frame: frame)
+        
+        svgView.backgroundColor = .clear
+        svgView.isOpaque = false
+        
+        svgView.delegate = svgView
+        svgView.viewForImage = view
+        svgView.loadSVGfromUrl(url)
+        
+        return svgView
+    }
+    
+    private func loadSVGfromUrl(_ url: String) {
+        self.scrollView.isScrollEnabled = false
+        let url = URL(string: url)
+        let request = URLRequest(url: url!)
+        self.loadRequest(request)
+    }
+    
+    func loadSVGfromPath(_ path: String) {
+        self.scrollView.isScrollEnabled = false
+        let url = URL(fileURLWithPath: path)
+        let text2 = try? String(contentsOf: url, encoding: String.Encoding.utf8)
+        if let text2 = text2 {
+            self.loadHTMLString(text2, baseURL: nil)
+        }
+    }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        if let viewForImage = viewForImage {
+            self.frame.size = viewForImage.frame.size
+            self.viewForImage?.image = nil
+            viewForImage.addSubview(self)
+        }
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        print("error")
+    }
+
 }
