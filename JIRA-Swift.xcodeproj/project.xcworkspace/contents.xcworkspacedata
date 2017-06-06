@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SomeSwiftApp.xcodeproj">
+      location = "self:/Users/Andmar/Projects/Practice/SomeSwiftApp/JIRA-Swift.xcodeproj">
    </FileRef>
 </Workspace>
