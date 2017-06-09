@@ -23,7 +23,7 @@ class SettingsVC: UITableViewController {
         AKActivityView.add(to: view)
         if let name = kMainModel.currentUser?.name {
             kMainModel.getUser(name: name) { (obj) in
-                kMainModel.currentUser = obj as? UserObj
+                kMainModel.currentUser = obj as? User
                 self.setupUI()
                 AKActivityView.remove(animated: true)
             }
@@ -34,7 +34,7 @@ class SettingsVC: UITableViewController {
         avatarImage.roundCorners()
         
         if let user = kMainModel.currentUser {
-            avatarImage.loadImage(url: user.avatarUrl, placeHolder: UIImage(named: "tab_issue"))
+            avatarImage.loadImage(url: user.avatarUrl!, placeHolder: UIImage(named: "tab_issue"))
             lbName.text = user.displayName
             lbEmail.text = user.emailAddress
         }

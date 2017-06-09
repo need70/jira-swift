@@ -19,6 +19,7 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="IssueCell" id="G3b-9g-fHM" customClass="IssueCell" customModule="JIRA_Swift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -53,19 +54,31 @@
                                                 <constraint firstAttribute="width" secondItem="mrk-V9-5gV" secondAttribute="height" multiplier="1:1" id="UMc-YR-uM5"/>
                                             </constraints>
                                         </webView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fcn-rc-uV7" customClass="ImageViewCache" customModule="JIRA_Swift" customModuleProvider="target">
+                                            <rect key="frame" x="15" y="13" width="16" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="16" id="Pc3-KK-mAC"/>
+                                                <constraint firstAttribute="width" secondItem="fcn-rc-uV7" secondAttribute="height" multiplier="1:1" id="bnk-qu-txm"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="mrk-V9-5gV" firstAttribute="centerY" secondItem="BbK-AM-7N1" secondAttribute="centerY" id="5ss-zb-FME"/>
+                                        <constraint firstItem="fcn-rc-uV7" firstAttribute="centerY" secondItem="BbK-AM-7N1" secondAttribute="centerY" id="AS9-sv-WbP"/>
                                         <constraint firstAttribute="trailing" secondItem="00g-Vl-ffX" secondAttribute="trailing" constant="15" id="CfC-as-jsj"/>
                                         <constraint firstItem="mrk-V9-5gV" firstAttribute="leading" secondItem="BbK-AM-7N1" secondAttribute="leading" constant="15" id="ESQ-DH-Eeg"/>
+                                        <constraint firstItem="fcn-rc-uV7" firstAttribute="leading" secondItem="BbK-AM-7N1" secondAttribute="leading" constant="15" id="GsJ-46-uNJ"/>
                                         <constraint firstItem="cKL-LD-QMR" firstAttribute="top" secondItem="BbK-AM-7N1" secondAttribute="top" constant="3" id="QG3-bR-itY"/>
                                         <constraint firstAttribute="trailing" secondItem="cKL-LD-QMR" secondAttribute="trailing" constant="15" id="R7d-G1-var"/>
                                         <constraint firstItem="00g-Vl-ffX" firstAttribute="leading" secondItem="mrk-V9-5gV" secondAttribute="trailing" constant="10" id="Veh-WU-eBj"/>
+                                        <constraint firstItem="00g-Vl-ffX" firstAttribute="leading" secondItem="fcn-rc-uV7" secondAttribute="trailing" constant="10" id="aMk-3B-cxi"/>
+                                        <constraint firstItem="cKL-LD-QMR" firstAttribute="leading" secondItem="fcn-rc-uV7" secondAttribute="trailing" constant="10" id="qyd-s9-Xyd"/>
                                         <constraint firstItem="cKL-LD-QMR" firstAttribute="leading" secondItem="mrk-V9-5gV" secondAttribute="trailing" constant="10" id="zZv-yx-4tO"/>
                                         <constraint firstItem="00g-Vl-ffX" firstAttribute="top" secondItem="cKL-LD-QMR" secondAttribute="bottom" constant="-2" id="zgW-Tq-jYi"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="issueIcon" destination="fcn-rc-uV7" id="UBO-Sh-eW2"/>
                                     <outlet property="lbKey" destination="cKL-LD-QMR" id="Tv0-4J-eEo"/>
                                     <outlet property="lbSummary" destination="00g-Vl-ffX" id="qGi-rn-UZb"/>
                                     <outlet property="svgView" destination="mrk-V9-5gV" id="bVT-Ej-Xnm"/>

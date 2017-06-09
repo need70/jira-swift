@@ -1,12 +1,19 @@
 
+let ISSUES_PER_PAGE = 20
+
 class IssuesVC: BaseTableVC {
     
-    var issues: [IssueObj] = []
+    var issues: [Issue] = []
+    
+    var pagingEnabled = false
+    var isLoading = false
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.setupUI()
+        
+        AKActivityView.add(to: view)
         getIssues()
     }
     
@@ -15,35 +22,55 @@ class IssuesVC: BaseTableVC {
     }
     
     func getIssues() {
-        AKActivityView.add(to: view)
-        tableView.separatorStyle = .none
-        kMainModel.getIssues(startAt: 0, count: 20) { (array) in
-            self.issues = array as! [IssueObj]
-            self.tableView.separatorStyle = .singleLine
+        
+        if isLoading { return }
+        
+        pagingEnabled = true
+        isLoading = true
+        
+        kMainModel.getIssues(startAt: issues.count, count: ISSUES_PER_PAGE) { (array) in
+            
+            self.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
+            
+            self.issues.append(contentsOf: array as! [Issue])
             self.tableView.reloadData()
             AKActivityView.remove(animated: true)
+            self.isLoading = false
         }
+    }
+    
+    func loadNext() {
+        getIssues()
     }
     
     override func leftBarButtonPressed() {
         self.dismiss(animated: true, completion: nil)
     }
 
-    //MARK: - TableView
+    //MARK:  TableView
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return issues.count
+        
+        return pagingEnabled ? issues.count + 1 : issues.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if cell.tag == LoadingCell.cellTag {
+            self.perform(#selector(loadNext), with: nil, afterDelay: 0.5)
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.row >= issues.count {
+            return LoadingCell.instance()
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "IssueCell") as! IssueCell
         
         if indexPath.row < issues.count {
@@ -63,12 +90,15 @@ class IssuesVC: BaseTableVC {
     }
 }
 
+//MARK: - IssueCell
+
 class IssueCell: UITableViewCell {
     
     @IBOutlet weak var lbKey: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
     @IBOutlet weak var svgView: SVGImageView!
-    var issue: IssueObj?
+    @IBOutlet weak var issueIcon: ImageViewCache!
+    var issue: Issue?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -77,6 +107,8 @@ class IssueCell: UITableViewCell {
             lbKey.text = issue.key
             lbSummary.text = issue.summary
             svgView.loadUrl((issue.type?.iconUrl)!)
+            issueIcon.isHidden = true
+//            issueIcon.loadImage(url: (issue.type?.iconUrl)!)
         }
     }
 }

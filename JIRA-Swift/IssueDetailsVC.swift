@@ -11,7 +11,7 @@ import UIKit
 
 class IssueDetailsVC: UITableViewController {
 
-    var issue: IssueObj?
+    var issue: Issue?
     
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
@@ -43,10 +43,10 @@ class IssueDetailsVC: UITableViewController {
             
             //project info
             projectIcon.loadImage(url: (issue.project?.iconUrl)!, placeHolder: UIImage(named: "tab_project"))
-            lbProjInfo.text = (issue.project?.name)! + " / " + issue.key
+            lbProjInfo.text = (issue.project?.name)! + " / " + issue.key!
             
             lbSummary.text = issue.summary
-            tvDescription.text = issue.theDescription
+            tvDescription.text = issue.descript
             
             //assignee
             assigneeAvatar.loadImage(url: (issue.assignee?.avatarUrl)!, placeHolder: UIImage(named: "tab_project"))
@@ -59,8 +59,8 @@ class IssueDetailsVC: UITableViewController {
             lbReporter.text = issue.reporter?.displayName
             
             //dates
-            lbCreated.text = issue.createdDate
-            lbUpdated.text = issue.updatedDate
+            lbCreated.text = issue.formattedCreated()
+            lbUpdated.text = issue.formattedUpdated()
             
             //type
             lbType.text = issue.type?.name
@@ -75,7 +75,7 @@ class IssueDetailsVC: UITableViewController {
             lbStatus.textColor = issue.status?.getStatusColor()
             
             //resolution
-            lbResolution.text = issue.resolution?.name
+            lbResolution.text = issue.resolution?.name ?? "Unresolved"
         }
     }
 

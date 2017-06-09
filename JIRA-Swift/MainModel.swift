@@ -18,7 +18,7 @@ class MainModel
 {
     static let instance = MainModel()
     
-    var currentUser: UserObj?
+    var currentUser: User?
     
     var baseURL: String {
         if let url = UserDefaults.standard.value(forKey: "JiraUrl") {
@@ -51,14 +51,14 @@ class MainModel
         
         Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
             print(responseObj as Any)
-            let dict = responseObj as! [String : Any]
             
+            let dict = responseObj as! [String : Any]
             if let array: [Any] = dict["issues"] as? [Any] {
-                var objects: [IssueObj] = []
                 
+                var objects: [Issue] = []
                 for index in 0..<array.count {
                     let dict = array[index] as! [String: Any]
-                    let obj = IssueObj(dict: dict)
+                    let obj: Issue = Issue(JSON: dict)!
                     objects.append(obj)
                 }
                 fBlock(objects)
@@ -81,14 +81,14 @@ class MainModel
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]
-            var objects: [ProjectObj] = []
+            var objects: [Project] = []
             
             for index in 0..<array.count {
-                
                 let dict = array[index] as! [String: Any]
-                let obj = ProjectObj(dict: dict)
+                let obj = Project(JSON: dict)!
                 objects.append(obj)
             }
+            
             fBlock(objects)
         }, eBlock: { (error) in
             if let err = error {
@@ -106,7 +106,8 @@ class MainModel
             print(responseObj as! [String : Any])
             
             let dict = responseObj as! [String : Any]
-            self.currentUser = UserObj(dict: [:])
+            self.currentUser = User(JSON: [:])!
+            
             if let username = dict["username"] as? String {
                 self.currentUser?.name = username
             }
@@ -128,7 +129,7 @@ class MainModel
             
             print(responseObj as! [String : Any])
             let dict = responseObj as! [String : Any]
-            let user = UserObj(dict: dict)
+            let user = User(JSON: dict)
             fBlock(user)
             
         }, eBlock: { (error) in

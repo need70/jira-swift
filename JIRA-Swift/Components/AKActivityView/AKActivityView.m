@@ -19,6 +19,11 @@ static AKActivityView *activityView = nil;
         [self remove];
     }
     
+    if ([view isKindOfClass:[UITableView class]]) {
+        UITableView *table = (UITableView *)view;
+        table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     if (!view) {
@@ -119,6 +124,11 @@ static AKActivityView *activityView = nil;
     self.alpha = 0;
     
     [UIView commitAnimations];
+    
+    if ([self.superview isKindOfClass:[UITableView class]]) {
+        UITableView *table = (UITableView *)self.superview;
+        table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
 }
 
 - (void)layoutSubviews
@@ -216,8 +226,6 @@ static AKActivityView *activityView = nil;
     rotationAnimation.repeatCount = 100000;
     [inLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
-
-
 
 @end
 

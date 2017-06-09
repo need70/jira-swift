@@ -1,32 +1,25 @@
 
 class ProjectsVC: BaseTableVC {
     
-    var projects: [ProjectObj] = []
+    var projects: [Project] = []
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         getProjects()
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
         
     func getProjects() {
-        tableView.separatorStyle = .none
         AKActivityView.add(to: view)
         kMainModel.getProjects() { (array) in
             print(array)
-            self.projects = array as! [ProjectObj]
+            self.projects = array as! [Project]
             self.tableView.reloadData()
-            self.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
         }
     }
 
-    //MARK: - TableView
+    //MARK: TableView
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return projects.count
@@ -36,7 +29,7 @@ class ProjectsVC: BaseTableVC {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
         
         if indexPath.row < projects.count {
-            let item = projects[indexPath.row] as ProjectObj
+            let item = projects[indexPath.row] as Project
             cell.project = item
         }
         return cell
@@ -48,11 +41,14 @@ class ProjectsVC: BaseTableVC {
     }
 }
 
+//MARK: - ProjectCell
+
 class ProjectCell: UITableViewCell {
     
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var iconImage: ImageViewCache!
-    var project: ProjectObj?
+    
+    var project: Project?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -60,11 +56,9 @@ class ProjectCell: UITableViewCell {
     }
     
     func setupUI() {
-        
         if let project = project {
             lbTitle.text = project.name
-            iconImage.loadImage(url: project.iconUrl, placeHolder: UIImage(named: "tab_project"))
+            iconImage.loadImage(url: project.iconUrl!, placeHolder: UIImage(named: "tab_project"))
         }
-        
     }
 }

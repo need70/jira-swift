@@ -87,6 +87,8 @@ class ToastView: UIView {
 
 class CircleIndicatorView: UIView {
     
+    var lineWidth: CGFloat = 2.0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -112,7 +114,6 @@ class CircleIndicatorView: UIView {
     
     override func draw(_ rect: CGRect) {
         let bounds = self.bounds
-        let lineWidth: CGFloat = 2.0
         let radius = bounds.size.width / 2 - lineWidth
         
         let ctx = UIGraphicsGetCurrentContext()!
