@@ -15,6 +15,9 @@
 		891835AA1EE1EF48004209A7 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 891835A61EE1EF48004209A7 /* ToastView.xib */; };
 		891835AC1EE1EFB8004209A7 /* BaseTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835AB1EE1EFB8004209A7 /* BaseTableVC.swift */; };
 		891835B01EE67FDD004209A7 /* AKActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 891835AF1EE67FDD004209A7 /* AKActivityView.m */; };
+		891835B21EE7D550004209A7 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835B11EE7D550004209A7 /* SettingsVC.swift */; };
+		891835D41EE931B8004209A7 /* UIView+additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835D31EE931B8004209A7 /* UIView+additions.swift */; };
+		891835D81EE97757004209A7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835D71EE97757004209A7 /* Utils.swift */; };
 		891A965E1E531FAD00B85B39 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A965D1E531FAD00B85B39 /* AppDelegate.swift */; };
 		891A96601E531FAD00B85B39 /* IssuesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A965F1E531FAD00B85B39 /* IssuesVC.swift */; };
 		891A96631E531FAD00B85B39 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 891A96611E531FAD00B85B39 /* Main.storyboard */; };
@@ -36,6 +39,9 @@
 		891835AB1EE1EFB8004209A7 /* BaseTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableVC.swift; sourceTree = "<group>"; };
 		891835AE1EE67FDD004209A7 /* AKActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKActivityView.h; sourceTree = "<group>"; };
 		891835AF1EE67FDD004209A7 /* AKActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKActivityView.m; sourceTree = "<group>"; };
+		891835B11EE7D550004209A7 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		891835D31EE931B8004209A7 /* UIView+additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+additions.swift"; sourceTree = "<group>"; };
+		891835D71EE97757004209A7 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		891A965A1E531FAD00B85B39 /* JIRA-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JIRA-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		891A965D1E531FAD00B85B39 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		891A965F1E531FAD00B85B39 /* IssuesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuesVC.swift; sourceTree = "<group>"; };
@@ -77,6 +83,7 @@
 				891A965F1E531FAD00B85B39 /* IssuesVC.swift */,
 				891A966F1E5323C500B85B39 /* IssueDetailsVC.swift */,
 				8918359C1EE1A78C004209A7 /* ProjectsVC.swift */,
+				891835B11EE7D550004209A7 /* SettingsVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -84,6 +91,7 @@
 		891835731EE03904004209A7 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				891835D71EE97757004209A7 /* Utils.swift */,
 				891A96691E531FAD00B85B39 /* Info.plist */,
 				898637741E5634F30084369A /* BridgingHeader.h */,
 				891A965D1E531FAD00B85B39 /* AppDelegate.swift */,
@@ -116,6 +124,7 @@
 				891835A21EE1EF48004209A7 /* ImageViewCache.swift */,
 				891835A31EE1EF48004209A7 /* LoadingView.swift */,
 				891835A41EE1EF48004209A7 /* ToastView */,
+				891835D31EE931B8004209A7 /* UIView+additions.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -250,12 +259,15 @@
 				891835AC1EE1EFB8004209A7 /* BaseTableVC.swift in Sources */,
 				891A96781E534DD900B85B39 /* Request.swift in Sources */,
 				891835B01EE67FDD004209A7 /* AKActivityView.m in Sources */,
+				891835D81EE97757004209A7 /* Utils.swift in Sources */,
 				891835A01EE1B0C5004209A7 /* BaseObject.swift in Sources */,
 				891835A91EE1EF48004209A7 /* ToastView.swift in Sources */,
 				891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */,
 				8918359D1EE1A78C004209A7 /* ProjectsVC.swift in Sources */,
 				891835A81EE1EF48004209A7 /* LoadingView.swift in Sources */,
+				891835D41EE931B8004209A7 /* UIView+additions.swift in Sources */,
 				891A965E1E531FAD00B85B39 /* AppDelegate.swift in Sources */,
+				891835B21EE7D550004209A7 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

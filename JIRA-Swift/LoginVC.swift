@@ -56,15 +56,17 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     }
     
     func makeAuth(login: String, pass: String, url: String) {
-        MainModel().auth(userName: self.tfEmail.text!, password: self.tfPassword.text!) { (dict) in
-            ToastView.hide() {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
-                self.present(vc, animated: true, completion: nil)
+        kMainModel.auth(userName: self.tfEmail.text!, password: self.tfPassword.text!) { (dict) in
+            kMainModel.getCurrentUser() {
+                ToastView.hide() {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
+                    self.present(vc, animated: true, completion: nil)
+                }                
             }
         }
     }
     
-    //MARK: - TextField
+    //MARK: - TableView
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         view.endEditing(true)

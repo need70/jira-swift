@@ -17,7 +17,7 @@ class ProjectsVC: BaseTableVC {
     func getProjects() {
         tableView.separatorStyle = .none
         AKActivityView.add(to: view)
-        MainModel().getProjects() { (array) in
+        kMainModel.getProjects() { (array) in
             print(array)
             self.projects = array as! [ProjectObj]
             self.tableView.reloadData()
@@ -61,9 +61,8 @@ class ProjectCell: UITableViewCell {
     
     func setupUI() {
         
-//        iconImage.image = UIImage(named: "tab_project")
         if let project = project {
-            lbTitle.text = project.projectName
+            lbTitle.text = project.name
             iconImage.loadImage(url: project.iconUrl, placeHolder: UIImage(named: "tab_project"))
         }
         
