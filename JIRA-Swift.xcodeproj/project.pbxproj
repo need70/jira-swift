@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6BC8CA841EE8209A00DA7366 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC8CA831EE8209A00DA7366 /* Utils.swift */; };
 		8918359D1EE1A78C004209A7 /* ProjectsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8918359C1EE1A78C004209A7 /* ProjectsVC.swift */; };
 		891835A01EE1B0C5004209A7 /* BaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8918359F1EE1B0C5004209A7 /* BaseObject.swift */; };
 		891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835A21EE1EF48004209A7 /* ImageViewCache.swift */; };
@@ -31,7 +30,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6BC8CA831EE8209A00DA7366 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8918359C1EE1A78C004209A7 /* ProjectsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsVC.swift; sourceTree = "<group>"; };
 		8918359F1EE1B0C5004209A7 /* BaseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObject.swift; sourceTree = "<group>"; };
 		891835A21EE1EF48004209A7 /* ImageViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCache.swift; sourceTree = "<group>"; };
@@ -72,7 +70,6 @@
 		6BC8CA821EE8209A00DA7366 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6BC8CA831EE8209A00DA7366 /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -266,7 +263,6 @@
 				891A96601E531FAD00B85B39 /* IssuesVC.swift in Sources */,
 				891A96701E5323C500B85B39 /* IssueDetailsVC.swift in Sources */,
 				891A96771E534DD900B85B39 /* MainModel.swift in Sources */,
-				6BC8CA841EE8209A00DA7366 /* Utils.swift in Sources */,
 				891A96721E53365600B85B39 /* LoginVC.swift in Sources */,
 				891835AC1EE1EFB8004209A7 /* BaseTableVC.swift in Sources */,
 				891A96781E534DD900B85B39 /* Request.swift in Sources */,

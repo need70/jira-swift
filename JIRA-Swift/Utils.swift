@@ -1,21 +1,37 @@
 //
 //  Utils.swift
-//  CoordinatorExample
-//
-//  Created by Andriy Kramar on 6/8/17.
-//  Copyright © 2017 Will Townsend. All rights reserved.
+//  JIRA-Swift
 //
 
 import Foundation
 
 class Utils {
     
+    static var dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.locale = Locale.current
+        return formatter
+    }()
+    
+    class func stringFromDate(fromDate: Date, format: String) -> String {
+        dateFormatter.dateFormat = format
+        let stringFromDate = dateFormatter.string(from: fromDate)
+        return stringFromDate.capitalized
+    }
+    
+    class func dateFromString(fromString: String, format: String) -> Date {
+        dateFormatter.dateFormat = format
+        if let date = dateFormatter.date(from: fromString) {
+            return date
+        }
+        return Date()
+    }
+    
     public class func formattedDateFrom(dateStr: String) -> String {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSz"
-        let date: Date = df.date(from: dateStr)!
-        df.dateFormat = "YYYY/MM/dd, HH:mm"
-        return df.string(from: date)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSz"
+        let date: Date = dateFormatter.date(from: dateStr)!
+        dateFormatter.dateFormat = "YYYY/MM/dd, HH:mm"
+        return dateFormatter.string(from: date)
     }
     
     public class func showActionSheet(items: [String], title: String, vc: UIViewController, block: @escaping (_ index: Int) -> ()) {
