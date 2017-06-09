@@ -1,6 +1,6 @@
 //
 //  BaseObject.swift
-//  JIRA-Swift
+//    JIRA-Swift
 //
 //  Created by Andriy Kramar on 6/2/17.
 //  Copyright © 2017 home. All rights reserved.

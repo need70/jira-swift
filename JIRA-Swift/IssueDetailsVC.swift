@@ -1,6 +1,6 @@
 //
 //  IssueDetailsVC.swift
-//  SomeSwiftApp
+//  JIRA-Swift
 //
 //  Created by Andrey Kramar on 2/14/17.
 //  Copyright © 2017 home. All rights reserved.
