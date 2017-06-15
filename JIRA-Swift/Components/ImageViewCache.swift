@@ -19,36 +19,38 @@ class ImageViewCache: UIImageView {
         self.loadImage(url: url, placeHolder: nil)
     }
     
-    public func loadImage(url: String, placeHolder: UIImage?) {
-        //remove all subviews
-        for view in self.subviews {
-            view.removeFromSuperview()
-        }
+    public func loadImage(url: String?, placeHolder: UIImage?) {
         
-        placeHolderImage = placeHolder        
+        placeHolderImage = placeHolder
         if let holder = placeHolderImage {
             self.image = holder
         }
-        
-        let filePath = self.getPath(url: url)
-        if (FileManager.default.fileExists(atPath: filePath)) {
-            if let image = UIImage(contentsOfFile: filePath) {
-                self.setImageAnimated(img: image)
-                return
-            } else { //not png or jpeg, trying to load as svg
-                self.svgView = SVGView.init(frame: self.frame)
-                svgView!.loadSVGfromPath(filePath)
+
+        if let url = url {
+            for view in self.subviews {
+                view.removeFromSuperview()
             }
+            
+            let filePath = self.getPath(url: url)
+            if (FileManager.default.fileExists(atPath: filePath)) {
+                if let image = UIImage(contentsOfFile: filePath) {
+                    self.setImageAnimated(img: image)
+                    return
+                } else { //not png or jpeg, trying to load as svg
+                    self.svgView = SVGView.init(frame: self.frame)
+                    svgView!.loadSVGfromPath(filePath)
+                }
+            }
+            
+            if let task = task, task.state == .running, url == curentImageUrl {
+                return
+            } else {
+                task?.cancel()
+            }
+            
+            curentImageUrl = url
+            makeRequest(url: URL(string: url)!)
         }
-        
-        if let task = task, task.state == .running, url == curentImageUrl {
-            return
-        } else {
-            task?.cancel()
-        }
-        
-        curentImageUrl = url
-        makeRequest(url: URL(string: url)!)
     }
     
     private func makeRequest(url: URL) {

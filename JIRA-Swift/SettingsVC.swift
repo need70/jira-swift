@@ -16,6 +16,7 @@ class SettingsVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addRightBarButton(image: nil, title: "Log Out")
         getCurrentUser()
     }
 
@@ -38,6 +39,10 @@ class SettingsVC: UITableViewController {
             lbName.text = user.displayName
             lbEmail.text = user.emailAddress
         }
+    }
+    
+    override func rightBarButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Table view data source

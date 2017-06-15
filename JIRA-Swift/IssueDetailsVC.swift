@@ -12,7 +12,6 @@ import UIKit
 class IssueDetailsVC: UITableViewController {
 
     var issue: Issue?
-    
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
     @IBOutlet weak var projectIcon: ImageViewCache!
@@ -49,15 +48,15 @@ class IssueDetailsVC: UITableViewController {
             tvDescription.text = issue.descript
             
             //assignee
-            assigneeAvatar.loadImage(url: (issue.assignee?.avatarUrl)!, placeHolder: UIImage(named: "tab_project"))
+            assigneeAvatar.loadImage(url: issue.assignee?.avatarUrl, placeHolder: UIImage(named: "tab_project"))
             assigneeAvatar.roundCorners()
-            lbAssignee.text = issue.assignee?.displayName
-            
+            lbAssignee.text = issue.assignee?.displayName ?? "N/A"
+
             //reporter
-            reporterAvatar.loadImage(url: (issue.reporter?.avatarUrl)!, placeHolder: UIImage(named: "tab_project"))
+            reporterAvatar.loadImage(url: issue.reporter?.avatarUrl, placeHolder: UIImage(named: "tab_project"))
             reporterAvatar.roundCorners()
-            lbReporter.text = issue.reporter?.displayName
-            
+            lbReporter.text = issue.reporter?.displayName ?? "N/A"
+        
             //dates
             lbCreated.text = issue.formattedCreated()
             lbUpdated.text = issue.formattedUpdated()
@@ -79,13 +78,6 @@ class IssueDetailsVC: UITableViewController {
         }
     }
 
-    @IBAction func rightButtonAction(_ sender: UIBarButtonItem) {
-        
-        let items = ["Log Work", "Watch"]
-        Utils.showActionSheet(items: items, title: "Choose action", vc: self) { (index) in
-            print("rightButtonAction = \(index)")
-        }
-    }
     //MARK: - TableView
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

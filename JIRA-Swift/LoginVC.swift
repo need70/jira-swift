@@ -15,19 +15,14 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        
-    }
-    
-    func removiewLoading() {
-        LoadingView.remove()
     }
     
     func setupUI() {
-        #if DEBUG
-        self.tfEmail.text = "andriy.kramar"
-        self.tfPassword.text = "andmar33"
+//        if DEVICE_IS_SIMULATOR {
+            self.tfEmail.text = "andriy.kramar"
+            self.tfPassword.text = "andmar33"
+//        }
         self.tfJiraUrl.text = "https://onix-systems.atlassian.net"
-        #endif
     }
 
     @IBAction func loginAction(_ sender: Any) {
@@ -60,6 +55,7 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
             kMainModel.getCurrentUser() {
                 ToastView.hide() {
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
+//                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "IssuesNavCon") as! UINavigationController
                     self.present(vc, animated: true, completion: nil)
                 }                
             }

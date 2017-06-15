@@ -10,7 +10,7 @@ let useCircleIndicatorHere = true
 
 class LoadingCell: UITableViewCell {
     
-    static var cellHeight: CGFloat = 44
+    static var cellHeight: CGFloat = 60
     static var cellTag: Int = 7777
     
     public class func instance() -> LoadingCell {

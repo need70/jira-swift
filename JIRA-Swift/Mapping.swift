@@ -27,7 +27,6 @@ class Issue: Mappable {
     var status: IssueStatus?
     var resolution: IssueResolution?
     
-    
     required init?(map: Map) { }
     
     func mapping(map: Map) {
@@ -77,6 +76,34 @@ class User: Mappable {
         emailAddress    <- map["emailAddress"]
         name            <- map["name"]
         avatarUrl       <- map["avatarUrls.48x48"]
+    }
+}
+
+//MARK: - Project
+
+class Comment: Mappable {
+    
+    var body: String?
+    var createdDate: String?
+    var updatedDate: String?
+    var author: User?
+    var updateAuthor: User?
+    
+    required init?(map: Map) { }
+    
+    func mapping(map: Map) {
+        body            <- map["body"]
+        createdDate     <- map["created"]
+        updatedDate     <- map["updated"]
+        author          <- map["author"]
+        updateAuthor    <- map["updateAuthor"]
+    }
+    
+    func formattedCreated() -> String {
+        if let created = createdDate {
+            return Utils.formattedDateFrom(dateStr: created)
+        }
+        return ""
     }
 }
 

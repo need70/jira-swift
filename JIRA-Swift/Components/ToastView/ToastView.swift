@@ -38,11 +38,10 @@ class ToastView: UIView {
     
     public class func show(_ text: String?) {
         
-        if (kWindowView.viewWithTag(kToastViewTag) != nil) {
-            return
-        }
+        if (kWindowView.viewWithTag(kToastViewTag) != nil) { return }
         
         let view = ToastView.loadFromNib()
+        view.frame = kWindowView.frame
         view.tag = kToastViewTag
         view.label.text = text
 

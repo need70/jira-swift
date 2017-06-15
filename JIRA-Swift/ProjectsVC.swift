@@ -1,5 +1,5 @@
 
-class ProjectsVC: BaseTableVC {
+class ProjectsVC: UITableViewController {
     
     var projects: [Project] = []
     

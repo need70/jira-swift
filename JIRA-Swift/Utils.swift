@@ -5,6 +5,25 @@
 
 import Foundation
 
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+let DEVICE_IS_SIMULATOR = true
+#else
+let DEVICE_IS_SIMULATOR = false
+#endif
+
+let kWindow = UIApplication.shared.keyWindow!
+
+public func RGBColor(_ red: Float, _ green: Float, _ blue: Float) -> UIColor {
+    let color = UIColor(colorLiteralRed: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: 1.0)
+    return color
+}
+
+public func RGBAColor(_ red: Float, _ green: Float, _ blue: Float, _ alpha: Float) -> UIColor {
+    let color = UIColor(colorLiteralRed: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
+    return color
+}
+
+
 class Utils {
     
     static var dateFormatter: DateFormatter = {
@@ -28,9 +47,14 @@ class Utils {
     }
     
     public class func formattedDateFrom(dateStr: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSz"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
         let date: Date = dateFormatter.date(from: dateStr)!
         dateFormatter.dateFormat = "YYYY/MM/dd, HH:mm"
+        return dateFormatter.string(from: date)
+    }
+    
+    public class func formattedStringDateFrom(date: Date) -> String {
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ"
         return dateFormatter.string(from: date)
     }
     
@@ -51,6 +75,30 @@ class Utils {
         ac.addAction(cancel)
         vc.present(ac, animated: true, completion: nil)
     }
+    
+    public class func presentWithNavBar(_ vcToPresent: UIViewController, animated: Bool, fromVC: UIViewController, block: (() -> Swift.Void)? = nil) {
+        let navCon = UINavigationController()
+        navCon.viewControllers = [vcToPresent]
+        fromVC.present(navCon, animated: animated, completion: block)
+    }
+    
+//    + (UIImage *)imageWithView:(UIView *)view
+//    {
+//    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+//    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return img;
+//    }
+
+    public class func imageWithView(_ view: UIView) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+        view.layer.render(in: UIGraphicsGetCurrentContext as! CGContext)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
 }
 
 extension UIView {

@@ -1,6 +1,6 @@
 
 public typealias finishedBlock = () -> ()
-public typealias arrayBlock = (_ array: Array<Any>) -> ()
+public typealias arrayBlock = (_ array: [Any]) -> ()
 public typealias dictBlock = (_ responseDict: [String: Any]?) -> ()
 public typealias errorBlock = (_ error: Error?) -> ()
 public typealias anyBlock = (_ any: Any?) -> ()
@@ -43,9 +43,8 @@ class MainModel
         })
     }
     
-    func getIssues(startAt: Int, count: Int, fBlock: @escaping arrayBlock) {
-        
-        let jql = "project = 'OOM' ORDER BY created"
+    func getIssues(jql: String, startAt: Int, count: Int, fBlock: @escaping arrayBlock) {
+
         let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
         let path = baseURL + URL_GET_ISSUES
         
@@ -132,6 +131,70 @@ class MainModel
             let user = User(JSON: dict)
             fBlock(user)
             
+        }, eBlock: { (error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+        })
+    }
+    
+    func logWork(issueKey: String, params: [String : String], fBlock: @escaping dictBlock) {
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/worklog?adjustEstimate=auto", issueKey)
+        let path = baseURL + pathComponent
+        
+        Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
+            print(responseObj!)
+            let dict = responseObj as! [String : Any]
+            fBlock(dict)
+        }, eBlock: { (error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+        })
+    }
+    
+    func watchIssue(issueId: String, fBlock: @escaping finishedBlock) {
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers", issueId)
+        let path = baseURL + pathComponent
+        
+        let params: [String : String] = [:]
+        
+        Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
+            print(responseObj as Any)
+            
+                fBlock()
+            
+        }, eBlock: { (error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+        })
+    }
+        
+    func getComments(issueId: String, fBlock: @escaping arrayBlock) {
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueId)
+        let path = baseURL + pathComponent
+        
+        Request().sendGET(url: path, sBlock: { (responseObj) in
+            
+            let dict = responseObj as! [String : Any]
+            
+            if let array = dict["comments"] as? [Any] {
+                var objects: [Comment] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = Comment(JSON: dict)!
+                    objects.append(obj)
+                }
+                fBlock(objects)
+            } else {
+                fBlock([])
+            }
+           
         }, eBlock: { (error) in
             if let err = error {
                 print(err.localizedDescription)
