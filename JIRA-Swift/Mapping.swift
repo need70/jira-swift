@@ -8,7 +8,6 @@
 
 import ObjectMapper
 
-
 //MARK: - Issue
 
 class Issue: Mappable {
@@ -26,6 +25,11 @@ class Issue: Mappable {
     var priority: IssuePriority?
     var status: IssueStatus?
     var resolution: IssueResolution?
+    var watchCount: Int?
+    var isWatching: Bool?
+    var timeTracking: TimeTracking?
+    var comments: [Comment]?
+    var attachments: [Attachment]?
     
     required init?(map: Map) { }
     
@@ -43,6 +47,12 @@ class Issue: Mappable {
         priority        <- map["fields.priority"]
         status          <- map["fields.status"]
         resolution      <- map["fields.resolution"]
+        watchCount      <- map["fields.watches.watchCount"]
+        isWatching      <- map["fields.watches.isWatching"]
+        timeTracking    <- map["fields.timetracking"]
+        comments        <- map["fields.comment.comments"]
+        attachments     <- map["fields.attachment.attachments"]
+        
     }
     
     func formattedCreated() -> String {
@@ -193,4 +203,42 @@ class IssueResolution: Mappable {
     }
 }
 
+//MARK: - TimeTracking
 
+class TimeTracking: Mappable {
+    
+    var remainingEstimate: String?
+    var timeSpent: String?
+    
+    required init?(map: Map) { }
+    
+    func mapping(map: Map) {
+        remainingEstimate   <- map["remainingEstimate"]
+        timeSpent           <- map["timeSpent"]
+    }
+}
+
+//MARK: - Attachment
+
+class Attachment: Mappable {
+    
+    var fileName: String?
+    var author: User?
+    var size: String?
+    var createdDate: String?
+    var mimeType: String?
+    var content: String?
+    var thumbnail: String?
+    
+    required init?(map: Map) { }
+    
+    func mapping(map: Map) {
+        fileName    <- map["filename"]
+        author      <- map["author"]
+        size        <- map["size"]
+        createdDate <- map["created"]
+        mimeType    <- map["mimeType"]
+        content     <- map["content"]
+        thumbnail   <- map["thumbnail"]
+    }
+}

@@ -5,11 +5,6 @@ public typealias dictBlock = (_ responseDict: [String: Any]?) -> ()
 public typealias errorBlock = (_ error: Error?) -> ()
 public typealias anyBlock = (_ any: Any?) -> ()
 
-let URL_AUTH = "/rest/auth/latest/session"
-let URL_GET_ISSUES = "/rest/api/2/search"
-let URL_GET_PROJECTS = "/rest/api/2/project"
-let URL_GET_USER = "/rest/api/2/user"
-
 import UIKit
 
 let kMainModel = MainModel.instance
@@ -30,7 +25,7 @@ class MainModel
     func auth(userName: String, password: String, fBlock: @escaping dictBlock) {
         
         let params = ["username" : userName, "password" : password]
-        let path = baseURL + URL_AUTH
+        let path = baseURL + "/rest/auth/latest/session"
         
         Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
             print(responseObj!)
@@ -46,7 +41,7 @@ class MainModel
     func getIssues(jql: String, startAt: Int, count: Int, fBlock: @escaping arrayBlock) {
 
         let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
-        let path = baseURL + URL_GET_ISSUES
+        let path = baseURL + "/rest/api/2/search"
         
         Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
             print(responseObj as Any)
@@ -74,7 +69,7 @@ class MainModel
     
     func getProjects(fBlock: @escaping arrayBlock) {
         
-        let path = baseURL + URL_GET_PROJECTS
+        let path = baseURL + "/rest/api/2/project"
         
         Request().sendGET(url: path, sBlock: { (responseObj) in
             print(responseObj as! [Any])
@@ -121,8 +116,7 @@ class MainModel
     
     func getUser(name: String, fBlock: @escaping anyBlock) {
         
-        let param = "?username=\(name)"
-        let path = baseURL + URL_GET_USER + param
+        let path = baseURL + "/rest/api/2/user?username=\(name)"
         
         Request().sendGET(url: path, sBlock: { (responseObj) in
             
@@ -163,7 +157,6 @@ class MainModel
         
         Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
             print(responseObj as Any)
-            
                 fBlock()
             
         }, eBlock: { (error) in
@@ -195,6 +188,44 @@ class MainModel
                 fBlock([])
             }
            
+        }, eBlock: { (error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+        })
+    }
+    
+    func addComment(issueId: String, params: [String : String], fBlock: @escaping anyBlock) {
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueId)
+        let path = baseURL + pathComponent
+        
+        Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
+            print(responseObj!)
+            let dict = responseObj as! [String : Any]
+            let obj = Comment(JSON: dict)!
+            fBlock(obj)
+        }, eBlock: { (error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+        })
+    }
+    
+    func getIssue(issueId: String, fBlock: @escaping anyBlock) {
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@", issueId)
+        let path = baseURL + pathComponent
+        
+        Request().sendGET(url: path, sBlock: { (responseObj) in
+            
+            if let dict = responseObj as? [String : Any] {
+                let obj: Issue = Issue(JSON: dict)!
+                fBlock(obj)
+            } else {
+                fBlock(Issue(JSON: [:]))
+            }
+            
         }, eBlock: { (error) in
             if let err = error {
                 print(err.localizedDescription)

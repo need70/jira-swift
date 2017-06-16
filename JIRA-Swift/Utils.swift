@@ -12,6 +12,8 @@ let DEVICE_IS_SIMULATOR = false
 #endif
 
 let kWindow = UIApplication.shared.keyWindow!
+let kSystemTintColor = RGBColor(25, 118, 210)
+let kSystemSeparatorColor = RGBColor(241, 241, 241)
 
 public func RGBColor(_ red: Float, _ green: Float, _ blue: Float) -> UIColor {
     let color = UIColor(colorLiteralRed: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: 1.0)
@@ -81,24 +83,24 @@ class Utils {
         navCon.viewControllers = [vcToPresent]
         fromVC.present(navCon, animated: animated, completion: block)
     }
-    
-//    + (UIImage *)imageWithView:(UIView *)view
-//    {
-//    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-//    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-//    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return img;
-//    }
 
-    public class func imageWithView(_ view: UIView) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-        view.layer.render(in: UIGraphicsGetCurrentContext as! CGContext)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+    public class func imageFromView(_ view: UIView) -> UIImage {
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
     
+    public class func showSimpleAlert(title: String?, message: String?, fromVC: UIViewController) {
+        let ac = UIAlertController(title: "Warning", message: "Enter the comment text, please!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+        })
+        ac.addAction(action)
+        fromVC.present(ac, animated: true, completion: nil)
+    }
+
 }
 
 extension UIView {

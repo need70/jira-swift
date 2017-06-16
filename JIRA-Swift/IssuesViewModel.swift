@@ -50,7 +50,7 @@ class IssuesViewModel: BaseViewModel {
         
 
         let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
-        let path = baseURL + URL_GET_ISSUES
+        let path = baseURL + ""
         
         Request().sendPOST(url: path, params: params, sBlock: { (responseObj) in
             print(responseObj as Any)

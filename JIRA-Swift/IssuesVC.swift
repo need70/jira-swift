@@ -17,9 +17,15 @@ class IssuesVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         AKActivityView.add(to: view)
         setupFilter()
+    }
+    
+    func refresh() {
+        issues.removeAll()
+        getIssues()
     }
     
     func getIssues() {
@@ -35,6 +41,7 @@ class IssuesVC: UITableViewController {
             self.issues += array as! [Issue]
             self.tableView.reloadData()
             AKActivityView.remove(animated: true)
+            self.refreshControl?.endRefreshing()
             self.isLoading = false
         }
     }
@@ -112,7 +119,10 @@ class IssuesVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let idvc = self.storyboard?.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
+        let sb = UIStoryboard(name: "Issues", bundle: nil)
+//        let idvc = sb.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
+        let idvc = sb.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
+
         
         if indexPath.row < issues.count {
             idvc.issue = issues[indexPath.row]

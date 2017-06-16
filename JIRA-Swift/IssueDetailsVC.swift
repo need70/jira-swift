@@ -12,6 +12,7 @@ import UIKit
 class IssueDetailsVC: UITableViewController {
 
     var issue: Issue?
+    
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
     @IBOutlet weak var projectIcon: ImageViewCache!
@@ -31,9 +32,21 @@ class IssueDetailsVC: UITableViewController {
     
     override func viewDidLoad() {
        super.viewDidLoad()
-        tableView.tableFooterView = UIView()
-        setupUI()
-        tableView.reloadData()
+        refreshControl?.addTarget(self, action: #selector(getIssue), for: .valueChanged)
+
+        AKActivityView.add(to: view)
+        getIssue()
+    }
+    
+    func getIssue() {
+        kMainModel.getIssue(issueId: (issue?.key)!) { (obj) in
+            self.issue = obj as? Issue
+            self.setupUI()
+            self.tableView.reloadData()
+            AKActivityView.remove(animated: true)
+            self.tableView.separatorStyle = .none
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     func setupUI() {
@@ -42,6 +55,7 @@ class IssueDetailsVC: UITableViewController {
             
             //project info
             projectIcon.loadImage(url: (issue.project?.iconUrl)!, placeHolder: UIImage(named: "tab_project"))
+            projectIcon.roundCorners()
             lbProjInfo.text = (issue.project?.name)! + " / " + issue.key!
             
             lbSummary.text = issue.summary

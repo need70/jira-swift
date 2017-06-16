@@ -30,11 +30,13 @@
 		891A96601E531FAD00B85B39 /* IssuesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A965F1E531FAD00B85B39 /* IssuesVC.swift */; };
 		891A96631E531FAD00B85B39 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 891A96611E531FAD00B85B39 /* Main.storyboard */; };
 		891A96651E531FAD00B85B39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 891A96641E531FAD00B85B39 /* Assets.xcassets */; };
-		891A96681E531FAD00B85B39 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 891A96661E531FAD00B85B39 /* LaunchScreen.storyboard */; };
 		891A96701E5323C500B85B39 /* IssueDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A966F1E5323C500B85B39 /* IssueDetailsVC.swift */; };
 		891A96721E53365600B85B39 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A96711E53365600B85B39 /* LoginVC.swift */; };
 		891A96771E534DD900B85B39 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A96751E534DD900B85B39 /* MainModel.swift */; };
 		891A96781E534DD900B85B39 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A96761E534DD900B85B39 /* Request.swift */; };
+		89F0EF901EF283C000A7C97D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */; };
+		89F0EF921EF283FA00A7C97D /* Issues.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F0EF911EF283FA00A7C97D /* Issues.storyboard */; };
+		89F0EF941EF2B3FF00A7C97D /* AddCommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F0EF931EF2B3FF00A7C97D /* AddCommentVC.swift */; };
 		FAA7F49DF4E96A74BACD0C03 /* Pods_JIRA_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B823DFD7936D634491DC9A /* Pods_JIRA_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,13 +68,15 @@
 		891A965F1E531FAD00B85B39 /* IssuesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuesVC.swift; sourceTree = "<group>"; };
 		891A96621E531FAD00B85B39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		891A96641E531FAD00B85B39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		891A96671E531FAD00B85B39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		891A96691E531FAD00B85B39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		891A966F1E5323C500B85B39 /* IssueDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueDetailsVC.swift; sourceTree = "<group>"; };
 		891A96711E53365600B85B39 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		891A96751E534DD900B85B39 /* MainModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		891A96761E534DD900B85B39 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		898637741E5634F30084369A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89F0EF911EF283FA00A7C97D /* Issues.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Issues.storyboard; sourceTree = "<group>"; };
+		89F0EF931EF2B3FF00A7C97D /* AddCommentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCommentVC.swift; sourceTree = "<group>"; };
 		F9999107DAEA619CC595131E /* Pods-JIRA-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JIRA-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-JIRA-Swift/Pods-JIRA-Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,7 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				891A96611E531FAD00B85B39 /* Main.storyboard */,
-				891A96661E531FAD00B85B39 /* LaunchScreen.storyboard */,
+				89F0EF911EF283FA00A7C97D /* Issues.storyboard */,
+				89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 				891835E21EEEBC4F004209A7 /* CommentsVC.swift */,
 				891835E41EEEC07F004209A7 /* AttachmentsVC.swift */,
 				891835DE1EEAC3DE004209A7 /* LogWorkVC.swift */,
+				89F0EF931EF2B3FF00A7C97D /* AddCommentVC.swift */,
 			);
 			name = Issues;
 			sourceTree = "<group>";
@@ -305,9 +311,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891A96681E531FAD00B85B39 /* LaunchScreen.storyboard in Resources */,
 				891A96651E531FAD00B85B39 /* Assets.xcassets in Resources */,
+				89F0EF921EF283FA00A7C97D /* Issues.storyboard in Resources */,
 				891A96631E531FAD00B85B39 /* Main.storyboard in Resources */,
+				89F0EF901EF283C000A7C97D /* LaunchScreen.storyboard in Resources */,
 				891835AA1EE1EF48004209A7 /* ToastView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,6 +388,7 @@
 				891835E91EEFCE3F004209A7 /* JRDateField.swift in Sources */,
 				891835E31EEEBC4F004209A7 /* CommentsVC.swift in Sources */,
 				891835E11EEE9CCF004209A7 /* IssueContainerVC.swift in Sources */,
+				89F0EF941EF2B3FF00A7C97D /* AddCommentVC.swift in Sources */,
 				891835DA1EEA79A1004209A7 /* Mapping.swift in Sources */,
 				891835D81EE97757004209A7 /* Utils.swift in Sources */,
 				891835A91EE1EF48004209A7 /* ToastView.swift in Sources */,
@@ -403,14 +411,6 @@
 				891A96621E531FAD00B85B39 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		891A96661E531FAD00B85B39 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				891A96671E531FAD00B85B39 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

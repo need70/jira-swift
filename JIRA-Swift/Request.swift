@@ -56,6 +56,10 @@ class Request: NSObject {
     
     func handleResponseData(_ data: Data) -> Any {
         
+//        if let convertedString = String(data: data, encoding: String.Encoding.utf8) {
+//             print("jsonString = \n \(convertedString)")
+//        }
+        
         let json = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
         if let dict = json as? [String : Any] { // json is a dictionary
             return dict

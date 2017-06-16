@@ -36,30 +36,23 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     override func rightBarButtonPressed() {
- 
         if lbTimeSpent.text != "" {
             logWork()
         } else {
-            let ac = UIAlertController(title: "Warning", message: "Enter the spent time, please!", preferredStyle: .alert)
-            let action = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-                ac.dismiss(animated: true, completion: nil)
-            })
-            ac.addAction(action)
-            self.present(ac, animated: true, completion: nil)
+            Utils.showSimpleAlert(title: "", message: "Enter the spent time, please!", fromVC: self)
         }
     }
     
     func setupUI() {
-        
         if let issueKey = issue?.key {
             self.navigationItem.title = "Log Work: " + issueKey
         }
         
-        self.addRightBarButton(image: nil, title: "Log")
-        self.addLeftBarButton(image: nil, title: "Cancel")
+        addRightBarButton(image: nil, title: "Log")
+        addLeftBarButton(image: nil, title: "Cancel")
         
-        tvWorkDescription.layer.borderColor = RGBColor(205,205,230).cgColor
-        tvWorkDescription.layer.borderWidth = 0.5
+        tvWorkDescription.layer.borderColor = kSystemSeparatorColor.cgColor
+        tvWorkDescription.layer.borderWidth = 1
         tvWorkDescription.layer.cornerRadius = 5.0
         
         setupTimeLabel()
@@ -115,7 +108,6 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     func setupDateField(_ date: Date) {
-        
         Utils.dateFormatter.dateFormat = "YYYY/MM/dd, HH:mm"
         let string =  Utils.dateFormatter.string(from: date)
         tfDate.text = string

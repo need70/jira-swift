@@ -13,6 +13,8 @@ enum IssueContainerState: Int {
     case details, comments, attachments
 }
 
+let actions = ["Add Comment", "Log Work", "Watch"]
+
 class IssueContainerVC: UIViewController {
 
     var issue: Issue?
@@ -55,19 +57,28 @@ class IssueContainerVC: UIViewController {
     }
     
     override func rightBarButtonPressed() {
-        let items = ["Log Work", "Watch"]
-        Utils.showActionSheet(items: items, title: "Choose action", vc: self) { (index) in
+        Utils.showActionSheet(items: actions, title: "Choose action", vc: self) { (index) in
             switch index {
             case 0:
-                self.logWorkPressed()
+                self.addCommentPressed()
                 break
             case 1:
+                self.logWorkPressed()
+                break
+            case 2:
                 self.watchPressed()
                 break
             default: break
             }
         }
     }
+    
+    func addCommentPressed() {
+        let acvc = self.storyboard?.instantiateViewController(withIdentifier: "AddCommentVC") as! AddCommentVC
+        acvc.issue = self.issue
+        Utils.presentWithNavBar(acvc, animated: true, fromVC: self, block: nil)
+    }
+
     
     func logWorkPressed() {
         let lwvc = self.storyboard?.instantiateViewController(withIdentifier: "LogWorkVC") as! LogWorkVC

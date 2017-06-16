@@ -6,17 +6,25 @@ class ProjectsVC: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        AKActivityView.add(to: view)
         getProjects()
     }
         
     func getProjects() {
-        AKActivityView.add(to: view)
         kMainModel.getProjects() { (array) in
             print(array)
             self.projects = array as! [Project]
             self.tableView.reloadData()
             AKActivityView.remove(animated: true)
+            self.refreshControl?.endRefreshing()
         }
+    }
+    
+    func refresh() {
+        projects.removeAll()
+        getProjects()
     }
 
     //MARK: TableView

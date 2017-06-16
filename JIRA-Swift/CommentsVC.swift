@@ -15,11 +15,13 @@ class CommentsVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        AKActivityView.add(to: view)
-        getComments()
+//        AKActivityView.add(to: view)
+//        getComments()
     }
     
     func getComments() {
@@ -28,9 +30,15 @@ class CommentsVC: UITableViewController {
                 self.comments += array as! [Comment]
                 self.tableView.reloadData()
                 AKActivityView.remove(animated: true)
+                self.refreshControl?.endRefreshing()
                 self.tableView.separatorStyle = .none
             }
         }
+    }
+    
+    func refresh() {
+        comments.removeAll()
+        getComments()
     }
 
     // MARK: Table view data source
@@ -69,12 +77,15 @@ class CommentsCell: UITableViewCell {
     @IBOutlet weak var lbAuthor: UILabel!
     @IBOutlet weak var tvBody: UITextView!
     @IBOutlet weak var lbDate: UILabel!
+    @IBOutlet weak var avatarImage: ImageViewCache!
     
     func customInit() {
         if let comment = comment {
             lbAuthor.text = comment.author?.displayName
             lbDate.text = comment.formattedCreated()
             tvBody.text = comment.body
+            avatarImage.loadImage(url: comment.author?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
+            avatarImage.roundCorners()
         }
     }
 

@@ -14,8 +14,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func customizeAppearance() {
-        UINavigationBar.appearance().shadowImage = UIImage()
+        window?.tintColor = kSystemTintColor
+        
         UINavigationBar.appearance().isTranslucent = false
+
+        let shadow = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1))
+        shadow.backgroundColor = kSystemSeparatorColor
+        let shadowImg = Utils.imageFromView(shadow)
+        UINavigationBar.appearance().shadowImage = shadowImg
+        
+        let navBarBg = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 64))
+        let navBarBgImage = Utils.imageFromView(navBarBg)
+        UINavigationBar.appearance().setBackgroundImage(navBarBgImage, for: .default)
+        
+        let tabbarShadow = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1))
+        tabbarShadow.backgroundColor = kSystemSeparatorColor
+        let tabbarShadowImg = Utils.imageFromView(tabbarShadow)
+        UITabBar.appearance().shadowImage = tabbarShadowImg
+        
+        let tabBarBg = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 64))
+        let tabBarBgImage = Utils.imageFromView(tabBarBg)
+        UITabBar.appearance().backgroundImage = tabBarBgImage
+
+
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
