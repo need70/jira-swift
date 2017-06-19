@@ -26,7 +26,7 @@ class AddCommentVC: UITableViewController {
     func setupUI() {
         
         if let issueKey = issue?.key {
-            self.navigationItem.title = "Add Comment to " + issueKey
+            self.navigationItem.title = issueKey + ": Add Comment"
         }
         
         addRightBarButton(image: nil, title: "Send")

@@ -17,16 +17,25 @@ class CommentsVC: UITableViewController {
         super.viewDidLoad()
         
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         
-//        AKActivityView.add(to: view)
-//        getComments()
+        addRightBarButton(image: nil, title: "Add")
+        
+        if let key = issue?.key {
+            navigationItem.title = "\(key): Comments"
+        }
+        
+        if let items = issue?.comments {
+            comments = items
+            tableView.reloadData()
+        }
     }
     
     func getComments() {
-        if let issue = issue {
-            kMainModel.getComments(issueId: issue.issueId!) { (array) in
+        if let issueKey = issue?.key {
+            kMainModel.getComments(issueId: issueKey) { (array) in
                 self.comments += array as! [Comment]
                 self.tableView.reloadData()
                 AKActivityView.remove(animated: true)
@@ -39,6 +48,12 @@ class CommentsVC: UITableViewController {
     func refresh() {
         comments.removeAll()
         getComments()
+    }
+    
+    override func rightBarButtonPressed() {
+        let acvc = self.storyboard?.instantiateViewController(withIdentifier: "AddCommentVC") as! AddCommentVC
+        acvc.issue = self.issue
+        Utils.presentWithNavBar(acvc, animated: true, fromVC: self, block: nil)
     }
 
     // MARK: Table view data source
@@ -84,6 +99,7 @@ class CommentsCell: UITableViewCell {
             lbAuthor.text = comment.author?.displayName
             lbDate.text = comment.formattedCreated()
             tvBody.text = comment.body
+            
             avatarImage.loadImage(url: comment.author?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
             avatarImage.roundCorners()
         }

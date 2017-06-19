@@ -1,14 +1,13 @@
 //
-//  BaseObj.swift
+//  Issue.swift
 //  JIRA-Swift
 //
-//  Created by Andriy Kramar on 6/9/17.
+//  Created by Andriy Kramar on 6/19/17.
 //  Copyright © 2017 home. All rights reserved.
 //
 
+import Foundation
 import ObjectMapper
-
-//MARK: - Issue
 
 class Issue: Mappable {
     
@@ -51,8 +50,7 @@ class Issue: Mappable {
         isWatching      <- map["fields.watches.isWatching"]
         timeTracking    <- map["fields.timetracking"]
         comments        <- map["fields.comment.comments"]
-        attachments     <- map["fields.attachment.attachments"]
-        
+        attachments     <- map["fields.attachment"]
     }
     
     func formattedCreated() -> String {
@@ -67,70 +65,6 @@ class Issue: Mappable {
             return Utils.formattedDateFrom(dateStr: updated)
         }
         return ""
-    }
-}
-
-//MARK: - User
-
-class User: Mappable {
-    
-    var displayName: String?
-    var emailAddress: String?
-    var name: String!
-    var avatarUrl: String?
-    
-    required init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        displayName     <- map["displayName"]
-        emailAddress    <- map["emailAddress"]
-        name            <- map["name"]
-        avatarUrl       <- map["avatarUrls.48x48"]
-    }
-}
-
-//MARK: - Project
-
-class Comment: Mappable {
-    
-    var body: String?
-    var createdDate: String?
-    var updatedDate: String?
-    var author: User?
-    var updateAuthor: User?
-    
-    required init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        body            <- map["body"]
-        createdDate     <- map["created"]
-        updatedDate     <- map["updated"]
-        author          <- map["author"]
-        updateAuthor    <- map["updateAuthor"]
-    }
-    
-    func formattedCreated() -> String {
-        if let created = createdDate {
-            return Utils.formattedDateFrom(dateStr: created)
-        }
-        return ""
-    }
-}
-
-//MARK: - Project
-
-class Project: Mappable {
-    
-    var name: String?
-    var key: String?
-    var iconUrl: String?
-    
-    required init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        name       <- map["name"]
-        key        <- map["key"]
-        iconUrl    <- map["avatarUrls.48x48"]
     }
 }
 
@@ -183,9 +117,9 @@ class IssueStatus: Mappable {
     func getStatusColor() -> UIColor {
         
         switch colorName {
-            case "green": return .green
-            case "blue-gray": return .blue
-            default: return .gray
+        case "green": return .green
+        case "blue-gray": return .blue
+        default: return .gray
         }
     }
 }
@@ -195,7 +129,7 @@ class IssueStatus: Mappable {
 class IssueResolution: Mappable {
     
     var name: String?
-
+    
     required init?(map: Map) { }
     
     func mapping(map: Map) {
@@ -203,42 +137,3 @@ class IssueResolution: Mappable {
     }
 }
 
-//MARK: - TimeTracking
-
-class TimeTracking: Mappable {
-    
-    var remainingEstimate: String?
-    var timeSpent: String?
-    
-    required init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        remainingEstimate   <- map["remainingEstimate"]
-        timeSpent           <- map["timeSpent"]
-    }
-}
-
-//MARK: - Attachment
-
-class Attachment: Mappable {
-    
-    var fileName: String?
-    var author: User?
-    var size: String?
-    var createdDate: String?
-    var mimeType: String?
-    var content: String?
-    var thumbnail: String?
-    
-    required init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        fileName    <- map["filename"]
-        author      <- map["author"]
-        size        <- map["size"]
-        createdDate <- map["created"]
-        mimeType    <- map["mimeType"]
-        content     <- map["content"]
-        thumbnail   <- map["thumbnail"]
-    }
-}

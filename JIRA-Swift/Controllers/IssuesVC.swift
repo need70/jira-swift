@@ -16,7 +16,6 @@ class IssuesVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.tableFooterView = UIView()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         AKActivityView.add(to: view)
@@ -120,12 +119,11 @@ class IssuesVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let sb = UIStoryboard(name: "Issues", bundle: nil)
-//        let idvc = sb.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
-        let idvc = sb.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
+        let idvc = sb.instantiateViewController(withIdentifier: "IssueDetailsVC") as! IssueDetailsVC
 
-        
         if indexPath.row < issues.count {
-            idvc.issue = issues[indexPath.row]
+            let issue = issues[indexPath.row]
+            idvc.issueKey = issue.key
         }
         self.navigationController?.pushViewController(idvc, animated: true)
     }

@@ -19,10 +19,10 @@ static AKActivityView *activityView = nil;
         [self remove];
     }
     
-    if ([view isKindOfClass:[UITableView class]]) {
-        UITableView *table = (UITableView *)view;
-        table.separatorStyle = UITableViewCellSeparatorStyleNone;
-    }
+//    if ([view isKindOfClass:[UITableView class]]) {
+//        UITableView *table = (UITableView *)view;
+//        table.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -125,10 +125,10 @@ static AKActivityView *activityView = nil;
     
     [UIView commitAnimations];
     
-    if ([self.superview isKindOfClass:[UITableView class]]) {
-        UITableView *table = (UITableView *)self.superview;
-        table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    }
+//    if ([self.superview isKindOfClass:[UITableView class]]) {
+//        UITableView *table = (UITableView *)self.superview;
+//        table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+//    }
 }
 
 - (void)layoutSubviews

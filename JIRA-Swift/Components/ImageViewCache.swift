@@ -15,7 +15,7 @@ class ImageViewCache: UIImageView {
     var placeHolderImage: UIImage?
     var svgView: SVGView?
     
-    public func loadImage(url: String) {
+    public func loadImage(url: String?) {
         self.loadImage(url: url, placeHolder: nil)
     }
     

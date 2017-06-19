@@ -96,7 +96,7 @@ class IssuesViewModel: BaseViewModel {
     func pushToDetails(navCon: UINavigationController?, indexPath: IndexPath) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let idvc = storyboard.instantiateViewController(withIdentifier: "IssueContainerVC") as! IssueContainerVC
+        let idvc = storyboard.instantiateViewController(withIdentifier: "IssueDetailsVC") as! IssueDetailsVC
         
         if indexPath.row < issues.count {
             idvc.issue = issues[indexPath.row]

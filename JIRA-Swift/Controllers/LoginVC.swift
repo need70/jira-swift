@@ -16,17 +16,29 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.setupUI()
     }
-    
-    func setupUI() {
-//        if DEVICE_IS_SIMULATOR {
-            self.tfEmail.text = "andriy.kramar"
-            self.tfPassword.text = "andmar33"
-//        }
-        self.tfJiraUrl.text = "https://onix-systems.atlassian.net"
-    }
 
     @IBAction func loginAction(_ sender: Any) {
         checkForEmpty()
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension LoginVC {
+    
+    func setupUI() {
+        //        if DEVICE_IS_SIMULATOR {
+        self.tfEmail.text = "andriy.kramar"
+        self.tfPassword.text = "andmar33"
+        //        }
+        self.tfJiraUrl.text = "https://onix-systems.atlassian.net"
     }
     
     func checkForEmpty() {
@@ -40,12 +52,8 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
                 
                 ToastView.show("Authing...")
                 makeAuth(login: login, pass: pass, url: url)
-
             } else {
-                let alert = UIAlertController(title: "Error", message: "Empty field!", preferredStyle: .alert)
-                let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-                alert.addAction(action)
-                self.present(alert, animated: true, completion: nil)
+                Utils.showSimpleAlert(title: "", message: "Empty field!", fromVC: self)
             }
         }
     }
@@ -55,24 +63,10 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
             kMainModel.getCurrentUser() {
                 ToastView.hide() {
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
-//                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "IssuesNavCon") as! UINavigationController
                     self.present(vc, animated: true, completion: nil)
-                }                
+                }
             }
         }
-    }
-    
-    //MARK: - TableView
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
-    }
-    
-    //MARK: - TextField
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }
 

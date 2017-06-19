@@ -1,7 +1,7 @@
 
 class IssuesViewController: UITableViewController {
 
-    let viewModel = IssuesViewModel()
+    var viewModel = IssuesViewModel() 
 
     override func viewDidLoad() {
         super.viewDidLoad()
