@@ -16,7 +16,6 @@ class IssueDetailsVC: UITableViewController {
 
     var issueKey: String?
     var issue: Issue?
-    let actions = ["Add Comment", "Log Work", "Watch"]
     
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
@@ -70,9 +69,7 @@ class IssueDetailsVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
     }
-
 }
 
 extension IssueDetailsVC {
@@ -167,6 +164,10 @@ extension IssueDetailsVC {
     //MARK: right bar button
     
     override func rightBarButtonPressed() {
+        
+        let watchString = (issue?.isWatching)! ? "Stop Watching" : "Watch"
+        let actions = ["Add Comment", "Log Work", watchString]
+
         Utils.showActionSheet(items: actions, title: "Choose action", vc: self) { (index) in
             switch index {
             case 0:
@@ -184,28 +185,19 @@ extension IssueDetailsVC {
     }
     
     func showComments() {
-        let cvc = storyboard?.instantiateViewController(withIdentifier: "CommentsVC") as! CommentsVC
-        cvc.issue = issue
-        navigationController?.pushViewController(cvc, animated: true)
+        Router.pushComments(from: navigationController, issue: issue)
     }
     
     func showAttachments() {
-        let avc = storyboard?.instantiateViewController(withIdentifier: "AttachmentsVC") as! AttachmentsVC
-        avc.issue = issue
-        navigationController?.pushViewController(avc, animated: true)
+        Router.pushAttachments(from: navigationController, issue: issue)
     }
     
     func addCommentAction() {
-        let acvc = self.storyboard?.instantiateViewController(withIdentifier: "AddCommentVC") as! AddCommentVC
-        acvc.issue = self.issue
-        Utils.presentWithNavBar(acvc, animated: true, fromVC: self, block: nil)
+        Router.presentAddComment(from: self, issue: issue)
     }
     
-    
     func logWorkAction() {
-        let lwvc = self.storyboard?.instantiateViewController(withIdentifier: "LogWorkVC") as! LogWorkVC
-        lwvc.issue = self.issue
-        Utils.presentWithNavBar(lwvc, animated: true, fromVC: self, block: nil)
+        Router.presentLogWork(from: self, issue: issue)
     }
     
     func watchAction() {

@@ -76,6 +76,21 @@ class ToastView: UIView {
         }
     }
     
+    public class func errHide(fBlock: finishedLoadBlock?) {
+        
+        if let view = kWindowView.viewWithTag(kToastViewTag) as? ToastView {
+            
+            UIView.animate(withDuration: kDuration, delay: 0.5, animations: {
+                view.alpha = 0
+            }, completion: { (finished) in
+                view.removeFromSuperview()
+                if let block = fBlock {
+                    block()
+                }
+            })
+        }
+    }
+    
     public class func hide() {
         ToastView.hide(fBlock: nil)
     }

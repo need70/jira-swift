@@ -1,11 +1,19 @@
+//
+//  ProjectsVC.swift
+//  JIRA-Swift
+//
+//  Created by Andrey Kramar on 2/14/17.
+//  Copyright © 2017 home. All rights reserved.
+//
+
 
 class ProjectsVC: UITableViewController {
     
-    var projects: [Project] = []
+    let viewModel = ProjectsViewModel()
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        tableView.tableFooterView = UIView()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         AKActivityView.add(to: view)
@@ -13,31 +21,36 @@ class ProjectsVC: UITableViewController {
     }
         
     func getProjects() {
-        kMainModel.getProjects() { (array) in
-            print(array)
-            self.projects = array as! [Project]
-            self.tableView.reloadData()
+        viewModel.getProjects(fBlock: { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.tableView.reloadData()
             AKActivityView.remove(animated: true)
-            self.refreshControl?.endRefreshing()
+            weakSelf.refreshControl?.endRefreshing()
+            
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            ToastView.errHide(fBlock: {
+                weakSelf.alert(title: "Error", message: errString)
+            })
         }
     }
     
     func refresh() {
-        projects.removeAll()
+        viewModel.projects.removeAll()
         getProjects()
     }
 
     //MARK: TableView
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return projects.count
+        return viewModel.projects.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
         
-        if indexPath.row < projects.count {
-            let item = projects[indexPath.row] as Project
+        if indexPath.row < viewModel.projects.count {
+            let item = viewModel.projects[indexPath.row] as Project
             cell.project = item
         }
         return cell
@@ -46,6 +59,15 @@ class ProjectsVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        if indexPath.row < viewModel.projects.count {
+            let item = viewModel.projects[indexPath.row] as Project
+            
+            let jqlString = String(format: "project = '%@' ORDER BY created", item.key!)
+            let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "IssuesListVC") as! IssuesListVC
+            vc.jql = jqlString
+            vc.categoryTitle = item.key
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -60,10 +82,7 @@ class ProjectCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setupUI()
-    }
-    
-    func setupUI() {
+        
         if let project = project {
             lbTitle.text = project.name
             iconImage.loadImage(url: project.iconUrl!, placeHolder: UIImage(named: "tab_project"))

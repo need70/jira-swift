@@ -92,8 +92,8 @@ class Utils {
         return image!
     }
     
-    public class func showSimpleAlert(title: String?, message: String?, fromVC: UIViewController) {
-        let ac = UIAlertController(title: "Warning", message: "Enter the comment text, please!", preferredStyle: .alert)
+    public class func alert(title: String?, message: String?, fromVC: UIViewController) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
             ac.dismiss(animated: true, completion: nil)
         })

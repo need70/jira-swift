@@ -39,7 +39,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         if lbTimeSpent.text != "" {
             logWork()
         } else {
-            Utils.showSimpleAlert(title: "", message: "Enter the spent time, please!", fromVC: self)
+            alert(title: "Alert", message: "Enter the spent time, please!")
         }
     }
     
@@ -60,7 +60,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     func logWork() {
-        
+        view.endEditing(true)
         ToastView.show("Logging Work...")
         
         let startedDate = Utils.formattedStringDateFrom(date: Date())
@@ -73,7 +73,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         if tfDate.text != "" {
             params["started"] = startedDate
         }
-
+        
         print("params = \(params)")
         
         kMainModel.logWork(issueKey: (issue?.issueId)!, params: params) { (responceDict) in
@@ -120,7 +120,6 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     func selectedDate(date: Date) {
-        print(date)
         setupDateField(date)
     }
     

@@ -35,8 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarBg = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 64))
         let tabBarBgImage = Utils.imageFromView(tabBarBg)
         UITabBar.appearance().backgroundImage = tabBarBgImage
-
-
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

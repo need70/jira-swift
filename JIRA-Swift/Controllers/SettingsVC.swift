@@ -14,27 +14,38 @@ class SettingsVC: UITableViewController {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbEmail: UILabel!
 
+    let viewModel = SettingsViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addRightBarButton(image: nil, title: "Log Out")
         getCurrentUser()
     }
-
+    
     func getCurrentUser() {
         AKActivityView.add(to: view)
-        if let name = kMainModel.currentUser?.name {
-            kMainModel.getUser(name: name) { (obj) in
-                kMainModel.currentUser = obj as? User
-                self.setupUI()
-                AKActivityView.remove(animated: true)
-            }
+        
+        guard let username = UserDefaults.standard.value(forKey: "Username") else {
+            AKActivityView.remove(animated: true)
+            return
         }
+        
+        let name = username as! String
+        viewModel.getUser(name: name, fBlock: {
+            self.setupUI()
+            AKActivityView.remove(animated: true)
+            
+            }, eBlock: { [weak self] (errString) in
+                guard let weakSelf = self else { return }
+                AKActivityView.remove(animated: true)
+                weakSelf.alert(title: "Error", message: errString)
+        })
     }
     
     func setupUI() {
         avatarImage.roundCorners()
         
-        if let user = kMainModel.currentUser {
+        if let user = viewModel.currentUser {
             avatarImage.loadImage(url: user.avatarUrl!, placeHolder: UIImage(named: "tab_issue"))
             lbName.text = user.displayName
             lbEmail.text = user.emailAddress
@@ -42,30 +53,33 @@ class SettingsVC: UITableViewController {
     }
     
     override func rightBarButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
+        Utils.showActionSheet(items: ["Sure"], title: "Do You want to Log Out?", vc: self) { [weak self] (index) in
+            guard let weakSelf = self else { return }
+            if index == 0 {
+                weakSelf.logOutAction()
+            }
+        }
     }
     
-    // MARK: - Table view data source
+    func logOutAction() {
+        
+        let loginViewModel = LoginViewModel()
+        let login = loginViewModel.getSavedLogin()
+        let pass = loginViewModel.getSavedPassword()
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
+        ToastView.show("Logging Out...")
+        
+        viewModel.logOut(userName: login, password: pass, fBlock: { 
+            ToastView.hide(fBlock: {
+                KeychainItemWrapper.resetKeychainItemAction() //remove saved login and pass
+                self.dismiss(animated: true, completion: nil)
+            })
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            ToastView.errHide(fBlock: { 
+                weakSelf.alert(title: "Error", message: errString)
+            })
+        }
     }
-    */
-
-
 }

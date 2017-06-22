@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol AddCommentDelegate {
+    func commentAdded()
+}
+
 class AddCommentVC: UITableViewController {
 
     var issue: Issue?
+    var delegate: AddCommentDelegate?
+    
     @IBOutlet weak var tvCommentBody: UITextView!
 
     override func viewDidLoad() {
@@ -47,7 +53,7 @@ class AddCommentVC: UITableViewController {
         if tvCommentBody.text != "" {
             addComment()
         } else {
-            Utils.showSimpleAlert(title: "", message: "Enter the comment text, please!", fromVC: self)
+            Utils.alert(title: "", message: "Enter the comment text, please!", fromVC: self)
         }
     }
     
@@ -63,12 +69,15 @@ class AddCommentVC: UITableViewController {
             print(newComment)
             
             ToastView.hide(fBlock: {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.commentAdded()
+                })
             })
         }
     }
 
     //MARK: TableView
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         view.endEditing(true)
     }

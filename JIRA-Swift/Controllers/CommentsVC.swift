@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommentsVC: UITableViewController {
+class CommentsVC: UITableViewController, AddCommentDelegate {
 
     var issue: Issue?
     var comments:[Comment] = []
@@ -35,12 +35,14 @@ class CommentsVC: UITableViewController {
     
     func getComments() {
         if let issueKey = issue?.key {
-            kMainModel.getComments(issueId: issueKey) { (array) in
-                self.comments += array as! [Comment]
-                self.tableView.reloadData()
-                AKActivityView.remove(animated: true)
-                self.refreshControl?.endRefreshing()
-                self.tableView.separatorStyle = .none
+            kMainModel.getComments(issueId: issueKey) { [weak self] (array) in
+                if let this = self {
+                    this.comments += array as! [Comment]
+                    this.tableView.reloadData()
+                    AKActivityView.remove(animated: true)
+                    this.refreshControl?.endRefreshing()
+                    this.tableView.separatorStyle = .none
+                }
             }
         }
     }
@@ -50,10 +52,14 @@ class CommentsVC: UITableViewController {
         getComments()
     }
     
-    override func rightBarButtonPressed() {
-        let acvc = self.storyboard?.instantiateViewController(withIdentifier: "AddCommentVC") as! AddCommentVC
-        acvc.issue = self.issue
-        Utils.presentWithNavBar(acvc, animated: true, fromVC: self, block: nil)
+    override func rightBarButtonPressed() {        
+        Router.presentAddComment(from: self, issue: issue)
+    }
+    
+    // MARK: Add comment delegate
+    
+    func commentAdded() {
+        refresh()
     }
 
     // MARK: Table view data source
