@@ -44,7 +44,6 @@ class SettingsVC: UITableViewController {
     
     func setupUI() {
         avatarImage.roundCorners()
-        
         if let user = viewModel.currentUser {
             avatarImage.loadImage(url: user.avatarUrl!, placeHolder: UIImage(named: "tab_issue"))
             lbName.text = user.displayName

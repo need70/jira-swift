@@ -6,11 +6,14 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-import UIKit
+protocol LogWorkDelegate {
+    func logWorkUpdated()
+}
 
 class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegate {
 
     var issue: Issue?
+    var _delegate: LogWorkDelegate?
     
     @IBOutlet weak var tfWeek: JRDigitField!
     @IBOutlet weak var tfDay: JRDigitField!

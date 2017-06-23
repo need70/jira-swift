@@ -16,7 +16,7 @@ let defaultFilterKeys = ["Assigned To Me",
 let defaultFilterValues = ["assignee in (currentUser())",
                            "reporter in (currentUser())",
                            "watcher in (currentUser())",
-                           "issuekey in issueHistory() order by lastViewed DESC"]
+                           "issuekey in issueHistory()"]
 
 class IssuesVC: UITableViewController {
 
@@ -55,6 +55,9 @@ class IssuesVC: UITableViewController {
             let vc = segue.destination as! IssuesListVC
             vc.categoryTitle = defaultFilterKeys[index]
             vc.jql = defaultFilterValues[index]
+            if defaultFilterKeys[index] == "Recent" {
+                vc.orderBy = "lastViewed DESC"
+            }
         }
     }
 }

@@ -53,6 +53,7 @@ class Router {
     class func presentLogWork(from: UIViewController?, issue: Issue?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "LogWorkVC") as! LogWorkVC
         vc.issue = issue
+        vc._delegate = from as? LogWorkDelegate
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
     }

@@ -12,7 +12,7 @@ enum DetailsSections: Int {
     case info, comments, details, people, dates, timeTracking
 }
 
-class IssueDetailsVC: UITableViewController {
+class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate {
 
     var issueKey: String?
     var issue: Issue?
@@ -45,7 +45,6 @@ class IssueDetailsVC: UITableViewController {
     }
     
     @IBAction func goToComments(_ sender: Any) {
-        
         if let count = issue?.comments?.count, count > 0 {
             showComments()
         } else {
@@ -93,6 +92,10 @@ extension IssueDetailsVC {
                 self.refreshControl?.endRefreshing()
             }
         }
+    }
+    
+    func refresh() {
+        getIssue()
     }
     
     func setupUI() {
@@ -203,7 +206,21 @@ extension IssueDetailsVC {
     func watchAction() {
         ToastView.show("Processing...")
         kMainModel.watchIssue(issueId: (issue?.issueId)!) {
-            ToastView.hide()
+            ToastView.hide(fBlock: { 
+                self.refresh()
+            })
         }
+    }
+    
+    // MARK: Add comment delegate
+    
+    func commentAdded() {
+        refresh()
+    }
+    
+    // MARK: Log work delegate
+
+    func logWorkUpdated() {
+        refresh()
     }
 }

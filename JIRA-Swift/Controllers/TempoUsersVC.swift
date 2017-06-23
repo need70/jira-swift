@@ -66,6 +66,7 @@ class TempoUsersCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbSubtitle: UILabel!
     @IBOutlet weak var iconImage: ImageViewCache!
+    @IBOutlet weak var lbAvailability: UILabel!
     
     var user: TempoUser?
     
@@ -74,6 +75,10 @@ class TempoUsersCell: UITableViewCell {
         if let user = user {
             lbTitle.text = user.member?.displayName
             lbSubtitle.text = user.membership?.role
+            if let availability = user.membership?.availability {
+                lbAvailability.text = availability + "%"
+            }
+
             iconImage.loadImage(url: user.member?.avatar!, placeHolder: UIImage(named: "ic_no_avatar"))
             
         }

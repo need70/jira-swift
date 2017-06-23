@@ -203,6 +203,38 @@
 			path = AKActivityView;
 			sourceTree = "<group>";
 		};
+		891900011EFD4E4A00671DE2 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				89F79C6A1EF418A200F0AAC8 /* ProjectsVC.swift */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		891900021EFD4E5300671DE2 /* Boards */ = {
+			isa = PBXGroup;
+			children = (
+				89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */,
+			);
+			name = Boards;
+			sourceTree = "<group>";
+		};
+		891900031EFD4E5C00671DE2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				89F79C6B1EF418A200F0AAC8 /* SettingsVC.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		891900041EFD4E6A00671DE2 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				89F79C681EF418A200F0AAC8 /* LoginVC.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		8919FFFE1EFD04F500671DE2 /* Tempo */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,12 +282,12 @@
 			isa = PBXGroup;
 			children = (
 				891835741EE0390F004209A7 /* Storyboards */,
-				89F79C681EF418A200F0AAC8 /* LoginVC.swift */,
+				891900041EFD4E6A00671DE2 /* Login */,
 				89F79C7B1EF419B100F0AAC8 /* Issues */,
-				89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */,
+				891900021EFD4E5300671DE2 /* Boards */,
 				8919FFFE1EFD04F500671DE2 /* Tempo */,
-				89F79C6A1EF418A200F0AAC8 /* ProjectsVC.swift */,
-				89F79C6B1EF418A200F0AAC8 /* SettingsVC.swift */,
+				891900011EFD4E4A00671DE2 /* Projects */,
+				891900031EFD4E5C00671DE2 /* Settings */,
 			);
 			name = View;
 			path = Controllers;
@@ -286,8 +318,8 @@
 				89F79C651EF418A200F0AAC8 /* IssuesListVC.swift */,
 				89F79C641EF418A200F0AAC8 /* IssueDetailsVC.swift */,
 				89F79C631EF418A200F0AAC8 /* CommentsVC.swift */,
-				89F79C691EF418A200F0AAC8 /* LogWorkVC.swift */,
 				89F79C611EF418A200F0AAC8 /* AddCommentVC.swift */,
+				89F79C691EF418A200F0AAC8 /* LogWorkVC.swift */,
 				89F79C621EF418A200F0AAC8 /* AttachmentsVC.swift */,
 				89F79CC01EFBC34500F0AAC8 /* OrderByVC.swift */,
 			);

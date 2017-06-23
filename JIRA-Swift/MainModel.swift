@@ -91,7 +91,6 @@ class MainModel
         }
     }
         
-    
     func addComment(issueId: String, params: [String : String], fBlock: @escaping anyBlock) {
         
         let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueId)
@@ -132,7 +131,6 @@ class MainModel
     
     func getBoards(fBlock: @escaping anyBlock) {
         
-//        let path = baseURL + "/rest/agile/1.0/board/393/issue"
         let path = baseURL + "/rest/agile/1.0/board/"
         Request().sendGET(url: path, successBlock: { (responseObj) in
             

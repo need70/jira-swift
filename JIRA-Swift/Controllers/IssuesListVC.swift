@@ -46,11 +46,8 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
             jqlString = jql
         }
         
-        if let order = orderBy {
-            let orderStr = " order by " + order
-            jqlString +=  orderStr
-        }
-        
+        jqlString += getOrderBy()
+                
         print("JQL string = \(jqlString)")
         
         kMainModel.getIssues(jql: jqlString, startAt: issues.count, count: ISSUES_PER_PAGE, fBlock: { [weak self] (array) in
@@ -67,6 +64,14 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
             guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
             weakSelf.alert(title: "Error", message: errString)
+        }
+    }
+    
+    func getOrderBy() -> String {
+        if orderBy != nil {
+            return " order by " + orderBy!
+        } else {
+            return " order by Created DESC"
         }
     }
     
