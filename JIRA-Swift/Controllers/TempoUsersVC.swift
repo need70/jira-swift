@@ -51,15 +51,12 @@ class TempoUsersVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TempoUsersCell", for: indexPath) as! TempoUsersCell
 
         if indexPath.row < users.count {
-            
             let user = users[indexPath.row]
             cell.user = user
             cell.customInit()
-            
         }
         return cell
     }
-
 }
 
 //MARK: - TempoUsersCell
