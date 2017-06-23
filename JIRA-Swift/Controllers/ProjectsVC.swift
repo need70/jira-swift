@@ -29,9 +29,8 @@ class ProjectsVC: UITableViewController {
             
         }) { [weak self] (errString) in
             guard let weakSelf = self else { return }
-            ToastView.errHide(fBlock: {
-                weakSelf.alert(title: "Error", message: errString)
-            })
+            AKActivityView.remove(animated: true)
+            weakSelf.alert(title: "Error", message: errString)
         }
     }
     
@@ -62,7 +61,7 @@ class ProjectsVC: UITableViewController {
         if indexPath.row < viewModel.projects.count {
             let item = viewModel.projects[indexPath.row] as Project
             
-            let jqlString = String(format: "project = '%@' ORDER BY created", item.key!)
+            let jqlString = String(format: "project = '%@'", item.key!)
             let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "IssuesListVC") as! IssuesListVC
             vc.jql = jqlString
             vc.categoryTitle = item.key

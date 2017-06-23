@@ -32,7 +32,7 @@ class Router {
     
    class func pushComments(from: UINavigationController?, issue: Issue?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "CommentsVC") as! CommentsVC
-        vc.issue = issue
+        vc.viewModel = CommentsViewModel(issue: issue)
         from?.pushViewController(vc, animated: true)
     }
     

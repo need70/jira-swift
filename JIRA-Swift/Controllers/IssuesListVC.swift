@@ -1,10 +1,11 @@
 
 let ISSUES_PER_PAGE = 20
 
-class IssuesListVC: UITableViewController {
+class IssuesListVC: UITableViewController, OrderByDelegate {
     
     var categoryTitle: String?
     var jql: String?
+    var orderBy: String?
     
     var issues: [Issue] = []
     var pagingEnabled = false
@@ -13,10 +14,19 @@ class IssuesListVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        addRightBarButton(image: nil, title: "Order By")
         navigationItem.title = categoryTitle
         
         AKActivityView.add(to: view)
+        tableView.separatorStyle = .none
         getIssues()
+    }
+    
+    override func rightBarButtonPressed() {
+        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "OrderByVC") as! OrderByVC
+        vc._delegate = self
+        let nc = UINavigationController(rootViewController: vc)
+        present(nc, animated: true, completion: nil)
     }
     
     func refresh() {
@@ -30,27 +40,45 @@ class IssuesListVC: UITableViewController {
         pagingEnabled = true
         isLoading = true
         
-        kMainModel.getIssues(jql: jql!, startAt: issues.count, count: ISSUES_PER_PAGE) { (array) in
-            self.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
-            self.issues += array as! [Issue]
-            self.tableView.reloadData()
+        var jqlString = ""
+        
+        if let jql = jql {
+            jqlString = jql
+        }
+        
+        if let order = orderBy {
+            let orderStr = " order by " + order
+            jqlString +=  orderStr
+        }
+        
+        print("JQL string = \(jqlString)")
+        
+        kMainModel.getIssues(jql: jqlString, startAt: issues.count, count: ISSUES_PER_PAGE, fBlock: { [weak self] (array) in
+            guard let weakSelf = self else { return }
+            weakSelf.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
+            weakSelf.issues += array as! [Issue]
+            weakSelf.tableView.reloadData()
+            weakSelf.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
-            self.refreshControl?.endRefreshing()
-            self.isLoading = false
+            weakSelf.refreshControl?.endRefreshing()
+            weakSelf.isLoading = false
+            
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            AKActivityView.remove(animated: true)
+            weakSelf.alert(title: "Error", message: errString)
         }
     }
     
-    func setupFilter() {
+    //MARK: OrderBy delegate
+    
+    func selectedField(field: Field) {
+        print("selected field = \(field.name ?? "")")
+        orderBy = field.key
+        
         issues.removeAll()
         AKActivityView.add(to: view)
         getIssues()
-    }
-    
-    func applyFilter(jqlString: String?) {
-        if jqlString != nil {
-            jql = jqlString
-            refresh()
-        }
     }
     
     //MARK:  TableView
@@ -126,7 +154,6 @@ class IssueCell: UITableViewCell {
             lbSummary.text = issue.summary
             svgView.loadUrl((issue.type?.iconUrl)!)
             issueIcon.isHidden = true
-//            issueIcon.loadImage(url: (issue.type?.iconUrl)!)
         }
     }
 }

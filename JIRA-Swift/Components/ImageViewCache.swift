@@ -57,7 +57,9 @@ class ImageViewCache: UIImageView {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession.shared
         task = session.dataTask(with: request, completionHandler: { (data, response, error) in
-            self.imageFrom(data: data!, url: url.absoluteString)
+            
+            guard let responseData = data else { return }
+            self.imageFrom(data: responseData, url: url.absoluteString)
         })
         task?.resume()
     }

@@ -10,50 +10,42 @@ import UIKit
 
 class CommentsVC: UITableViewController, AddCommentDelegate {
 
-    var issue: Issue?
-    var comments:[Comment] = []
-    
+    var viewModel = CommentsViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         
         addRightBarButton(image: nil, title: "Add")
         
-        if let key = issue?.key {
+        if let key = viewModel.issue?.key {
             navigationItem.title = "\(key): Comments"
-        }
-        
-        if let items = issue?.comments {
-            comments = items
-            tableView.reloadData()
         }
     }
     
     func getComments() {
-        if let issueKey = issue?.key {
-            kMainModel.getComments(issueId: issueKey) { [weak self] (array) in
-                if let this = self {
-                    this.comments += array as! [Comment]
-                    this.tableView.reloadData()
-                    AKActivityView.remove(animated: true)
-                    this.refreshControl?.endRefreshing()
-                    this.tableView.separatorStyle = .none
-                }
-            }
+        viewModel.getComments(fBlock: { [weak self] in
+            
+            guard let weakSelf = self else { return }
+            weakSelf.tableView.reloadData()
+            weakSelf.refreshControl?.endRefreshing()
+            weakSelf.tableView.separatorStyle = .none
+
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            weakSelf.alert(title: "Error", message: errString)
         }
     }
     
     func refresh() {
-        comments.removeAll()
+        viewModel.comments.removeAll()
         getComments()
     }
     
     override func rightBarButtonPressed() {        
-        Router.presentAddComment(from: self, issue: issue)
+        Router.presentAddComment(from: self, issue: viewModel.issue)
     }
     
     // MARK: Add comment delegate
@@ -65,27 +57,11 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
     // MARK: Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if comments.count == 0 {
-            return 1
-        }
-        return comments.count
+        return viewModel.numberOfRows(tableView: tableView, section: section)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if comments.count == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NoDataCell")!
-            return cell
-        }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentsCell
-
-        if indexPath.row < comments.count {
-            cell.comment = comments[indexPath.row]
-            cell.backgroundColor = (indexPath.row % 2 == 0) ? .white : RGBColor(250, 250, 250)
-            cell.customInit()
-        }
-        return cell
+        return viewModel.cell(tableView: tableView, indexPath: indexPath)
     }
 }
 

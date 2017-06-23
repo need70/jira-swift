@@ -22,6 +22,7 @@ class ProjectsViewModel: BaseViewModel {
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]
+            
             var objects: [Project] = []
             
             for index in 0..<array.count {

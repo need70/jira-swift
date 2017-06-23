@@ -25,7 +25,7 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         }
     }
 
-    // MARK: - Collection view data source
+    // MARK: Collection view data source
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -84,6 +84,7 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
 }
 
+// MARK: - AttachmentCell
 
 class AttachmentCell: UICollectionViewCell {
     

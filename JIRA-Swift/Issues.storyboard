@@ -1469,6 +1469,54 @@
             </objects>
             <point key="canvasLocation" x="6553" y="-330"/>
         </scene>
+        <!--Order ByVC-->
+        <scene sceneID="sWx-a0-lYE">
+            <objects>
+                <tableViewController storyboardIdentifier="OrderByVC" id="7FM-xX-FDp" customClass="OrderByVC" customModule="JIRA_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ukP-Wa-P7y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="24x-om-jm5">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="7FM-xX-FDp" id="qe8-Og-DWy"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="wnT-d6-V7U" style="IBUITableViewCellStyleDefault" id="xJh-9M-FI1">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xJh-9M-FI1" id="yAG-Uf-hMZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wnT-d6-V7U">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7FM-xX-FDp" id="SOY-1w-7IU"/>
+                            <outlet property="delegate" destination="7FM-xX-FDp" id="sx9-v0-YTP"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="searchBar" destination="24x-om-jm5" id="WNe-Fz-fMG"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FP1-RJ-MT6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4038" y="-788"/>
+        </scene>
         <!--Issues-->
         <scene sceneID="BWX-kK-XQE">
             <objects>
@@ -1584,6 +1632,7 @@
                     </refreshControl>
                     <connections>
                         <segue destination="yoo-RS-lSM" kind="show" id="Ss0-uf-dZf"/>
+                        <segue destination="7FM-xX-FDp" kind="presentation" id="Zfh-dk-MVD"/>
                     </connections>
                 </tableViewController>
             </objects>

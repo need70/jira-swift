@@ -24,7 +24,7 @@ class MainModel
         return ""
     }
     
-    func getIssues(jql: String, startAt: Int, count: Int, fBlock: @escaping arrayBlock) {
+    func getIssues(jql: String, startAt: Int, count: Int, fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
 
         let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
         let path = baseURL + "/rest/api/2/search"
@@ -49,6 +49,7 @@ class MainModel
         }, errorBlock: { (error) in
             if let err = error {
                 print(err)
+                eBlock(err)
             }
         })
     }
@@ -90,34 +91,6 @@ class MainModel
         }
     }
         
-    func getComments(issueId: String, fBlock: @escaping arrayBlock) {
-        
-        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueId)
-        let path = baseURL + pathComponent
-        
-        Request().sendGET(url: path, successBlock: { (responseObj) in
-            
-            let dict = responseObj as! [String : Any]
-            
-            if let array = dict["comments"] as? [Any] {
-                var objects: [Comment] = []
-                
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = Comment(JSON: dict)!
-                    objects.append(obj)
-                }
-                fBlock(objects)
-            } else {
-                fBlock([])
-            }
-           
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-            }
-        })
-    }
     
     func addComment(issueId: String, params: [String : String], fBlock: @escaping anyBlock) {
         
@@ -199,5 +172,88 @@ class MainModel
             }
         })
     }
+    
+    
+    func getOrderBy(fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
+        
+        let path = baseURL + "/rest/api/2/field"
+        
+        Request().sendGET(url: path, successBlock: { (responseObj) in
+            print(responseObj as! [Any])
+            
+            let array = responseObj as! [Any]
+            
+            var objects: [Field] = []
+            
+            for index in 0..<array.count {
+                let dict = array[index] as! [String: Any]
+                let obj = Field(JSON: dict)!
+                objects.append(obj)
+            }
+            fBlock(objects)
+            
+        }, errorBlock: { (error) in
+            if let err = error {
+                print(err)
+                eBlock(err)
+            }
+        })
+    }
+    
+    func getTempoTeams(fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
+        
+        let path = baseURL + "/rest/tempo-teams/1/team"
+        
+        Request().sendGET(url: path, successBlock: { (responseObj) in
+            print(responseObj as! [Any])
+            
+            let array = responseObj as! [Any]
+            
+            var objects: [TempoTeam] = []
+            
+            for index in 0..<array.count {
+                let dict = array[index] as! [String: Any]
+                let obj = TempoTeam(JSON: dict)!
+                objects.append(obj)
+            }
+            fBlock(objects)
+
+            
+        }, errorBlock: { (error) in
+            if let err = error {
+                print(err)
+                eBlock(err)
+            }
+        })
+    }
+    
+    func getTempoUsers(teamId: Int, fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
+        
+        let pathComponent = String(format: "/rest/tempo-teams/2/team/%zd/member", teamId)
+        let path = baseURL + pathComponent
+        
+        Request().sendGET(url: path, successBlock: { (responseObj) in
+            print(responseObj as! [Any])
+            
+            let array = responseObj as! [Any]
+            
+            var objects: [TempoUser] = []
+            
+            for index in 0..<array.count {
+                let dict = array[index] as! [String: Any]
+                let obj = TempoUser(JSON: dict)!
+                objects.append(obj)
+            }
+            fBlock(objects)
+            
+            
+        }, errorBlock: { (error) in
+            if let err = error {
+                print(err)
+                eBlock(err)
+            }
+        })
+    }
+
 }
 
