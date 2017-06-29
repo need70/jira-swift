@@ -18,7 +18,7 @@ class ProjectsViewModel: BaseViewModel {
         
         let path = baseURL + "/rest/api/2/project"
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

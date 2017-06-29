@@ -6,15 +6,16 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-protocol LogWorkDelegate {
+protocol WorklogEditDelegate {
     func logWorkUpdated()
 }
 
-class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegate {
+class WorklogEditVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegate {
 
-    var issue: Issue?
-    var _delegate: LogWorkDelegate?
+    var worklog: Worklog?
+    var _delegate: WorklogEditDelegate?
     
+    @IBOutlet weak var lbIssueKey: UILabel!
     @IBOutlet weak var tfWeek: JRDigitField!
     @IBOutlet weak var tfDay: JRDigitField!
     @IBOutlet weak var tfHour: JRDigitField!
@@ -31,6 +32,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         tfHour.digitFieldDelegate = self
         tfMinute.digitFieldDelegate = self
         tfDate.dateFieldDelegate = self
+        
         setupUI()
     }
     
@@ -47,24 +49,26 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     func setupUI() {
-        if let issueKey = issue?.key {
-            self.navigationItem.title = "Log Work: " + issueKey
-        }
         
-        addRightBarButton(image: nil, title: "Log")
+        addRightBarButton(image: nil, title: "Done")
         addLeftBarButton(image: nil, title: "Cancel")
         
         tvWorkDescription.layer.borderColor = kSystemSeparatorColor.cgColor
         tvWorkDescription.layer.borderWidth = 1
         tvWorkDescription.layer.cornerRadius = 5.0
         
-        setupTimeLabel()
-        setupDateField(Date())
+        if let work = worklog {
+            tvWorkDescription.text = work.comment
+            lbIssueKey.text = work.issue?.key
+            tfHour.text = work.secondsToHours()
+            setupDateField(work.formattedDate())
+            setupTimeLabel()
+        }
     }
     
     func logWork() {
         view.endEditing(true)
-        ToastView.show("Logging Work...")
+        ToastView.show("Updating...")
         
         let startedDate = Utils.formattedStringDateFrom(date: Date())
         var params: [String : String] = ["timeSpent" : lbTimeSpent.text!]
@@ -79,12 +83,12 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         
         print("params = \(params)")
         
-        kMainModel.logWork(issueKey: (issue?.issueId)!, params: params) { (responceDict) in
-            print(responceDict ?? "dsa")
-            ToastView.hide(fBlock: {
-                self.dismiss(animated: true, completion: nil)
-            })
-        }
+//        kMainModel.logWork(issueKey: (issue?.issueId)!, params: params) { (responceDict) in
+//            print(responceDict ?? "dsa")
+//            ToastView.hide(fBlock: {
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//        }
     }
     
     func setupTimeLabel() {
@@ -129,6 +133,9 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
      //MARK: - TableView
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
         view.endEditing(true)
     }
 }

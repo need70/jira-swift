@@ -23,3 +23,28 @@ class Board: Mappable {
         type        <- map["type"]
     }
 }
+
+class BoardColumn: Mappable {
+    
+    var name: String?
+    var statuses: [Int] = []
+    
+    required init?(map: Map) { }
+    
+    func mapping(map: Map) {
+        name        <- map["name"]
+        statuses    <- map["statuses.id"]
+    }
+}
+
+/*
+ {
+ "name": "Backlog",
+ "statuses": [
+ {
+ "id": "10300",
+ "self": "https://onix-systems.atlassian.net/rest/api/2/status/10300"
+ }
+ ]
+ },
+ */

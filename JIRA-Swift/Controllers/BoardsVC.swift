@@ -54,5 +54,19 @@ class BoardsVC: UITableViewController {
         }
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "segueBoardsToDetail", sender: indexPath)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueBoardsToDetail" {
+            let indexPath = sender as! IndexPath
+            let item = boards[indexPath.row]
+            let vc = segue.destination as! BoardDetailsVC
+            vc.viewModel = BoardDetailsViewModel(board: item)
+        }
+    }
 
 }

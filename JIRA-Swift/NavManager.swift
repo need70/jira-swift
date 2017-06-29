@@ -10,8 +10,9 @@ import Foundation
 
 let kMainStoryboard = UIStoryboard(name: "Main", bundle: nil)
 let kIssuesStoryboard = UIStoryboard(name: "Issues", bundle: nil)
+let kTempoStoryboard = UIStoryboard(name: "Tempo", bundle: nil)
 
-class Router {
+class NavManager {
     
    class func presentTabbarController(from: UIViewController?) {
         let vc = kMainStoryboard.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
@@ -38,13 +39,13 @@ class Router {
     
     class func pushAttachments(from: UINavigationController?, issue: Issue?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "AttachmentsVC") as! AttachmentsVC
-        vc.issue = issue
+        vc.viewModel = AttachmentsViewModel(issue: issue)
         from?.pushViewController(vc, animated: true)
     }
     
     class func presentAddComment(from: UIViewController?, issue: Issue?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "AddCommentVC") as! AddCommentVC
-        vc.issue = issue
+        vc.viewModel = AddCommentViewModel(issue: issue)
         vc.delegate = from as? AddCommentDelegate
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
@@ -54,6 +55,14 @@ class Router {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "LogWorkVC") as! LogWorkVC
         vc.issue = issue
         vc._delegate = from as? LogWorkDelegate
+        let nc = UINavigationController(rootViewController: vc)
+        from?.present(nc, animated: true, completion: nil)
+    }
+    
+    class func presentWorklogEdit(from: UIViewController?, worklog: Worklog?) {
+        let vc = kTempoStoryboard.instantiateViewController(withIdentifier: "WorklogEditVC") as! WorklogEditVC
+        vc.worklog = worklog
+        vc._delegate = from as? WorklogEditDelegate
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
     }

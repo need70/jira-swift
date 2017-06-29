@@ -10,63 +10,46 @@ import UIKit
 
 class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var issue: Issue?
-    var attachments: [Attachment] = []
+    var viewModel = AttachmentsViewModel()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if let key = issue?.key {
-            navigationItem.title = "\(key): Attachments"
-        }
-        
-        if let items = issue?.attachments {
-            attachments = items
-        }
+        super.viewDidLoad()        
+        navigationItem.title = viewModel.title
     }
 
     // MARK: Collection view data source
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return attachments.count
+        return viewModel.attachments.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,  sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = CGFloat(collectionView.width / 2 - 0.5)
-        return CGSize(width: width, height: 220)
+        return viewModel.sizeForItem(collection: collectionView, indexPath: indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttachmentCell", for: indexPath) as! AttachmentCell
-        
-        if indexPath.row < attachments.count {
-            let item = attachments[indexPath.row]
-            cell.attachment = item
-        }
-        return cell
+                return viewModel.cell(collectionView:collectionView, indexPath:indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        if indexPath.row < attachments.count {
-            let item = attachments[indexPath.row]
+        if indexPath.row < viewModel.attachments.count {
+            let item = viewModel.attachments[indexPath.row]
             attachmentActions(attachment: item)
         }
     }
     
     func attachmentActions(attachment: Attachment) {
         let actions = ["Open link", "Save"]
-        Utils.showActionSheet(items: actions, title: "Choose action", vc: self) { (index) in
+        actionSheet(items: actions, title: "Choose action") { [weak self] (index) in
+            
+            guard let weakSelf = self else { return }
             switch index {
             case 0:
-                self.openLink(attachment: attachment)
+                weakSelf.openLink(attachment: attachment)
                 break
             case 1:
-                self.saveAttach(attachment: attachment)
+                weakSelf.saveAttach(attachment: attachment)
                 break
             default: break
             }

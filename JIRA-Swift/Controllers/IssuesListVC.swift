@@ -135,7 +135,7 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row < issues.count {
             let issue = issues[indexPath.row]
-            Router.pushIssueDetails(from: navigationController, issueKey: issue.key)
+            NavManager.pushIssueDetails(from: navigationController, issueKey: issue.key)
         }
     }
 }

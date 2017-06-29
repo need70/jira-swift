@@ -29,14 +29,19 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
         addRightBarButton(image: nil, title: "Apply")
         
         AKActivityView.add(to: view)
+        tableView.separatorStyle = .none
         getOrderBy()
     }
     
     func getOrderBy() {
-        kMainModel.getOrderBy(fBlock: { (items) in
-            self.fields += items as! [Field]
-            self.tableView.reloadData()
+        kMainModel.getOrderBy(fBlock: { [weak self] (items) in
+            
+            guard let weakSelf = self else { return }
+            weakSelf.fields += items as! [Field]
+            weakSelf.tableView.separatorStyle = .singleLine
+            weakSelf.tableView.reloadData()
             AKActivityView.remove(animated: true)
+            
         }) {[weak self] (errString) in
             guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)

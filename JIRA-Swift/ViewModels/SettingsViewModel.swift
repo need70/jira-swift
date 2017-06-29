@@ -18,7 +18,7 @@ class SettingsViewModel: BaseViewModel {
         
         let path = baseURL + "/rest/api/2/user?username=" + name
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             
             print(responseObj as! [String : Any])
             let dict = responseObj as! [String : Any]
@@ -36,10 +36,9 @@ class SettingsViewModel: BaseViewModel {
     
     func logOut(userName: String, password: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        let params = ["username" : userName, "password" : password]
         let path = baseURL + "/rest/auth/latest/session"
         
-        Request().sendDELETE(url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .delete, url: path, params: nil, successBlock: { (responseObj) in
             print(responseObj!)
             fBlock()
         }, errorBlock: { (error) in

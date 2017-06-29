@@ -29,7 +29,7 @@ class MainModel
         let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
         let path = baseURL + "/rest/api/2/search"
         
-        Request().sendPOST(url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
             print(responseObj as Any)
             
             let dict = responseObj as! [String : Any]
@@ -60,7 +60,7 @@ class MainModel
         let pathComponent = String(format: "/rest/api/2/issue/%@/worklog?adjustEstimate=auto", issueKey)
         let path = baseURL + pathComponent
         
-        Request().sendPOST(url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
             print(responseObj!)
             let dict = responseObj as! [String : Any]
             fBlock(dict)
@@ -79,10 +79,9 @@ class MainModel
         if let username = UserDefaults.standard.value(forKey: "Username") as? String {
             let params = String(format: "\"%@\"", username as String)
             
-            Request().sendPOST(url: path, params: params, successBlock: { (responseObj) in
+            Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
                 print(responseObj as Any)
                 fBlock()
-                
             }, errorBlock: { (error) in
                 if let err = error {
                     print(err)
@@ -91,29 +90,13 @@ class MainModel
         }
     }
         
-    func addComment(issueId: String, params: [String : String], fBlock: @escaping anyBlock) {
-        
-        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueId)
-        let path = baseURL + pathComponent
-        
-        Request().sendPOST(url: path, params: params, successBlock: { (responseObj) in
-            print(responseObj!)
-            let dict = responseObj as! [String : Any]
-            let obj = Comment(JSON: dict)!
-            fBlock(obj)
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-            }
-        })
-    }
     
     func getIssue(issueId: String, fBlock: @escaping anyBlock) {
         
         let pathComponent = String(format: "/rest/api/2/issue/%@", issueId)
         let path = baseURL + pathComponent
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             
             if let dict = responseObj as? [String : Any] {
                 let obj: Issue = Issue(JSON: dict)!
@@ -132,7 +115,7 @@ class MainModel
     func getBoards(fBlock: @escaping anyBlock) {
         
         let path = baseURL + "/rest/agile/1.0/board/"
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             
             print(responseObj as! [String : Any])
             let dict = responseObj as! [String : Any]
@@ -158,17 +141,17 @@ class MainModel
     
     func getTimeSheet(fBlock: @escaping anyBlock) {
         
-        let path = baseURL + "/rest/tempo-rest/1.0/timesheet-approval?period=0813"
-        Request().sendGET(url: path, successBlock: { (responseObj) in
-            
-            print(responseObj as! [String : Any])
-
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-            }
-        })
+//        let path = baseURL + "/rest/tempo-rest/1.0/timesheet-approval?period=0813"
+//        Request().sendGET(url: path, successBlock: { (responseObj) in
+//            
+//            print(responseObj as! [String : Any])
+//
+//            
+//        }, errorBlock: { (error) in
+//            if let err = error {
+//                print(err)
+//            }
+//        })
     }
     
     
@@ -176,7 +159,7 @@ class MainModel
         
         let path = baseURL + "/rest/api/2/field"
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]
@@ -202,7 +185,7 @@ class MainModel
         
         let path = baseURL + "/rest/tempo-teams/1/team"
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]
@@ -230,7 +213,7 @@ class MainModel
         let pathComponent = String(format: "/rest/tempo-teams/2/team/%zd/member", teamId)
         let path = baseURL + pathComponent
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

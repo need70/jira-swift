@@ -11,6 +11,13 @@ class CommentsViewModel: BaseViewModel {
     var issue: Issue?
     var comments:[Comment] = []
     
+    var title: String {
+        if let key = issue?.key {
+            return "\(key): Comments"
+        }
+        return "Comments"
+    }
+
     convenience init(issue: Issue?) {
         self.init()
         self.issue = issue
@@ -26,7 +33,7 @@ class CommentsViewModel: BaseViewModel {
         let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueKey)
         let path = baseURL + pathComponent
         
-        Request().sendGET(url: path, successBlock: { (responseObj) in
+        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             

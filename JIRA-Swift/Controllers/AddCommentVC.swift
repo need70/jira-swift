@@ -14,7 +14,7 @@ protocol AddCommentDelegate {
 
 class AddCommentVC: UITableViewController {
 
-    var issue: Issue?
+    var viewModel = AddCommentViewModel()
     var delegate: AddCommentDelegate?
     
     @IBOutlet weak var tvCommentBody: UITextView!
@@ -30,10 +30,7 @@ class AddCommentVC: UITableViewController {
     }
     
     func setupUI() {
-        
-        if let issueKey = issue?.key {
-            self.navigationItem.title = issueKey + ": Add Comment"
-        }
+        navigationItem.title = viewModel.getTitle()
         
         addRightBarButton(image: nil, title: "Send")
         addLeftBarButton(image: nil, title: "Cancel")
@@ -53,27 +50,28 @@ class AddCommentVC: UITableViewController {
         if tvCommentBody.text != "" {
             addComment()
         } else {
-            Utils.alert(title: "", message: "Enter the comment text, please!", fromVC: self)
+            alert(title: "Alert", message: "Enter the comment text, please!")
         }
     }
     
     func addComment() {
         ToastView.show("Adding comment...")
-        
-        let params: [String : String] = ["body" : tvCommentBody.text!]
-        print("params = \(params)")
-        
-        kMainModel.addComment(issueId: (issue?.issueId)!, params: params) { (obj) in
-            
-            let newComment = obj as! Comment
-            print(newComment)
-            
+        viewModel.addComment(body: tvCommentBody.text, fBlock: { [weak self] in
+            guard let weakSelf = self else { return }
             ToastView.hide(fBlock: {
-                self.dismiss(animated: true, completion: {
-                    self.delegate?.commentAdded()
-                })
+                weakSelf.finish()
             })
-        }
+            
+        }, eBlock: { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            weakSelf.alert(title: "Error", message: errString)
+        })
+    }
+    
+    func finish() {
+        dismiss(animated: true, completion: {
+            self.delegate?.commentAdded()
+        })
     }
 
     //MARK: TableView

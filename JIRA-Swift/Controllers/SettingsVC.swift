@@ -52,7 +52,7 @@ class SettingsVC: UITableViewController {
     }
     
     override func rightBarButtonPressed() {
-        Utils.showActionSheet(items: ["Sure"], title: "Do You want to Log Out?", vc: self) { [weak self] (index) in
+        actionSheet(items: ["Sure"], title: "Do You want to Log Out?") { [weak self] (index) in
             guard let weakSelf = self else { return }
             if index == 0 {
                 weakSelf.logOutAction()

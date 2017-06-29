@@ -171,16 +171,17 @@ extension IssueDetailsVC {
         let watchString = (issue?.isWatching)! ? "Stop Watching" : "Watch"
         let actions = ["Add Comment", "Log Work", watchString]
 
-        Utils.showActionSheet(items: actions, title: "Choose action", vc: self) { (index) in
+        actionSheet(items: actions, title: "Choose action") { [weak self] (index) in
+            guard let weakSelf = self else { return }
             switch index {
             case 0:
-                self.addCommentAction()
+                weakSelf.addCommentAction()
                 break
             case 1:
-                self.logWorkAction()
+                weakSelf.logWorkAction()
                 break
             case 2:
-                self.watchAction()
+                weakSelf.watchAction()
                 break
             default: break
             }
@@ -188,19 +189,19 @@ extension IssueDetailsVC {
     }
     
     func showComments() {
-        Router.pushComments(from: navigationController, issue: issue)
+        NavManager.pushComments(from: navigationController, issue: issue)
     }
     
     func showAttachments() {
-        Router.pushAttachments(from: navigationController, issue: issue)
+        NavManager.pushAttachments(from: navigationController, issue: issue)
     }
     
     func addCommentAction() {
-        Router.presentAddComment(from: self, issue: issue)
+        NavManager.presentAddComment(from: self, issue: issue)
     }
     
     func logWorkAction() {
-        Router.presentLogWork(from: self, issue: issue)
+        NavManager.presentLogWork(from: self, issue: issue)
     }
     
     func watchAction() {

@@ -19,10 +19,7 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
         tableView.rowHeight = UITableViewAutomaticDimension
         
         addRightBarButton(image: nil, title: "Add")
-        
-        if let key = viewModel.issue?.key {
-            navigationItem.title = "\(key): Comments"
-        }
+        navigationItem.title = viewModel.title
     }
     
     func getComments() {
@@ -45,7 +42,7 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
     }
     
     override func rightBarButtonPressed() {        
-        Router.presentAddComment(from: self, issue: viewModel.issue)
+        NavManager.presentAddComment(from: self, issue: viewModel.issue)
     }
     
     // MARK: Add comment delegate

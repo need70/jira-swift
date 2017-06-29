@@ -9,13 +9,14 @@
 import UIKit
 
 protocol JRDateFieldDelegate {
-    func selectedDate(date: Date)
+    func selectedDate(date: Date, tag: Int)
 }
 
 class JRDateField: UITextField {
     
     var dateFieldDelegate: JRDateFieldDelegate?
     var picker = UIDatePicker()
+    
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -41,7 +42,7 @@ class JRDateField: UITextField {
     
     func doneAction() {
         self.endEditing(true)
-        dateFieldDelegate?.selectedDate(date: picker.date)
+        dateFieldDelegate?.selectedDate(date: picker.date, tag: self.tag)
     }
     
     func cancelAction() {

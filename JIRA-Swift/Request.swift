@@ -5,25 +5,53 @@
 
 import UIKit
 
+let kRequestTimeOut = 10.0
+
+enum RequestMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class Request: NSObject {
     
-    func sendPOST(url: String, params: Any, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
+    fileprivate var session: URLSession {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = kRequestTimeOut
+        let session = URLSession(configuration: configuration)
+        return session
+    }
+    
+    fileprivate func request(for method: RequestMethod, url: String, params: Any?) -> URLRequest {
         
-        var data: Data?
-        
-        if params is [String : String] {
-            data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
-        } else if (params is String) {
-            let string = params as! String
-            data = string.data(using: String.Encoding.utf8)!
-        }
         var request = URLRequest(url: URL(string: url)!)
+
+        switch method {
+            
+        case .post, .put:
+            var data: Data?
+            if params is [String : String] {
+                data = try! JSONSerialization.data(withJSONObject: params as Any, options: JSONSerialization.WritingOptions.prettyPrinted)
+            } else if (params is String) {
+                let string = params as! String
+                data = string.data(using: String.Encoding.utf8)!
+            }
+            request.httpBody = data
+            request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = method.rawValue
+            return request
+            
+        default:
+            request.httpMethod = method.rawValue
+            return request
+        }
+    }
+    
+    func send(method: RequestMethod, url: String, params: Any?, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
         
-        request.httpMethod = "POST"
-        request.httpBody = data
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+        let request = self.request(for: method, url: url, params: params)
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
             
             DispatchQueue.main.async {
                 if let err = error {
@@ -39,57 +67,80 @@ class Request: NSObject {
         task.resume()
     }
     
-    func sendDELETE(url: String, params: Any, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
-        
-        var data: Data?
-        
-        if params is [String : String] {
-            data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
-        } else if (params is String) {
-            let string = params as! String
-            data = string.data(using: String.Encoding.utf8)!
-        }
-        var request = URLRequest(url: URL(string: url)!)
-        
-        request.httpMethod = "DELETE"
-        request.httpBody = data
-        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            
-            DispatchQueue.main.async {
-                if let err = error {
-                    print(err.localizedDescription)
-                    errorBlock(err.localizedDescription)
-                }
-                
-                if let responseData = data {
-                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
-                }
-            }
-        })
-        task.resume()
-    }
     
-    func sendGET(url: String, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
-        
-        var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "GET"
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-            
-            DispatchQueue.main.async {
-                if let err = error {
-                    print(err.localizedDescription)
-                    errorBlock(err.localizedDescription)
-                }
-                
-                if let responseData = data {
-                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
-                }
-            }
-        })
-        task.resume()
-    }
+//    func sendPOST(url: String, params: Any, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
+//        
+//        var data: Data?
+//        
+//        if params is [String : String] {
+//            data = try! JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
+//        } else if (params is String) {
+//            let string = params as! String
+//            data = string.data(using: String.Encoding.utf8)!
+//        }
+//        var request = URLRequest(url: URL(string: url)!)
+//        
+//        request.httpMethod = "POST"
+//        request.httpBody = data
+//        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        
+//        
+//        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+//            
+//            DispatchQueue.main.async {
+//                if let err = error {
+//                    print(err.localizedDescription)
+//                    errorBlock(err.localizedDescription)
+//                }
+//                
+//                if let responseData = data {
+//                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
+//                }
+//            }
+//        })
+//        task.resume()
+//    }
+    
+//    func sendDELETE(url: String, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
+//        
+//        var request = URLRequest(url: URL(string: url)!)
+//        request.httpMethod = "DELETE"
+//        
+//        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+//            
+//            DispatchQueue.main.async {
+//                if let err = error {
+//                    print(err.localizedDescription)
+//                    errorBlock(err.localizedDescription)
+//                }
+//                
+//                if let responseData = data {
+//                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
+//                }
+//            }
+//        })
+//        task.resume()
+//    }
+    
+//    func sendGET(url: String, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
+//        
+//        var request = URLRequest(url: URL(string: url)!)
+//        request.httpMethod = "GET"
+//        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+//            
+//            DispatchQueue.main.async {
+//                if let err = error {
+//                    print(err.localizedDescription)
+//                    errorBlock(err.localizedDescription)
+//                }
+//                
+//                if let responseData = data {
+//                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
+//                }
+//            }
+//        })
+//        task.resume()
+//    }
     
     func handleResponseData(data: Data, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
         

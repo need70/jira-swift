@@ -19,8 +19,6 @@ extension UIViewController {
         navigationItem.leftBarButtonItem = item
     }
     
-    func leftBarButtonPressed() { }
-    
     func addRightBarButton(image: String?, title: String?) {
         
         let item: UIBarButtonItem?
@@ -32,6 +30,8 @@ extension UIViewController {
         navigationItem.rightBarButtonItem = item
     }
     
+    func leftBarButtonPressed() { }
+    
     func rightBarButtonPressed() { }
     
     func alert(title: String?, message: String?) {
@@ -40,6 +40,24 @@ extension UIViewController {
             ac.dismiss(animated: true, completion: nil)
         })
         ac.addAction(action)
+        present(ac, animated: true, completion: nil)
+    }
+    
+    func actionSheet(items: [String], title: String, block: @escaping (_ index: Int) -> ()) {
+        
+        let ac = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+        
+        for index in 0..<items.count {
+            let action = UIAlertAction(title: items[index], style: .default, handler: { (action) in
+                ac.dismiss(animated: true, completion: nil)
+                block(index)
+            })
+            ac.addAction(action)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+        })
+        ac.addAction(cancel)
         present(ac, animated: true, completion: nil)
     }
 

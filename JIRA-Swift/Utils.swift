@@ -60,24 +60,6 @@ class Utils {
         return dateFormatter.string(from: date)
     }
     
-    public class func showActionSheet(items: [String], title: String, vc: UIViewController, block: @escaping (_ index: Int) -> ()) {
-        
-        let ac = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
-        
-        for index in 0..<items.count {
-            let action = UIAlertAction(title: items[index], style: .default, handler: { (action) in
-                ac.dismiss(animated: true, completion: nil)
-                block(index)
-            })
-            ac.addAction(action)
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) in
-            ac.dismiss(animated: true, completion: nil)
-        })
-        ac.addAction(cancel)
-        vc.present(ac, animated: true, completion: nil)
-    }
-    
     public class func presentWithNavBar(_ vcToPresent: UIViewController, animated: Bool, fromVC: UIViewController, block: (() -> Swift.Void)? = nil) {
         let navCon = UINavigationController()
         navCon.viewControllers = [vcToPresent]

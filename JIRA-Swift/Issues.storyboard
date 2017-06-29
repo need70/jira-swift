@@ -102,7 +102,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments for this issue!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U37-Xt-A9o">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="140"/>
+                                            <rect key="frame" x="30" y="0.0" width="315" height="140"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="bBX-KA-wht"/>
                                             </constraints>
@@ -113,9 +113,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="U37-Xt-A9o" secondAttribute="bottom" id="6oh-e7-46R"/>
-                                        <constraint firstItem="U37-Xt-A9o" firstAttribute="leading" secondItem="gRs-lM-dCO" secondAttribute="leading" constant="15" id="gpn-Fn-SjQ"/>
+                                        <constraint firstItem="U37-Xt-A9o" firstAttribute="leading" secondItem="gRs-lM-dCO" secondAttribute="leading" constant="30" id="gpn-Fn-SjQ"/>
                                         <constraint firstItem="U37-Xt-A9o" firstAttribute="top" secondItem="gRs-lM-dCO" secondAttribute="top" id="lul-D3-X4F"/>
-                                        <constraint firstAttribute="trailing" secondItem="U37-Xt-A9o" secondAttribute="trailing" constant="15" id="t8O-34-Nt9"/>
+                                        <constraint firstAttribute="trailing" secondItem="U37-Xt-A9o" secondAttribute="trailing" constant="30" id="t8O-34-Nt9"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -143,7 +143,7 @@
         <scene sceneID="giP-8g-N9N">
             <objects>
                 <collectionViewController storyboardIdentifier="AttachmentsVC" id="1hP-uM-ZN6" customClass="AttachmentsVC" customModule="JIRA_Swift" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="lKM-HR-Kr5">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="lKM-HR-Kr5">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1088,6 +1088,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="xNk-IZ-s7Z">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
@@ -1486,7 +1487,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="wnT-d6-V7U" style="IBUITableViewCellStyleDefault" id="xJh-9M-FI1">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" textLabel="wnT-d6-V7U" style="IBUITableViewCellStyleDefault" id="xJh-9M-FI1">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xJh-9M-FI1" id="yAG-Uf-hMZ">
@@ -1520,7 +1521,6 @@
         <!--Issues-->
         <scene sceneID="BWX-kK-XQE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j1t-4z-qwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="IssuesListVC" id="chV-hO-JDQ" customClass="IssuesListVC" customModule="JIRA_Swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="gsW-NH-Sbn">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
@@ -1635,13 +1635,13 @@
                         <segue destination="7FM-xX-FDp" kind="presentation" id="Zfh-dk-MVD"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j1t-4z-qwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4039" y="-64"/>
         </scene>
         <!--Issues-->
         <scene sceneID="tAL-QA-eOu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iQs-B9-7Vx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="IssuesNavController" automaticallyAdjustsScrollViewInsets="NO" id="kJC-FW-1UG" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Issues" image="tabBarItem:6pb-5h-ok2:image" selectedImage="tabBarItem:6pb-5h-ok2:selectedImage" id="6pb-5h-ok2"/>
@@ -1655,6 +1655,7 @@
                         <segue destination="Zhb-Oz-JyW" kind="relationship" relationship="rootViewController" id="frb-gk-RrL"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iQs-B9-7Vx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2370" y="-64"/>
         </scene>
