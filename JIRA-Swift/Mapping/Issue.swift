@@ -52,6 +52,9 @@ class Issue: Mappable {
         comments        <- map["fields.comment.comments"]
         attachments     <- map["fields.attachment"]
     }
+}
+
+extension Issue {
     
     func formattedCreated() -> String {
         if let created = createdDate {

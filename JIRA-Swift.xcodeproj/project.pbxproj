@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		890D5D811F0A206C00BCFE59 /* IssueDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */; };
+		890D5D831F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */; };
+		890D5D871F0CCD9500BCFE59 /* BoardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */; };
+		890D5D891F0CCDD800BCFE59 /* BoardIssueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */; };
 		891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835A21EE1EF48004209A7 /* ImageViewCache.swift */; };
 		891835A91EE1EF48004209A7 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835A51EE1EF48004209A7 /* ToastView.swift */; };
 		891835AA1EE1EF48004209A7 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 891835A61EE1EF48004209A7 /* ToastView.xib */; };
@@ -48,7 +52,7 @@
 		89F79C831EF7EB2900F0AAC8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C821EF7EB2900F0AAC8 /* Comment.swift */; };
 		89F79C851EF7EB6800F0AAC8 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C841EF7EB6800F0AAC8 /* Attachment.swift */; };
 		89F79C871EF7EBCB00F0AAC8 /* TimeTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C861EF7EBCB00F0AAC8 /* TimeTracking.swift */; };
-		89F79C8B1EF8165D00F0AAC8 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C8A1EF8165D00F0AAC8 /* NavManager.swift */; };
+		89F79C8B1EF8165D00F0AAC8 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C8A1EF8165D00F0AAC8 /* Presenter.swift */; };
 		89F79C8D1EF8209500F0AAC8 /* SVGImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C8C1EF8209500F0AAC8 /* SVGImageView.swift */; };
 		89F79C901EF8484B00F0AAC8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C8F1EF8484B00F0AAC8 /* LoginViewModel.swift */; };
 		89F79C941EF91DA000F0AAC8 /* BoardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */; };
@@ -68,6 +72,10 @@
 /* Begin PBXFileReference section */
 		4F27488170956A6C4BFC8B65 /* Pods-JIRA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JIRA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JIRA-Swift/Pods-JIRA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		81B823DFD7936D634491DC9A /* Pods_JIRA_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JIRA_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueDetailsViewModel.swift; sourceTree = "<group>"; };
+		890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDetailsViewModel.swift; sourceTree = "<group>"; };
+		890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCollectionCell.swift; path = Cells/BoardCollectionCell.swift; sourceTree = "<group>"; };
+		890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardIssueCell.swift; path = Cells/BoardIssueCell.swift; sourceTree = "<group>"; };
 		891835A21EE1EF48004209A7 /* ImageViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCache.swift; sourceTree = "<group>"; };
 		891835A51EE1EF48004209A7 /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		891835A61EE1EF48004209A7 /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
@@ -113,7 +121,7 @@
 		89F79C821EF7EB2900F0AAC8 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		89F79C841EF7EB6800F0AAC8 /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		89F79C861EF7EBCB00F0AAC8 /* TimeTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeTracking.swift; sourceTree = "<group>"; };
-		89F79C8A1EF8165D00F0AAC8 /* NavManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
+		89F79C8A1EF8165D00F0AAC8 /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		89F79C8C1EF8209500F0AAC8 /* SVGImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SVGImageView.swift; sourceTree = "<group>"; };
 		89F79C8F1EF8484B00F0AAC8 /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardsVC.swift; sourceTree = "<group>"; };
@@ -150,6 +158,23 @@
 				F9999107DAEA619CC595131E /* Pods-JIRA-Swift.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		890D5D841F0CCBA800BCFE59 /* Boards */ = {
+			isa = PBXGroup;
+			children = (
+				890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */,
+			);
+			name = Boards;
+			sourceTree = "<group>";
+		};
+		890D5D851F0CCD5400BCFE59 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */,
+				890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		891835701EE038D6004209A7 /* Network */ = {
@@ -253,6 +278,7 @@
 		8919000B1F00E5E800671DE2 /* Issues */ = {
 			isa = PBXGroup;
 			children = (
+				890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */,
 				89F79CC81EFC345800F0AAC8 /* CommentsViewModel.swift */,
 				8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */,
 				891900051EFD4F3900671DE2 /* AddCommentViewModel.swift */,
@@ -294,7 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				891A96641E531FAD00B85B39 /* Assets.xcassets */,
-				89F79C8A1EF8165D00F0AAC8 /* NavManager.swift */,
+				89F79C8A1EF8165D00F0AAC8 /* Presenter.swift */,
 				89F79C601EF418A200F0AAC8 /* Views */,
 				89F79C8E1EF844FA00F0AAC8 /* ViewModels */,
 				891835701EE038D6004209A7 /* Network */,
@@ -340,6 +366,7 @@
 		89F79C601EF418A200F0AAC8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				890D5D851F0CCD5400BCFE59 /* Cells */,
 				891835741EE0390F004209A7 /* Storyboards */,
 				891900041EFD4E6A00671DE2 /* Login */,
 				89F79C7B1EF419B100F0AAC8 /* Issues */,
@@ -389,11 +416,12 @@
 		89F79C8E1EF844FA00F0AAC8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				896001821F0519C200F6255A /* Login */,
 				896001831F0519CB00F6255A /* Projects */,
+				896001821F0519C200F6255A /* Login */,
+				896001811F04D9AB00F6255A /* Settings */,
 				8919000B1F00E5E800671DE2 /* Issues */,
 				896001801F04D99F00F6255A /* Tempo */,
-				896001811F04D9AB00F6255A /* Settings */,
+				890D5D841F0CCBA800BCFE59 /* Boards */,
 			);
 			name = ViewModels;
 			path = "JIRA-Swift/ViewModels";
@@ -562,12 +590,15 @@
 				89F79CC91EFC345800F0AAC8 /* CommentsViewModel.swift in Sources */,
 				89F79C831EF7EB2900F0AAC8 /* Comment.swift in Sources */,
 				891835E71EEEDB80004209A7 /* JRDigitField.swift in Sources */,
+				890D5D811F0A206C00BCFE59 /* IssueDetailsViewModel.swift in Sources */,
 				89F79CB91EFA601700F0AAC8 /* KeychainItemWrapper.m in Sources */,
 				891A96771E534DD900B85B39 /* MainModel.swift in Sources */,
 				891835AC1EE1EFB8004209A7 /* UIViewController+additions.swift in Sources */,
 				8919000A1F00E28C00671DE2 /* WorklogsVC.swift in Sources */,
 				89F79CC31EFBC5AC00F0AAC8 /* Field.swift in Sources */,
 				891A96781E534DD900B85B39 /* Request.swift in Sources */,
+				890D5D871F0CCD9500BCFE59 /* BoardCollectionCell.swift in Sources */,
+				890D5D891F0CCDD800BCFE59 /* BoardIssueCell.swift in Sources */,
 				89F79C701EF418A200F0AAC8 /* IssuesListVC.swift in Sources */,
 				891835B01EE67FDD004209A7 /* AKActivityView.m in Sources */,
 				89F79CC71EFBF91900F0AAC8 /* TempoTeam.swift in Sources */,
@@ -587,8 +618,9 @@
 				89F79C731EF418A200F0AAC8 /* LoginVC.swift in Sources */,
 				891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */,
 				89F79C741EF418A200F0AAC8 /* LogWorkVC.swift in Sources */,
-				89F79C8B1EF8165D00F0AAC8 /* NavManager.swift in Sources */,
+				89F79C8B1EF8165D00F0AAC8 /* Presenter.swift in Sources */,
 				89F79CC11EFBC34500F0AAC8 /* OrderByVC.swift in Sources */,
+				890D5D831F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift in Sources */,
 				89F79C941EF91DA000F0AAC8 /* BoardsVC.swift in Sources */,
 				891A965E1E531FAD00B85B39 /* AppDelegate.swift in Sources */,
 				89F79CBF1EFBAFFF00F0AAC8 /* ProjectsViewModel.swift in Sources */,

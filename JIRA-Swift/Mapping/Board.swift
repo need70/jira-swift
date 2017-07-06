@@ -27,13 +27,24 @@ class Board: Mappable {
 class BoardColumn: Mappable {
     
     var name: String?
-    var statuses: [Int] = []
+    var statuses: [BoardColumnStatus] = []
     
     required init?(map: Map) { }
     
     func mapping(map: Map) {
         name        <- map["name"]
         statuses    <- map["statuses.id"]
+    }
+}
+
+class BoardColumnStatus: Mappable {
+    
+    var statusId: Int?
+    
+    required init?(map: Map) { }
+    
+    func mapping(map: Map) {
+        statusId  <- map["id"]
     }
 }
 

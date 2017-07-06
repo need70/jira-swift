@@ -13,9 +13,9 @@ enum DetailsSections: Int {
 }
 
 class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate {
+    
+    var viewModel = IssueDetailsViewModel()
 
-    var issueKey: String?
-    var issue: Issue?
     
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
@@ -41,11 +41,16 @@ class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate
     
     override func viewDidLoad() {
        super.viewDidLoad()
-        start()
+        refreshControl?.addTarget(self, action: #selector(getIssue), for: .valueChanged)
+        addRightBarButton(image: "ic_more", title: nil)
+        navigationItem.title = viewModel.title
+        
+        AKActivityView.add(to: view)
+        getIssue()
     }
     
     @IBAction func goToComments(_ sender: Any) {
-        if let count = issue?.comments?.count, count > 0 {
+        if viewModel.commentsCount > 0 {
             showComments()
         } else {
             addCommentAction()
@@ -56,41 +61,17 @@ class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate
         showAttachments()
     }
     
-    //MARK: - TableView
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-extension IssueDetailsVC {
-    
-    func start() {
-        refreshControl?.addTarget(self, action: #selector(getIssue), for: .valueChanged)
-        addRightBarButton(image: "ic_more", title: nil)
-        navigationItem.title = issueKey
-        
-        AKActivityView.add(to: view)
-        getIssue()
-    }
-    
     func getIssue() {
-        if let issueKey = issueKey {
-            kMainModel.getIssue(issueId: issueKey) { (obj) in
-                self.issue = obj as? Issue
-                self.setupUI()
-                self.tableView.reloadData()
-                AKActivityView.remove(animated: true)
-                self.refreshControl?.endRefreshing()
-            }
+        viewModel.getIssue(fBlock: { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.setupUI()
+            weakSelf.tableView.reloadData()
+            AKActivityView.remove(animated: true)
+            weakSelf.refreshControl?.endRefreshing()
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            AKActivityView.remove(animated: true)
+            weakSelf.alert(title: "Error", message: errString)
         }
     }
     
@@ -100,29 +81,29 @@ extension IssueDetailsVC {
     
     func setupUI() {
         
-        if let issue = issue {
+        if let issue = viewModel.issue {
             
             //project info
             projectIcon.loadImage(url: (issue.project?.iconUrl)!, placeHolder: UIImage(named: "tab_project"))
             projectIcon.roundCorners()
-            lbProjInfo.text = (issue.project?.name)! + " / " + issue.key!
+            lbProjInfo.text = viewModel.projInfo
             
-            lbSummary.text = issue.summary
-            tvDescription.text = issue.descript
+            lbSummary.text = viewModel.summary
+            tvDescription.text = viewModel.descriptionText
             
             //assignee
             assigneeAvatar.loadImage(url: issue.assignee?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
             assigneeAvatar.roundCorners()
-            lbAssignee.text = issue.assignee?.displayName ?? "N/A"
+            lbAssignee.text = viewModel.assignee
             
             //reporter
             reporterAvatar.loadImage(url: issue.reporter?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
             reporterAvatar.roundCorners()
-            lbReporter.text = issue.reporter?.displayName ?? "N/A"
+            lbReporter.text = viewModel.reporter
             
             //dates
-            lbCreated.text = issue.formattedCreated()
-            lbUpdated.text = issue.formattedUpdated()
+            lbCreated.text = viewModel.created
+            lbUpdated.text = viewModel.updated
             
             //type
             lbType.text = issue.type?.name
@@ -168,7 +149,7 @@ extension IssueDetailsVC {
     
     override func rightBarButtonPressed() {
         
-        let watchString = (issue?.isWatching)! ? "Stop Watching" : "Watch"
+        let watchString = viewModel.isWatchingIssue ? "Stop Watching" : "Watch"
         let actions = ["Add Comment", "Log Work", watchString]
 
         actionSheet(items: actions, title: "Choose action") { [weak self] (index) in
@@ -189,28 +170,42 @@ extension IssueDetailsVC {
     }
     
     func showComments() {
-        NavManager.pushComments(from: navigationController, issue: issue)
+        Presenter.pushComments(from: navigationController, issue: viewModel.issue)
     }
     
     func showAttachments() {
-        NavManager.pushAttachments(from: navigationController, issue: issue)
+        Presenter.pushAttachments(from: navigationController, issue: viewModel.issue)
     }
     
     func addCommentAction() {
-        NavManager.presentAddComment(from: self, issue: issue)
+        Presenter.presentAddComment(from: self, issue: viewModel.issue)
     }
     
     func logWorkAction() {
-        NavManager.presentLogWork(from: self, issue: issue)
+        Presenter.presentLogWork(from: self, issue: viewModel.issue)
     }
     
     func watchAction() {
         ToastView.show("Processing...")
-        kMainModel.watchIssue(issueId: (issue?.issueId)!) {
+        kMainModel.watchIssue(issueId: (viewModel.issue?.issueId)!) {
             ToastView.hide(fBlock: { 
                 self.refresh()
             })
         }
+    }
+    
+    //MARK: - TableView
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: Add comment delegate

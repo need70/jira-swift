@@ -12,7 +12,7 @@ let kMainStoryboard = UIStoryboard(name: "Main", bundle: nil)
 let kIssuesStoryboard = UIStoryboard(name: "Issues", bundle: nil)
 let kTempoStoryboard = UIStoryboard(name: "Tempo", bundle: nil)
 
-class NavManager {
+class Presenter {
     
    class func presentTabbarController(from: UIViewController?) {
         let vc = kMainStoryboard.instantiateViewController(withIdentifier: "TabbarController") as! UITabBarController
@@ -27,7 +27,7 @@ class NavManager {
     
    class func pushIssueDetails(from: UINavigationController?, issueKey: String?) {
         let idvc = kIssuesStoryboard.instantiateViewController(withIdentifier: "IssueDetailsVC") as! IssueDetailsVC
-        idvc.issueKey = issueKey
+        idvc.viewModel = IssueDetailsViewModel(issueKey: issueKey)
         from?.pushViewController(idvc, animated: true)
     }
     

@@ -42,7 +42,7 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
     }
     
     override func rightBarButtonPressed() {        
-        NavManager.presentAddComment(from: self, issue: viewModel.issue)
+        Presenter.presentAddComment(from: self, issue: viewModel.issue)
     }
     
     // MARK: Add comment delegate

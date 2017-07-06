@@ -96,7 +96,7 @@ class WorklogsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func editAction(for index: Int) {
         let item = viewModel.worklogs[index]
-        NavManager.presentWorklogEdit(from: self, worklog: item)
+        Presenter.presentWorklogEdit(from: self, worklog: item)
     }
     
     @IBAction func refreshAction(_ sender: UIBarButtonItem) {
