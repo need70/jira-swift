@@ -13,6 +13,7 @@ class BoardIssueCell: UITableViewCell {
     @IBOutlet weak var avatarIcon: ImageViewCache!
     @IBOutlet weak var lbSummary: UILabel!
     @IBOutlet weak var lbIssueKey: UILabel!
+    @IBOutlet weak var typeView: SVGImageView!
 
     var issue: Issue?
     
@@ -22,7 +23,8 @@ class BoardIssueCell: UITableViewCell {
         avatarIcon.loadImage(url: issue?.assignee?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
         avatarIcon.roundCorners()
         
-        typeIcon.loadImage(url: issue?.type?.iconUrl)
+//        typeIcon.loadImage(url: issue?.type?.iconUrl)
+        typeView.loadUrl(issue?.type?.iconUrl)
         
         priopityIcon.loadImage(url: issue?.priority?.iconUrl)
         lbSummary.text = issue?.summary

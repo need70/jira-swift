@@ -23,6 +23,11 @@ class IssuesVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        addRightBarButton(image: nil, title: "Create")
+    }
+    
+    override func rightBarButtonPressed() {
+        Presenter.presentCreateIssue(from: self, issueKey: "key")
     }
 
     // MARK: - Table view data source

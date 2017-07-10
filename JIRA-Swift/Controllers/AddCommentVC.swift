@@ -30,7 +30,7 @@ class AddCommentVC: UITableViewController {
     }
     
     func setupUI() {
-        navigationItem.title = viewModel.getTitle()
+        navigationItem.title = viewModel.title
         
         addRightBarButton(image: nil, title: "Send")
         addLeftBarButton(image: nil, title: "Cancel")

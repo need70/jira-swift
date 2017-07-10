@@ -12,7 +12,7 @@ protocol LogWorkDelegate {
 
 class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegate {
 
-    var issue: Issue?
+    var viewModel = LogWorkViewModel()
     var _delegate: LogWorkDelegate?
     
     @IBOutlet weak var tfWeek: JRDigitField!
@@ -31,6 +31,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         tfHour.digitFieldDelegate = self
         tfMinute.digitFieldDelegate = self
         tfDate.dateFieldDelegate = self
+        
         setupUI()
     }
     
@@ -39,17 +40,15 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     override func rightBarButtonPressed() {
-        if lbTimeSpent.text != "" {
-            logWork()
-        } else {
+        guard lbTimeSpent.text != "" else {
             alert(title: "Alert", message: "Enter the spent time, please!")
+            return
         }
+        logWork()
     }
     
     func setupUI() {
-        if let issueKey = issue?.key {
-            self.navigationItem.title = "Log Work: " + issueKey
-        }
+        navigationItem.title = viewModel.title
         
         addRightBarButton(image: nil, title: "Log")
         addLeftBarButton(image: nil, title: "Cancel")
@@ -63,6 +62,7 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     }
     
     func logWork() {
+        
         view.endEditing(true)
         ToastView.show("Logging Work...")
         
@@ -79,10 +79,15 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         
         print("params = \(params)")
         
-        kMainModel.logWork(issueKey: (issue?.issueId)!, params: params) { (responceDict) in
-            print(responceDict ?? "dsa")
+        viewModel.logWork(params: params, sBlock: { [weak self] (responceDict) in
+            guard let weakSelf = self else { return }
             ToastView.hide(fBlock: {
-                self.dismiss(animated: true, completion: nil)
+                weakSelf.dismiss(animated: true, completion: nil)
+            })
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            ToastView.errHide(fBlock: { 
+                weakSelf.alert(title: "Error", message: errString)
             })
         }
     }

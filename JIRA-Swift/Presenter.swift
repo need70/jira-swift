@@ -53,7 +53,7 @@ class Presenter {
 
     class func presentLogWork(from: UIViewController?, issue: Issue?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "LogWorkVC") as! LogWorkVC
-        vc.issue = issue
+        vc.viewModel = LogWorkViewModel(issue: issue)
         vc._delegate = from as? LogWorkDelegate
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
@@ -63,6 +63,13 @@ class Presenter {
         let vc = kTempoStoryboard.instantiateViewController(withIdentifier: "WorklogEditVC") as! WorklogEditVC
         vc.worklog = worklog
         vc._delegate = from as? WorklogEditDelegate
+        let nc = UINavigationController(rootViewController: vc)
+        from?.present(nc, animated: true, completion: nil)
+    }
+    
+    class func presentCreateIssue(from: UIViewController?, issueKey: String?) {
+        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "CreateIssueVC") as! CreateIssueVC
+        vc.viewModel = CreateIssueViewModel(issueKey: issueKey)
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
     }

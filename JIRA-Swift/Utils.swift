@@ -5,6 +5,13 @@
 
 import Foundation
 
+public typealias finishedBlock = () -> ()
+public typealias arrayBlock = (_ array: [Any]) -> ()
+public typealias dictBlock = (_ responseDict: [String: Any]?) -> ()
+public typealias errorBlock = (_ error: Error?) -> ()
+public typealias anyBlock = (_ any: Any?) -> ()
+public typealias stringBlock = (_ string: String?) -> ()
+
 #if (arch(i386) || arch(x86_64)) && os(iOS)
 let DEVICE_IS_SIMULATOR = true
 #else

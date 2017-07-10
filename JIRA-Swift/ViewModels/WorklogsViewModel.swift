@@ -82,7 +82,10 @@ class WorklogsViewModel: BaseViewModel {
     func deleteWorklog(index: Int, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let item = worklogs[index]
-        guard let worklogId = item.worklogId else { return }
+        guard let worklogId = item.worklogId else {
+            eBlock("worklogId not found!")
+            return
+        }
 
         let path = baseURL + "/rest/tempo-timesheets/3/worklogs/\(worklogId)"
         

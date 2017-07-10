@@ -10,7 +10,7 @@ import UIKit
 
 class BoardsVC: UITableViewController {
 
-    var boards: [Board] = []
+    var viewModel = BoardsViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,37 +22,31 @@ class BoardsVC: UITableViewController {
     }
     
     func getBoards() {
-        kMainModel.getBoards() { (response) in
-            self.boards += response as! [Board]
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
+        viewModel.getBoards(sBlock: { [weak self] in
+            guard let weakSelf = self else { return }
+            weakSelf.tableView.reloadData()
+            weakSelf.refreshControl?.endRefreshing()
             AKActivityView.remove(animated: true)
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            AKActivityView.remove(animated: true)
+            weakSelf.alert(title: "Error", message: errString)
         }
     }
     
     func refresh() {
-        boards.removeAll()
+        viewModel.remove()
         getBoards()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return boards.count
+        return viewModel.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        if indexPath.row < boards.count {
-            let item = boards[indexPath.row]
-            cell.textLabel?.text = item.name
-        }
-        return cell
+        return viewModel.cell(tableView: tableView, indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -63,9 +57,8 @@ class BoardsVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueBoardsToDetail" {
             let indexPath = sender as! IndexPath
-            let item = boards[indexPath.row]
             let vc = segue.destination as! BoardDetailsVC
-            vc.viewModel = BoardDetailsViewModel(board: item)
+            vc.viewModel = BoardDetailsViewModel(board: viewModel.board(index: indexPath.row))
         }
     }
 

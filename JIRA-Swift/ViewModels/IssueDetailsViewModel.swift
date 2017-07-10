@@ -8,7 +8,7 @@
 
 class IssueDetailsViewModel: BaseViewModel {
     
-    var issueKey: String?
+    fileprivate var issueKey: String?
     var issue: Issue?
     
     convenience init(issueKey: String?) {
@@ -18,7 +18,12 @@ class IssueDetailsViewModel: BaseViewModel {
     
     func getIssue(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@", issueKey!)
+        guard let issueKey = issueKey else {
+            eBlock("Issue key not found!")
+            return
+        }
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@", issueKey)
         let path = baseURL + pathComponent
         
         Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
@@ -38,6 +43,57 @@ class IssueDetailsViewModel: BaseViewModel {
         })
     }
     
+    func watchIssue(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+        
+        guard let issueId = issue?.issueId else {
+            eBlock("Fatal error!")
+            return
+        }
+        
+        guard let username = UserDefaults.standard.value(forKey: "Username") as? String else {
+            eBlock("Username not found!")
+            return
+        }
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers", issueId)
+        let path = baseURL + pathComponent
+        let params = String(format: "\"%@\"", username as String)
+        
+        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+            print(responseObj as Any)
+            sBlock()
+        }, errorBlock: { (error) in
+            if let err = error {
+                eBlock(err)
+            }
+        })
+    }
+    
+    func removeFromWatchList(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+        
+        guard let issueId = issue?.issueId else {
+            eBlock("Fatal error!")
+            return
+        }
+        
+        guard let username = UserDefaults.standard.value(forKey: "Username") as? String else {
+            eBlock("Username not found!")
+            return
+        }
+        
+        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers?%@", issueId, username)
+        let path = baseURL + pathComponent
+        
+        Request().send(method: .delete, url: path, params: nil, successBlock: { (responseObj) in
+            print(responseObj as Any)
+            sBlock()
+        }, errorBlock: { (error) in
+            if let err = error {
+                eBlock(err)
+            }
+        })
+    }
+    
     var title: String {
         return issueKey ?? "IssueDetails"
     }
@@ -50,7 +106,10 @@ class IssueDetailsViewModel: BaseViewModel {
     }
     
     var isWatchingIssue: Bool {
-        return (issue?.isWatching)!
+        if let isWatching = issue?.isWatching {
+            return isWatching
+        }
+        return false
     }
     
     var projInfo: String {

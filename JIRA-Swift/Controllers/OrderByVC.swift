@@ -8,19 +8,11 @@
 
 import UIKit
 
-protocol OrderByDelegate {
-    func selectedField(field: Field)
-}
-
 class OrderByVC: UITableViewController, UISearchBarDelegate {
 
-    @IBOutlet weak var searchBar: UISearchBar!
+    var viewModel = OrderByViewModel()
     
-    var fields: [Field] = []
-    var filteredFields: [Field] = []
-    var selectedField: Field?
-    var _delegate: OrderByDelegate?
-    var searchActive = false
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +26,8 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
     }
     
     func getOrderBy() {
-        kMainModel.getOrderBy(fBlock: { [weak self] (items) in
-            
+        viewModel.getOrderBy(fBlock: { [weak self] (items) in
             guard let weakSelf = self else { return }
-            weakSelf.fields += items as! [Field]
             weakSelf.tableView.separatorStyle = .singleLine
             weakSelf.tableView.reloadData()
             AKActivityView.remove(animated: true)
@@ -51,8 +41,7 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
     
     override func rightBarButtonPressed() {
         dismiss(animated: true) {
-            guard let field = self.selectedField else { return }
-            self._delegate?.selectedField(field: field)
+            self.viewModel.handleSelectedField()
         }
     }
     
@@ -60,57 +49,26 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-
-
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(searchActive) {
-            return filteredFields.count
-        }
-        return fields.count
+        return viewModel.numberOfRows(tableView: tableView, section: section)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        if indexPath.row < fields.count {
-            
-            let field = searchActive ? filteredFields[indexPath.row] : fields[indexPath.row]
-            
-            if field.fieldId == selectedField?.fieldId {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .none
-            }
-            cell.textLabel?.text = field.name
-        }
-        return cell
+        return viewModel.cell(tableView: tableView, indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let field = searchActive ? filteredFields[indexPath.row] : fields[indexPath.row]
-        selectedField = field
+        viewModel.setSelectedField(index: indexPath.row)
         tableView.reloadData()
     }
 
     //MARK: - Search Bar
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        filteredFields = fields.filter({ (field) -> Bool in
-            let tmp = field.name!
-            let range = tmp.range(of: searchText, options: .caseInsensitive)
-            return range != nil
-        })
-        
-        if(filteredFields.count == 0){
-            searchActive = false
-        } else {
-            searchActive = true
-        }
+        viewModel.handleSearchBar(text: searchText)
         self.tableView.reloadData()
     }
 }

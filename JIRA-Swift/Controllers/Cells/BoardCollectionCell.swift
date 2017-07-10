@@ -35,7 +35,18 @@ class BoardCollectionCell: UICollectionViewCell, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BoardIssueCell", for: indexPath) as! BoardIssueCell
         
-        cell.issue = issues[indexPath.row]
+        if indexPath.row < issues.count {
+            cell.issue = issues[indexPath.row]
+        }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row < issues.count {
+            let issue = issues[indexPath.row]
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "BoardIssueTapped"), object: issue)
+        }
+        
     }
 }

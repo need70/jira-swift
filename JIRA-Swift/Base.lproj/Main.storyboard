@@ -64,7 +64,9 @@
                             <outlet property="delegate" destination="3qw-aa-b3r" id="M9o-Ou-DGZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Boards" id="Gzm-GJ-Sdy"/>
+                    <navigationItem key="navigationItem" title="Boards" id="Gzm-GJ-Sdy">
+                        <barButtonItem key="backBarButtonItem" title=" " id="ZeH-DN-Rcg"/>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="KIQ-F4-67P">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -152,6 +154,14 @@
                                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
+                                                                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61b-dU-sBm" customClass="SVGImageView" customModule="JIRA_Swift" customModuleProvider="target">
+                                                                        <rect key="frame" x="15" y="76" width="16" height="16"/>
+                                                                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="16" id="L6j-p5-RA3"/>
+                                                                            <constraint firstAttribute="width" constant="16" id="qYm-AO-aeh"/>
+                                                                        </constraints>
+                                                                    </webView>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="AH0-WQ-RYq" firstAttribute="leading" secondItem="8GH-u6-Ad6" secondAttribute="leading" constant="15" id="9Xj-iD-IJz"/>
@@ -162,8 +172,10 @@
                                                                     <constraint firstItem="rAg-i6-IpC" firstAttribute="centerY" secondItem="AH0-WQ-RYq" secondAttribute="centerY" id="KUz-II-Aeu"/>
                                                                     <constraint firstItem="ahm-Aw-b0l" firstAttribute="centerY" secondItem="AH0-WQ-RYq" secondAttribute="centerY" id="PNe-vg-x7W"/>
                                                                     <constraint firstAttribute="trailing" secondItem="29h-1M-7pK" secondAttribute="trailing" constant="15" id="UVV-I7-LGR"/>
+                                                                    <constraint firstItem="61b-dU-sBm" firstAttribute="centerY" secondItem="AH0-WQ-RYq" secondAttribute="centerY" id="g2r-q9-eEO"/>
                                                                     <constraint firstItem="29h-1M-7pK" firstAttribute="centerY" secondItem="rAg-i6-IpC" secondAttribute="centerY" id="hj6-En-IgR"/>
                                                                     <constraint firstItem="q1e-nk-fGu" firstAttribute="top" secondItem="8GH-u6-Ad6" secondAttribute="top" constant="15" id="kFg-84-c5W"/>
+                                                                    <constraint firstItem="61b-dU-sBm" firstAttribute="leading" secondItem="8GH-u6-Ad6" secondAttribute="leading" constant="15" id="ld1-SD-MO3"/>
                                                                     <constraint firstAttribute="trailing" secondItem="q1e-nk-fGu" secondAttribute="trailing" constant="15" id="tss-Hl-djw"/>
                                                                     <constraint firstItem="q1e-nk-fGu" firstAttribute="leading" secondItem="8GH-u6-Ad6" secondAttribute="leading" constant="15" id="u4r-Cd-OfJ"/>
                                                                 </constraints>
@@ -174,7 +186,28 @@
                                                                 <outlet property="lbSummary" destination="q1e-nk-fGu" id="ZMp-sR-HL4"/>
                                                                 <outlet property="priopityIcon" destination="rAg-i6-IpC" id="Bmw-xW-i4V"/>
                                                                 <outlet property="typeIcon" destination="AH0-WQ-RYq" id="t4h-bD-CAe"/>
+                                                                <outlet property="typeView" destination="61b-dU-sBm" id="5vp-WN-g9L"/>
                                                             </connections>
+                                                        </tableViewCell>
+                                                        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="u7x-eo-OA2">
+                                                            <rect key="frame" x="0.0" y="136" width="353" height="108"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u7x-eo-OA2" id="U4k-DD-iOQ">
+                                                                <rect key="frame" x="0.0" y="0.0" width="353" height="107.5"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kt3-RU-8mF">
+                                                                        <rect key="frame" x="30" y="34" width="293" height="46"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="trailing" secondItem="Kt3-RU-8mF" secondAttribute="trailing" constant="30" id="K0q-oo-v6C"/>
+                                                                    <constraint firstItem="Kt3-RU-8mF" firstAttribute="leading" secondItem="U4k-DD-iOQ" secondAttribute="leading" constant="30" id="Pys-wt-iFD"/>
+                                                                </constraints>
+                                                            </tableViewCellContentView>
                                                         </tableViewCell>
                                                     </prototypes>
                                                     <connections>
@@ -233,7 +266,9 @@
                             <constraint firstItem="VXk-R8-OqG" firstAttribute="top" secondItem="D0D-ZI-ayx" secondAttribute="bottom" constant="10" id="zXD-u7-65Z"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Board" id="YtM-VN-6U9"/>
+                    <navigationItem key="navigationItem" title="Board" id="YtM-VN-6U9">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Rsd-EZ-7WW"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collection" destination="VXk-R8-OqG" id="sZb-JH-eFx"/>
                         <outlet property="lbColumnTitle" destination="D0D-ZI-ayx" id="MZI-xV-Tyx"/>

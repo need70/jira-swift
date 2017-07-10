@@ -16,7 +16,6 @@ class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate
     
     var viewModel = IssueDetailsViewModel()
 
-    
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
     @IBOutlet weak var projectIcon: ImageViewCache!
@@ -186,10 +185,39 @@ class IssueDetailsVC: UITableViewController, AddCommentDelegate, LogWorkDelegate
     }
     
     func watchAction() {
+        if viewModel.isWatchingIssue {
+            removeFromWatchList()
+        } else {
+            watch()
+        }
+    }
+    
+    func watch() {
         ToastView.show("Processing...")
-        kMainModel.watchIssue(issueId: (viewModel.issue?.issueId)!) {
-            ToastView.hide(fBlock: { 
-                self.refresh()
+        viewModel.watchIssue( sBlock: { [weak self] in
+            guard let weakSelf = self else { return }
+            ToastView.hide(fBlock: {
+                weakSelf.refresh()
+            })
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            ToastView.errHide(fBlock: {
+                weakSelf.alert(title: "Error", message: errString)
+            })
+        }
+    }
+    
+    func removeFromWatchList() {
+        ToastView.show("Processing...")
+        viewModel.removeFromWatchList(sBlock: { [weak self] in
+            guard let weakSelf = self else { return }
+            ToastView.hide(fBlock: {
+                weakSelf.refresh()
+            })
+        }) { [weak self] (errString) in
+            guard let weakSelf = self else { return }
+            ToastView.errHide(fBlock: {
+                weakSelf.alert(title: "Error", message: errString)
             })
         }
     }

@@ -3,6 +3,8 @@ let ISSUES_PER_PAGE = 20
 
 class IssuesListVC: UITableViewController, OrderByDelegate {
     
+    var viewModel = IssuesListViewModel()
+    
     var categoryTitle: String?
     var jql: String?
     var orderBy: String?
@@ -24,7 +26,7 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
     
     override func rightBarButtonPressed() {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "OrderByVC") as! OrderByVC
-        vc._delegate = self
+        vc.viewModel._delegate = self
         let nc = UINavigationController(rootViewController: vc)
         present(nc, animated: true, completion: nil)
     }
@@ -50,7 +52,7 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
                 
         print("JQL string = \(jqlString)")
         
-        kMainModel.getIssues(jql: jqlString, startAt: issues.count, count: ISSUES_PER_PAGE, fBlock: { [weak self] (array) in
+        viewModel.getIssues(jql: jqlString, startAt: issues.count, count: ISSUES_PER_PAGE, fBlock: { [weak self] (array) in
             guard let weakSelf = self else { return }
             weakSelf.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
             weakSelf.issues += array as! [Issue]
@@ -77,7 +79,9 @@ class IssuesListVC: UITableViewController, OrderByDelegate {
     
     //MARK: OrderBy delegate
     
-    func selectedField(field: Field) {
+    func selectedField(_ field: Field?) {
+        
+        guard let field = field else { return }
         print("selected field = \(field.name ?? "")")
         orderBy = field.key
         
@@ -163,4 +167,36 @@ class IssueCell: UITableViewCell {
     }
 }
 
+class IssuesListViewModel: BaseViewModel {
+    
+    func getIssues(jql: String, startAt: Int, count: Int, fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
+        
+        let params = ["jql" : jql, "startAt" : String(startAt), "maxResults" : String(count)]
+        let path = baseURL + "/rest/api/2/search"
+        
+        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+            print(responseObj as Any)
+            
+            let dict = responseObj as! [String : Any]
+            if let array: [Any] = dict["issues"] as? [Any] {
+                
+                var objects: [Issue] = []
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj: Issue = Issue(JSON: dict)!
+                    objects.append(obj)
+                }
+                fBlock(objects)
+            } else {
+                fBlock([])
+            }
+            
+        }, errorBlock: { (error) in
+            if let err = error {
+                print(err)
+                eBlock(err)
+            }
+        })
+    }
+}
 

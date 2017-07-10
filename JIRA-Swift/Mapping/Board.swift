@@ -33,7 +33,7 @@ class BoardColumn: Mappable {
     
     func mapping(map: Map) {
         name        <- map["name"]
-        statuses    <- map["statuses.id"]
+        statuses    <- map["statuses"]
     }
 }
 

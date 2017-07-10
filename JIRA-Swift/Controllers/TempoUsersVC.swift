@@ -10,8 +10,7 @@ import UIKit
 
 class TempoUsersVC: UITableViewController {
 
-    var team: TempoTeam?
-    var users: [TempoUser] = []
+    var viewModel = TempoUsersViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +21,8 @@ class TempoUsersVC: UITableViewController {
     }
     
     func getUsers() {
-        
-        guard let teamId = team?.teamId else { return }
-        kMainModel.getTempoUsers(teamId: teamId, fBlock: { [weak self] (array) in
+        viewModel.getTempoUsers(sBlock: { [weak self] (array) in
             guard let weakSelf = self else { return }
-            weakSelf.users += array as! [TempoUser]
             weakSelf.tableView.reloadData()
             weakSelf.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
@@ -38,33 +34,17 @@ class TempoUsersVC: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return viewModel.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TempoUsersCell", for: indexPath) as! TempoUsersCell
-
-        if indexPath.row < users.count {
-            let user = users[indexPath.row]
-            cell.user = user
-            cell.customInit()
-        }
-        return cell
+        return viewModel.cell(tableView: tableView,indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        if indexPath.row < users.count {
-            let user = users[indexPath.row]
-            performSegue(withIdentifier: "segueUsersToWorklog", sender: user)
-        }
+        performSegue(withIdentifier: "segueUsersToWorklog", sender: viewModel.tempoUsers[indexPath.row])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

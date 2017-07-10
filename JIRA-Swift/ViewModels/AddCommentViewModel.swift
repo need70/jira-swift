@@ -15,7 +15,7 @@ class AddCommentViewModel: BaseViewModel {
         self.issue = issue
     }
     
-    func getTitle() -> String {
+    var title: String {
         if let issueKey = issue?.key {
              return issueKey + ": Add Comment"
         }

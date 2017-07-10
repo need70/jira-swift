@@ -10,11 +10,14 @@ import Foundation
 
 class SVGImageView: UIWebView {
     
-    public func loadUrl(_ urlString: String) {
+    public func loadUrl(_ urlString: String?) {
         self.backgroundColor = .clear
         self.isOpaque = false
         self.scrollView.isScrollEnabled = false
-        let url = URL(string: urlString)
+        
+        guard let path = urlString else { return }
+        
+        let url = URL(string: path)
         let request = URLRequest(url: url!)
         self.loadRequest(request)
     }

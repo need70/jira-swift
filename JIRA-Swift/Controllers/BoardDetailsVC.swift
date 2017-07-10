@@ -23,8 +23,14 @@ class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         collection.roundCorners(radius: 5)
         collection.addBorder(color: RGBColor(241, 241, 241), width: 1)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNtf(ntf:)), name: NSNotification.Name(rawValue: "BoardIssueTapped"), object: nil)
+        
         AKActivityView.add(to: view)
         getData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func getData() {
@@ -37,6 +43,11 @@ class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             AKActivityView.remove(animated: true)
             weakSelf.alert(title: "Error", message: errString)
         }
+    }
+    
+    func handleNtf(ntf: Notification) {
+        let issue = ntf.object as! Issue
+        Presenter.pushIssueDetails(from: navigationController, issueKey: issue.key)
     }
     
     func setupUI() {
@@ -64,7 +75,6 @@ class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
         currentColumn = Int(collection.contentOffset.x / collection.width)
         pageControl.currentPage = currentColumn
         setupUI()

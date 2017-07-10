@@ -29,7 +29,6 @@ class BoardDetailsViewModel: BaseViewModel {
     }
     
     func columnName(index: Int) -> String {
-        
         if let col = columns[index], let name = col.name {
             return name
         }
@@ -61,9 +60,9 @@ class BoardDetailsViewModel: BaseViewModel {
                     let dict = array[index] as! [String: Any]
                     let obj = BoardColumn(JSON: dict)!
                     
-                    //                    if obj.statuses.count > 0 {
-                    objects.append(obj)
-                    //                    }
+                    if obj.statuses.count > 0 {
+                        objects.append(obj)
+                    }
                 }
                 self.columns = objects
                 self.getBoardIssues(fBlock: fBlock, eBlock: eBlock)
@@ -122,7 +121,4 @@ class BoardDetailsViewModel: BaseViewModel {
         return cell
     }
     
-    //    func numberOfRows(tableView: UITableView, section: Int) -> Int {
-    //        return attachments.count
-    //    }
 }
