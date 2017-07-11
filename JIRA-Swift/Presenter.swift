@@ -19,9 +19,9 @@ class Presenter {
         from?.present(vc, animated: true, completion: nil)
     }
     
-    class func pushIssues(from: UINavigationController?, jql: String?) {
+    class func pushIssues(from: UINavigationController?, jql: String?, order: String?, title: String?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "IssuesListVC") as! IssuesListVC
-        vc.jql = jql
+        vc.viewModel = IssuesListViewModel(jql: jql, orderBy: order, categoryTitle: title)
         from?.pushViewController(vc, animated: true)
     }
     

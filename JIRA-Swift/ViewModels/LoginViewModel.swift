@@ -19,20 +19,14 @@ class BaseViewModel {
 }
 
 class LoginViewModel: BaseViewModel {
-    
-    override init() {
-        super.init()
-    }
-    
-    func logIn(userName: String, password: String, fBlock: @escaping dictBlock, eBlock: @escaping stringBlock) {
+        
+    func logIn(userName: String, password: String, sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let params = ["username" : userName, "password" : password]
         let path = baseURL + "/rest/auth/latest/session"
         
         Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
-            print(responseObj!)
-            let dict = responseObj as! [String : Any]
-            fBlock(dict)
+            self.getCurrentUser(sBlock: sBlock, eBlock: eBlock)
         }, errorBlock: { (error) in
             if let err = error {
                 print(err)
@@ -41,7 +35,7 @@ class LoginViewModel: BaseViewModel {
         })
     }
     
-    func getCurrentUser(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getCurrentUser(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let path = baseURL + "/rest/auth/latest/session"
         
@@ -52,30 +46,10 @@ class LoginViewModel: BaseViewModel {
             let dict = responseObj as! [String : Any]
             
             if let username = dict["name"] as? String {
-                
                 UserDefaults.standard.set(username, forKey: "Username")
                 UserDefaults.standard.synchronize()
             }
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
-        })
-    }
-    
-    func getUser(name: String, fBlock: @escaping anyBlock, eBlock: @escaping stringBlock) {
-        
-        let path = baseURL + "/rest/api/2/user?username=\(name)"
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
-            
-            print(responseObj as! [String : Any])
-            let dict = responseObj as! [String : Any]
-            let user = User(JSON: dict)
-            fBlock(user)
-            
+            sBlock()
         }, errorBlock: { (error) in
             if let err = error {
                 print(err)
@@ -123,11 +97,11 @@ class LoginViewModel: BaseViewModel {
         
         let login = getSavedLogin()
         let pass = getSavedPassword()
-        
-        if login.characters.count > 0 && pass.characters.count > 0 {
-            return true
+                
+        guard login.characters.count > 0 && pass.characters.count > 0 else {
+            return false
         }
-        return false
+        return true
     }
     
 }

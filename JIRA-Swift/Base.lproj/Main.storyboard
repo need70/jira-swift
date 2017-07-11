@@ -196,8 +196,8 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="107.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kt3-RU-8mF">
-                                                                        <rect key="frame" x="30" y="34" width="293" height="46"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kt3-RU-8mF">
+                                                                        <rect key="frame" x="30" y="30" width="293" height="47.5"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -206,6 +206,8 @@
                                                                 <constraints>
                                                                     <constraint firstAttribute="trailing" secondItem="Kt3-RU-8mF" secondAttribute="trailing" constant="30" id="K0q-oo-v6C"/>
                                                                     <constraint firstItem="Kt3-RU-8mF" firstAttribute="leading" secondItem="U4k-DD-iOQ" secondAttribute="leading" constant="30" id="Pys-wt-iFD"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="Kt3-RU-8mF" secondAttribute="bottom" constant="30" id="qAC-qc-fYg"/>
+                                                                    <constraint firstItem="Kt3-RU-8mF" firstAttribute="top" secondItem="U4k-DD-iOQ" secondAttribute="top" constant="30" id="umH-tC-rq9"/>
                                                                 </constraints>
                                                             </tableViewCellContentView>
                                                         </tableViewCell>

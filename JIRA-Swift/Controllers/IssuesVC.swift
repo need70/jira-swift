@@ -32,10 +32,6 @@ class IssuesVC: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return defaultFilterKeys.count
     }
@@ -51,18 +47,8 @@ class IssuesVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "segueIssuesToList", sender: indexPath.row)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueIssuesToList" {
-            let index = sender as! Int
-            let vc = segue.destination as! IssuesListVC
-            vc.categoryTitle = defaultFilterKeys[index]
-            vc.jql = defaultFilterValues[index]
-            if defaultFilterKeys[index] == "Recent" {
-                vc.orderBy = "lastViewed DESC"
-            }
-        }
+        let index = indexPath.row
+        let orderBy = defaultFilterKeys[index] == "Recent" ? "lastViewed DESC" : nil
+        Presenter.pushIssues(from: navigationController, jql: defaultFilterValues[index], order: orderBy, title: defaultFilterKeys[index])
     }
 }

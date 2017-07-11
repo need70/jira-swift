@@ -8,10 +8,31 @@
 
 class ProjectsViewModel: BaseViewModel {
     
-    var projects: [Project] = []
+    fileprivate var projects: [Project] = []
     
-    override init() {
-        super.init()
+    var count: Int {
+        return projects.count
+    }
+    
+    func remove() {
+        projects.removeAll()
+    }
+    
+    func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
+        
+        if indexPath.row < projects.count {
+            let item = projects[indexPath.row] as Project
+            cell.setup(project: item)
+        }
+        return cell
+    }
+    
+    func item(for index: Int) -> Project? {
+        guard index < count else {
+            return nil
+        }
+        return projects[index]
     }
     
     func getProjects(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {

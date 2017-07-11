@@ -38,6 +38,11 @@
 		8922F86C1F139DC200B37A4C /* BoardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F86B1F139DC200B37A4C /* BoardsViewModel.swift */; };
 		8922F86E1F13A96B00B37A4C /* OrderByViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F86D1F13A96B00B37A4C /* OrderByViewModel.swift */; };
 		8922F8701F13BB5500B37A4C /* LogWorkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F86F1F13BB5500B37A4C /* LogWorkViewModel.swift */; };
+		8922F8721F14AE7200B37A4C /* IssuesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8711F14AE7200B37A4C /* IssuesListViewModel.swift */; };
+		8922F8741F14B18100B37A4C /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8731F14B18100B37A4C /* ProjectCell.swift */; };
+		8922F8761F14B7C100B37A4C /* IssueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8751F14B7C100B37A4C /* IssueCell.swift */; };
+		8922F8781F14C01700B37A4C /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8771F14C01700B37A4C /* CommentCell.swift */; };
+		8922F87A1F14C40800B37A4C /* AttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8791F14C40800B37A4C /* AttachmentCell.swift */; };
 		8960017D1F02A73500F6255A /* AttachmentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */; };
 		8960017F1F04D96000F6255A /* WorklogEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017E1F04D96000F6255A /* WorklogEditVC.swift */; };
 		896001861F051A3B00F6255A /* BoardDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896001851F051A3B00F6255A /* BoardDetailsVC.swift */; };
@@ -112,6 +117,11 @@
 		8922F86B1F139DC200B37A4C /* BoardsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardsViewModel.swift; sourceTree = "<group>"; };
 		8922F86D1F13A96B00B37A4C /* OrderByViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderByViewModel.swift; sourceTree = "<group>"; };
 		8922F86F1F13BB5500B37A4C /* LogWorkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogWorkViewModel.swift; sourceTree = "<group>"; };
+		8922F8711F14AE7200B37A4C /* IssuesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssuesListViewModel.swift; sourceTree = "<group>"; };
+		8922F8731F14B18100B37A4C /* ProjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
+		8922F8751F14B7C100B37A4C /* IssueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueCell.swift; sourceTree = "<group>"; };
+		8922F8771F14C01700B37A4C /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		8922F8791F14C40800B37A4C /* AttachmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentCell.swift; sourceTree = "<group>"; };
 		8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewModel.swift; sourceTree = "<group>"; };
 		8960017E1F04D96000F6255A /* WorklogEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorklogEditVC.swift; sourceTree = "<group>"; };
 		896001851F051A3B00F6255A /* BoardDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDetailsVC.swift; sourceTree = "<group>"; };
@@ -186,6 +196,10 @@
 			children = (
 				890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */,
 				890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */,
+				8922F8731F14B18100B37A4C /* ProjectCell.swift */,
+				8922F8751F14B7C100B37A4C /* IssueCell.swift */,
+				8922F8771F14C01700B37A4C /* CommentCell.swift */,
+				8922F8791F14C40800B37A4C /* AttachmentCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -290,6 +304,7 @@
 		8919000B1F00E5E800671DE2 /* Issues */ = {
 			isa = PBXGroup;
 			children = (
+				8922F8711F14AE7200B37A4C /* IssuesListViewModel.swift */,
 				890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */,
 				89F79CC81EFC345800F0AAC8 /* CommentsViewModel.swift */,
 				8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */,
@@ -434,10 +449,10 @@
 		89F79C8E1EF844FA00F0AAC8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				896001831F0519CB00F6255A /* Projects */,
 				896001821F0519C200F6255A /* Login */,
-				896001811F04D9AB00F6255A /* Settings */,
 				8919000B1F00E5E800671DE2 /* Issues */,
+				896001831F0519CB00F6255A /* Projects */,
+				896001811F04D9AB00F6255A /* Settings */,
 				896001801F04D99F00F6255A /* Tempo */,
 				890D5D841F0CCBA800BCFE59 /* Boards */,
 			);
@@ -604,6 +619,7 @@
 				89F79C751EF418A200F0AAC8 /* ProjectsVC.swift in Sources */,
 				8919000F1F00E9B400671DE2 /* Worklog.swift in Sources */,
 				8922F8641F1364CD00B37A4C /* CreateIssueVC.swift in Sources */,
+				8922F8761F14B7C100B37A4C /* IssueCell.swift in Sources */,
 				89F79C8D1EF8209500F0AAC8 /* SVGImageView.swift in Sources */,
 				89F79C901EF8484B00F0AAC8 /* LoginViewModel.swift in Sources */,
 				89F79CC91EFC345800F0AAC8 /* CommentsViewModel.swift in Sources */,
@@ -639,6 +655,7 @@
 				891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */,
 				89F79C741EF418A200F0AAC8 /* LogWorkVC.swift in Sources */,
 				89F79C8B1EF8165D00F0AAC8 /* Presenter.swift in Sources */,
+				8922F8781F14C01700B37A4C /* CommentCell.swift in Sources */,
 				8922F8681F13811300B37A4C /* TempoTeamsViewModel.swift in Sources */,
 				8922F8701F13BB5500B37A4C /* LogWorkViewModel.swift in Sources */,
 				89F79CC11EFBC34500F0AAC8 /* OrderByVC.swift in Sources */,
@@ -647,12 +664,15 @@
 				89F79C941EF91DA000F0AAC8 /* BoardsVC.swift in Sources */,
 				891A965E1E531FAD00B85B39 /* AppDelegate.swift in Sources */,
 				89F79CBF1EFBAFFF00F0AAC8 /* ProjectsViewModel.swift in Sources */,
+				8922F8721F14AE7200B37A4C /* IssuesListViewModel.swift in Sources */,
 				891900061EFD4F3900671DE2 /* AddCommentViewModel.swift in Sources */,
 				89F79C761EF418A200F0AAC8 /* SettingsVC.swift in Sources */,
 				8922F86C1F139DC200B37A4C /* BoardsViewModel.swift in Sources */,
 				896001861F051A3B00F6255A /* BoardDetailsVC.swift in Sources */,
 				89F79C6C1EF418A200F0AAC8 /* AddCommentVC.swift in Sources */,
+				8922F87A1F14C40800B37A4C /* AttachmentCell.swift in Sources */,
 				89F79C6E1EF418A200F0AAC8 /* CommentsVC.swift in Sources */,
+				8922F8741F14B18100B37A4C /* ProjectCell.swift in Sources */,
 				89F79C961EF91E8600F0AAC8 /* Board.swift in Sources */,
 				8919000D1F00E61300671DE2 /* WorklogsViewModel.swift in Sources */,
 				89F79CBB1EFA8F4900F0AAC8 /* IssuesVC.swift in Sources */,

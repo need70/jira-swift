@@ -35,56 +35,26 @@ class ProjectsVC: UITableViewController {
     }
     
     func refresh() {
-        viewModel.projects.removeAll()
+        viewModel.remove()
         getProjects()
     }
 
     //MARK: TableView
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.projects.count
+        return viewModel.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProjectCell", for: indexPath) as! ProjectCell
-        
-        if indexPath.row < viewModel.projects.count {
-            let item = viewModel.projects[indexPath.row] as Project
-            cell.project = item
-        }
-        return cell
+        return viewModel.cell(tableView, indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row < viewModel.projects.count {
-            let item = viewModel.projects[indexPath.row] as Project
-            
+        if let item = viewModel.item(for: indexPath.row) {
             let jqlString = String(format: "project = '%@'", item.key!)
-            let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "IssuesListVC") as! IssuesListVC
-            vc.jql = jqlString
-            vc.categoryTitle = item.key
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-//MARK: - ProjectCell
-
-class ProjectCell: UITableViewCell {
-    
-    @IBOutlet weak var lbTitle: UILabel!
-    @IBOutlet weak var iconImage: ImageViewCache!
-    
-    var project: Project?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if let project = project {
-            lbTitle.text = project.name
-            iconImage.loadImage(url: project.iconUrl!, placeHolder: UIImage(named: "tab_project"))
+            Presenter.pushIssues(from: navigationController, jql: jqlString, order: nil, title: item.key)
         }
     }
 }

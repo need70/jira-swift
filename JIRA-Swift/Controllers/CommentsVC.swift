@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommentsVC: UITableViewController, AddCommentDelegate {
+class CommentsVC: UITableViewController {
 
     var viewModel = CommentsViewModel()
 
@@ -37,7 +37,7 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
     }
     
     func refresh() {
-        viewModel.comments.removeAll()
+        viewModel.remove()
         getComments()
     }
     
@@ -45,43 +45,20 @@ class CommentsVC: UITableViewController, AddCommentDelegate {
         Presenter.presentAddComment(from: self, issue: viewModel.issue)
     }
     
-    // MARK: Add comment delegate
+    // MARK: Table view data source
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRows(tableView, section)
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return viewModel.cell(tableView, indexPath)
+    }
+}
+
+extension CommentsVC: AddCommentDelegate {
     
     func commentAdded() {
         refresh()
     }
-
-    // MARK: Table view data source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(tableView: tableView, section: section)
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.cell(tableView: tableView, indexPath: indexPath)
-    }
-}
-
-//MARK: - CommentsCell
-
-class CommentsCell: UITableViewCell {
-    
-    var comment: Comment?
-    
-    @IBOutlet weak var lbAuthor: UILabel!
-    @IBOutlet weak var tvBody: UITextView!
-    @IBOutlet weak var lbDate: UILabel!
-    @IBOutlet weak var avatarImage: ImageViewCache!
-    
-    func customInit() {
-        if let comment = comment {
-            lbAuthor.text = comment.author?.displayName
-            lbDate.text = comment.formattedCreated()
-            tvBody.text = comment.body
-            
-            avatarImage.loadImage(url: comment.author?.avatarUrl, placeHolder: UIImage(named: "ic_no_avatar"))
-            avatarImage.roundCorners()
-        }
-    }
-
 }

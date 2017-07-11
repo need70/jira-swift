@@ -5,7 +5,7 @@
 
 import UIKit
 
-let kRequestTimeOut = 10.0
+let kRequestTimeOut = 15.0
 
 enum RequestMethod: String {
     case get = "GET"

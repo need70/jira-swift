@@ -9,13 +9,17 @@
 class CommentsViewModel: BaseViewModel {
     
     var issue: Issue?
-    var comments:[Comment] = []
+    fileprivate var comments:[Comment] = []
     
     var title: String {
         if let key = issue?.key {
             return "\(key): Comments"
         }
         return "Comments"
+    }
+    
+    func remove() {
+        comments.removeAll()
     }
 
     convenience init(issue: Issue?) {
@@ -58,23 +62,22 @@ class CommentsViewModel: BaseViewModel {
         })
     }
     
-    func cell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         if comments.count == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoDataCell")!
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
         
         if indexPath.row < comments.count {
-            cell.comment = comments[indexPath.row]
             cell.backgroundColor = (indexPath.row % 2 == 0) ? .white : RGBColor(250, 250, 250)
-            cell.customInit()
+            cell.setup(for: comments[indexPath.row])
         }
         return cell
     }
     
-    func numberOfRows(tableView: UITableView, section: Int) -> Int {
+    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
         if comments.count == 0 {
             return 1
         }

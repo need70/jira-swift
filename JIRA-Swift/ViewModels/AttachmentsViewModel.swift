@@ -8,14 +8,18 @@
 
 class AttachmentsViewModel: BaseViewModel {
     
-    var issue: Issue?
-    var attachments:[Attachment] = []
+    fileprivate var issue: Issue?
+    fileprivate var attachments:[Attachment] = []
     
     var title: String {
         if let key = issue?.key {
             return "\(key): Attachments"
         }
         return "Attachments"
+    }
+    
+    var count: Int {
+        return attachments.count
     }
     
     convenience init(issue: Issue?) {
@@ -26,22 +30,28 @@ class AttachmentsViewModel: BaseViewModel {
         }
     }
     
-    func sizeForItem(collection: UICollectionView, indexPath: IndexPath) -> CGSize {
+    func item(for index: Int) -> Attachment? {
+        guard index < count else {
+            return nil
+        }
+        return attachments[index]
+    }
+    
+    func sizeForItem(_ collection: UICollectionView, _ indexPath: IndexPath) -> CGSize {
         let width = CGFloat(collection.width / 2 - 0.5)
         return CGSize(width: width, height: 220)
     }
     
-    func cell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    func cell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AttachmentCell", for: indexPath) as! AttachmentCell
         
         if indexPath.row < attachments.count {
-            let item = attachments[indexPath.row]
-            cell.attachment = item
+            cell.setup(for: attachments[indexPath.row])
         }
         return cell
     }
     
-    func numberOfRows(tableView: UITableView, section: Int) -> Int {
+    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
         if attachments.count == 0 {
             return 1
         }

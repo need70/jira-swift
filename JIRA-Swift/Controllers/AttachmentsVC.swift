@@ -20,36 +20,35 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     // MARK: Collection view data source
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.attachments.count
+        return viewModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,  sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return viewModel.sizeForItem(collection: collectionView, indexPath: indexPath)
+        return viewModel.sizeForItem(collectionView, indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-                return viewModel.cell(collectionView:collectionView, indexPath:indexPath)
+                return viewModel.cell(collectionView, indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        if indexPath.row < viewModel.attachments.count {
-            let item = viewModel.attachments[indexPath.row]
-            attachmentActions(attachment: item)
-        }
+        attachmentActions(attachment: viewModel.item(for: indexPath.row))
     }
     
-    func attachmentActions(attachment: Attachment) {
+    func attachmentActions(attachment: Attachment?) {
+        
+        guard let item = attachment else { return }
         let actions = ["Open link", "Save"]
         actionSheet(items: actions, title: "Choose action") { [weak self] (index) in
             
             guard let weakSelf = self else { return }
             switch index {
             case 0:
-                weakSelf.openLink(attachment: attachment)
+                weakSelf.openLink(attachment: item)
                 break
             case 1:
-                weakSelf.saveAttach(attachment: attachment)
+                weakSelf.saveAttach(attachment: item)
                 break
             default: break
             }
@@ -67,25 +66,3 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
 }
 
-// MARK: - AttachmentCell
-
-class AttachmentCell: UICollectionViewCell {
-    
-    @IBOutlet weak var lbFilename: UILabel!
-    @IBOutlet weak var lbDate: UILabel!
-    @IBOutlet weak var attachIcon: ImageViewCache!
-    @IBOutlet weak var lbSize: UILabel!
-    
-    var attachment: Attachment?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if let attachment = attachment {
-            lbFilename.text = attachment.fileName
-            lbDate.text = attachment.formattedDate()
-            lbSize.text = attachment.prettySizeString()
-            attachIcon.loadImage(url: attachment.thumbnail, placeHolder: UIImage(named: "ic_attach"))
-        }
-    }
-}
