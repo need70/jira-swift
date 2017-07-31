@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class LogWorkViewModel: BaseViewModel {
+class LogWorkViewModel: ViewModel {
     
     fileprivate var issue: Issue?
     

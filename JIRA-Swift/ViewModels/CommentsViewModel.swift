@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class CommentsViewModel: BaseViewModel {
+class CommentsViewModel: ViewModel {
     
     var issue: Issue?
     fileprivate var comments:[Comment] = []

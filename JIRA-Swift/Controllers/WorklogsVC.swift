@@ -51,27 +51,23 @@ class WorklogsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     func getWorklogs() {
         viewModel.getWorklogs(from: tfFrom.text!, to: tfTo.text!, fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
+            self?.tableView.reloadData()
             AKActivityView.remove(animated: true)
             
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
     
     func deleteWorklog(index: Int) {
         ToastView.show("Deleting...")
         viewModel.deleteWorklog(index: index, fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
             ToastView.hide()
-            weakSelf.validate()
+            self?.validate()
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
-            ToastView.errHide(fBlock: { 
-                weakSelf.alert(title: "Error", message: errString)
+            ToastView.errHide(fBlock: {
+                self?.alert(title: "Error", message: errString)
             })
         }
     }
@@ -87,9 +83,8 @@ class WorklogsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func deleteAction(for index: Int) {
         actionSheet(items: ["Sure"], title: "Do You want to delete this worklog?") { [weak self] (index) in
-            guard let weakSelf = self else { return }
             if index == 0 {
-                weakSelf.deleteWorklog(index: index)
+                self?.deleteWorklog(index: index)
             }
         }
     }

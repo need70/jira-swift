@@ -25,14 +25,12 @@ class CommentsVC: UITableViewController {
     func getComments() {
         viewModel.getComments(fBlock: { [weak self] in
             
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
-            weakSelf.refreshControl?.endRefreshing()
-            weakSelf.tableView.separatorStyle = .none
+            self?.tableView.reloadData()
+            self?.refreshControl?.endRefreshing()
+            self?.tableView.separatorStyle = .none
 
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
     

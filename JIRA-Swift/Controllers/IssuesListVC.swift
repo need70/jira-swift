@@ -15,10 +15,7 @@ class IssuesListVC: UITableViewController {
     }
     
     override func rightBarButtonPressed() {
-        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "OrderByVC") as! OrderByVC
-        vc.viewModel._delegate = self
-        let nc = UINavigationController(rootViewController: vc)
-        present(nc, animated: true, completion: nil)
+        Presenter.presentOrderBy(from: self)
     }
     
     func refresh() {
@@ -29,16 +26,15 @@ class IssuesListVC: UITableViewController {
     func getIssues() {
         
         viewModel.getIssues(fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
-            weakSelf.tableView.separatorStyle = .singleLine
+            self?.tableView.reloadData()
+            self?.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
-            weakSelf.refreshControl?.endRefreshing()
+            self?.refreshControl?.endRefreshing()
             
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.refreshControl?.endRefreshing()
+            self?.alert(title: "Error", message: errString)
         }
     }
     

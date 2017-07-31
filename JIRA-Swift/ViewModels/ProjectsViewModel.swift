@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class ProjectsViewModel: BaseViewModel {
+class ProjectsViewModel: ViewModel {
     
     fileprivate var projects: [Project] = []
     

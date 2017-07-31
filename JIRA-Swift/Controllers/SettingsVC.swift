@@ -31,14 +31,13 @@ class SettingsVC: UITableViewController {
         }
         
         let name = username as! String
-        viewModel.getUser(name: name, fBlock: {
-            self.setupUI()
+        viewModel.getUser(name: name, fBlock: { [weak self] in
+            self?.setupUI()
             AKActivityView.remove(animated: true)
             
             }, eBlock: { [weak self] (errString) in
-                guard let weakSelf = self else { return }
                 AKActivityView.remove(animated: true)
-                weakSelf.alert(title: "Error", message: errString)
+                self?.alert(title: "Error", message: errString)
         })
     }
     
@@ -53,9 +52,8 @@ class SettingsVC: UITableViewController {
     
     override func rightBarButtonPressed() {
         actionSheet(items: ["Sure"], title: "Do You want to Log Out?") { [weak self] (index) in
-            guard let weakSelf = self else { return }
             if index == 0 {
-                weakSelf.logOutAction()
+                self?.logOutAction()
             }
         }
     }
@@ -68,16 +66,15 @@ class SettingsVC: UITableViewController {
 
         ToastView.show("Logging Out...")
         
-        viewModel.logOut(userName: login, password: pass, fBlock: { 
+        viewModel.logOut(userName: login, password: pass, fBlock: { [weak self] in
             ToastView.hide(fBlock: {
                 KeychainItemWrapper.resetKeychainItemAction() //remove saved login and pass
-                self.dismiss(animated: true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             })
 
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
-            ToastView.errHide(fBlock: { 
-                weakSelf.alert(title: "Error", message: errString)
+            ToastView.errHide(fBlock: {
+                self?.alert(title: "Error", message: errString)
             })
         }
     }

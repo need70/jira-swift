@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class SettingsViewModel: BaseViewModel {
+class SettingsViewModel: ViewModel {
     
     var currentUser: User?
     

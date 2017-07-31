@@ -8,7 +8,7 @@
 
 let ISSUES_PER_PAGE = 20
 
-class IssuesListViewModel: BaseViewModel {
+class IssuesListViewModel: ViewModel {
     
     fileprivate var issues: [Issue] = []
     fileprivate var pagingEnabled = false
@@ -99,17 +99,16 @@ class IssuesListViewModel: BaseViewModel {
         
         jqlString += getOrderBy()
         
-        
-        let params = ["jql" : jql, "startAt" : String(count), "maxResults" : String(ISSUES_PER_PAGE)]
+        let params = ["jql" : jqlString, "startAt" : String(count), "maxResults" : String(ISSUES_PER_PAGE)]
         let path = baseURL + "/rest/api/2/search"
         
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: path, params: params, successBlock: { [weak self] (responseObj) in
             print(responseObj as Any)
             
             let dict = responseObj as! [String : Any]
             if let array: [Any] = dict["issues"] as? [Any] {
                 
-                self.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
+                self?.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
                 
                 var objects: [Issue] = []
                 
@@ -118,8 +117,8 @@ class IssuesListViewModel: BaseViewModel {
                     let obj: Issue = Issue(JSON: dict)!
                     objects.append(obj)
                 }
-                self.issues += objects
-                self.isLoading = false
+                self?.issues += objects
+                self?.isLoading = false
                 fBlock()
             }
             

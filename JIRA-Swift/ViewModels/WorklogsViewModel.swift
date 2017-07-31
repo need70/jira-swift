@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class WorklogsViewModel: BaseViewModel {
+class WorklogsViewModel: ViewModel {
     
     var tempoUser: TempoUser?
     var worklogs: [Worklog] = []

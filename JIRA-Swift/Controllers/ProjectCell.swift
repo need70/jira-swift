@@ -15,5 +15,6 @@ class ProjectCell: UITableViewCell {
         guard let item = project else { return }
         lbTitle.text = item.name
         iconImage.loadImage(url: item.iconUrl!, placeHolder: UIImage(named: "tab_project"))
+        iconImage.roundCorners()
     }
 }

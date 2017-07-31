@@ -43,6 +43,16 @@ extension UIViewController {
         present(ac, animated: true, completion: nil)
     }
     
+    func alert(title: String?, message: String?, block: @escaping () -> ()) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            ac.dismiss(animated: true, completion: nil)
+            block()
+        })
+        ac.addAction(action)
+        present(ac, animated: true, completion: nil)
+    }
+    
     func actionSheet(items: [String], title: String, block: @escaping (_ index: Int) -> ()) {
         
         let ac = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)

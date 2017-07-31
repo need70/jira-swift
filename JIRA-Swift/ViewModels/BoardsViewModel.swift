@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class BoardsViewModel: BaseViewModel {
+class BoardsViewModel: ViewModel {
     
     fileprivate var boards: [Board] = []
     
@@ -54,6 +54,7 @@ class BoardsViewModel: BaseViewModel {
         if indexPath.row < boards.count {
             let item = boards[indexPath.row]
             cell.textLabel?.text = item.name
+            cell.detailTextLabel?.text = item.type
         }
         return cell
     }

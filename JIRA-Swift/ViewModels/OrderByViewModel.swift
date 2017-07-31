@@ -10,7 +10,7 @@ protocol OrderByDelegate {
     func selectedField(_ field: Field?)
 }
 
-class OrderByViewModel: BaseViewModel {
+class OrderByViewModel: ViewModel {
     
     fileprivate var fields: [Field] = []
     fileprivate var filteredFields: [Field] = []

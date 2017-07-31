@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BaseViewModel {
+class ViewModel {
     
     var baseURL: String {
         guard let url = UserDefaults.standard.value(forKey: "JiraUrl") else {
@@ -18,7 +18,7 @@ class BaseViewModel {
     }
 }
 
-class LoginViewModel: BaseViewModel {
+class LoginViewModel: ViewModel {
         
     func logIn(userName: String, password: String, sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         

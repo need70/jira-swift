@@ -27,15 +27,13 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
     
     func getOrderBy() {
         viewModel.getOrderBy(fBlock: { [weak self] (items) in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.separatorStyle = .singleLine
-            weakSelf.tableView.reloadData()
+            self?.tableView.separatorStyle = .singleLine
+            self?.tableView.reloadData()
             AKActivityView.remove(animated: true)
             
         }) {[weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
     

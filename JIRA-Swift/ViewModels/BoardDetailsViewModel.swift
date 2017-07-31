@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class BoardDetailsViewModel: BaseViewModel {
+class BoardDetailsViewModel: ViewModel {
     
     var board: Board?
     fileprivate var columns: [BoardColumn?] = []
@@ -31,6 +31,13 @@ class BoardDetailsViewModel: BaseViewModel {
     func columnName(index: Int) -> String {
         if let col = columns[index], let name = col.name {
             return name
+        }
+        return ""
+    }
+    
+    func nameAndCount(index: Int) -> String {
+        if let col = columns[index], let name = col.name {
+            return String(format: "%@ (%zd)", name, issuesForColumn(name: name).count)
         }
         return ""
     }

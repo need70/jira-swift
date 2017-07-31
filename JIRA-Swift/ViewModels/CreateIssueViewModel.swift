@@ -1,90 +1,143 @@
 
-class CreateIssueViewModel: BaseViewModel {
+class CreateIssueViewModel: ViewModel {
     
-    var issueKey: String?
-    var issue: Issue?
+    var projects: [Project] = []
     
-    convenience init(issueKey: String?) {
-        self.init()
-        self.issueKey = issueKey
+    var project: Project?
+    var issueType: IssueType?
+    var summary: String = ""
+    var description: String?
+    var priority: IssuePriority?
+    var epicName: String?
+    
+    var isEpic: Bool {
+        guard issueType?.name == "Epic" else {
+            return false
+        }
+        return true
     }
     
-    func getCreateMeta(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    var projectString: String? {
+        guard let key = project?.key else {
+            return ""
+        }
+        return key
+    }
+    
+    var projectIconUrl: String? {
+        guard let url = project?.iconUrl else {
+            return nil
+        }
+        return url
+    }
+    
+    var issuetypeString: String? {
+        guard let name = issueType?.name else {
+            return ""
+        }
+        return name
+    }
+    
+    var issuetypeIconUrl: String? {
+        guard let url = issueType?.iconUrl else {
+            return nil
+        }
+        return url
+    }
+    
+    var priorityString: String? {
+        guard let name = priority?.name else {
+            return ""
+        }
+        return name
+    }
+    
+    var priorityIconUrl: String? {
+        guard let url = priority?.iconUrl else {
+            return nil
+        }
+        return url
+    }
+    
+    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+        if section == 0 {
+            return isEpic ? 3 : 2
+        }
+        return 3
+    }
+    
+    func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let path = baseURL + "/rest/api/2/issue/createmeta"
         
         Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
             
-            if let dict = responseObj as? [String : Any] {
-                self.issue = Issue(JSON: dict)!
-                fBlock()
-            } else {
-                self.issue = Issue(JSON: [:])!
-                fBlock()
-            }
+            let dict = responseObj as! [String : Any]
             
+            if let array = dict["projects"] as? [Any] {
+                
+                var objects: [Project] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = Project(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.projects = objects
+                sBlock()
+            }
         }, errorBlock: { (error) in
             if let err = error {
                 eBlock(err)
             }
         })
     }
-//
-//    var title: String {
-//        return issueKey ?? "IssueDetails"
-//    }
-//    
-//    var commentsCount: Int {
-//        if let count = issue?.comments?.count {
-//            return count
-//        }
-//        return 0
-//    }
-//    
-//    var isWatchingIssue: Bool {
-//        return (issue?.isWatching)!
-//    }
-//    
-//    var projInfo: String {
-//        if let name = issue?.project?.name, let key = issueKey {
-//            return name + " / " + key
-//        }
-//        return ""
-//    }
-//    
-//    var summary: String {
-//        if let sum = issue?.summary {
-//            return sum
-//        }
-//        return ""
-//    }
-//    
-//    var descriptionText: String {
-//        if let text = issue?.descript {
-//            return text
-//        }
-//        return ""
-//    }
-//    
-//    var assignee: String {
-//        if let text = issue?.assignee?.displayName {
-//            return text
-//        }
-//        return "N/A"
-//    }
-//    
-//    var reporter: String {
-//        if let text = issue?.reporter?.displayName {
-//            return text
-//        }
-//        return "N/A"
-//    }
-//    
-//    var created: String {
-//        return issue?.formattedCreated() ?? "N/A"
-//    }
-//    
-//    var updated: String {
-//        return issue?.formattedUpdated() ?? "N/A"
-//    }
+    
+    func constructBody() -> [String : Any] {
+        
+        var dict = [String : Any]()
+
+        let projectDict = ["id" : project?.projectId]
+        let issueTypeDict = ["id" : self.issueType?.typeId]
+        
+        dict["project"] = projectDict
+        dict["issuetype"] = issueTypeDict
+        dict["summary"] = summary
+        
+        //check for description
+        if let desc = description {
+            dict["description"] = desc
+        }
+        
+        //check for priority
+        if let priorityId = priority?.priorityId {
+            let priorityDict = ["id" : priorityId]
+            dict["priority"] = priorityDict
+        }
+        
+        //check for epic name
+        if isEpic && epicName != nil {
+            dict["customfield_10008"] = epicName
+        }
+        return ["fields" : dict]
+    }
+    
+    func createIssue(sBlock: @escaping stringBlock, eBlock: @escaping stringBlock) {
+        
+        let params = constructBody()
+        let path = baseURL + "/rest/api/2/issue/"
+        
+        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+            let dict = responseObj as! [String : Any]
+            
+            if let key = dict["key"] as? String {
+                print(dict)
+                sBlock(key)
+            }
+        }, errorBlock: { (error) in
+            if let err = error {
+                eBlock(err)
+            }
+        })
+    }
 }

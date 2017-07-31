@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class AttachmentsViewModel: BaseViewModel {
+class AttachmentsViewModel: ViewModel {
     
     fileprivate var issue: Issue?
     fileprivate var attachments:[Attachment] = []

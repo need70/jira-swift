@@ -22,14 +22,12 @@ class TempoTeamsVC: UITableViewController {
     
     func getTeams() {
         viewModel.getTempoTeams(fBlock: { [weak self] (array) in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
-            weakSelf.tableView.separatorStyle = .singleLine
+            self?.tableView.reloadData()
+            self?.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
 

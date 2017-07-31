@@ -42,13 +42,12 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         let actions = ["Open link", "Save"]
         actionSheet(items: actions, title: "Choose action") { [weak self] (index) in
             
-            guard let weakSelf = self else { return }
             switch index {
             case 0:
-                weakSelf.openLink(attachment: item)
+                self?.openLink(attachment: item)
                 break
             case 1:
-                weakSelf.saveAttach(attachment: item)
+                self?.saveAttach(attachment: item)
                 break
             default: break
             }
@@ -62,7 +61,7 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     func saveAttach(attachment: Attachment) {
-
+        //do something for save attachment
     }
 }
 

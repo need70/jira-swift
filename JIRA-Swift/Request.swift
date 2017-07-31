@@ -14,7 +14,7 @@ enum RequestMethod: String {
     case delete = "DELETE"
 }
 
-class Request: NSObject {
+class Request {
     
     fileprivate var session: URLSession {
         let configuration = URLSessionConfiguration.default
@@ -30,7 +30,7 @@ class Request: NSObject {
         switch method {
             case .post, .put:
                 var data: Data?
-                if params is [String : String] {
+                if params is [String : Any] {
                     data = try! JSONSerialization.data(withJSONObject: params as Any, options: JSONSerialization.WritingOptions.prettyPrinted)
                 } else if (params is String) {
                     let string = params as! String
@@ -74,14 +74,23 @@ class Request: NSObject {
         
         let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
         
+        if json == nil { //maybe HTML recieved
+            errorBlock("Wrong JSON recieved!")
+            return
+        }
+        
         if let dict = json as? [String : Any] { // json is a dictionary
-            
-            if let errors = dict["errorMessages"] as? [String] {
-                let errorString = errors.first
-                errorBlock(errorString)
-            } else {
-                successBlock(dict)
+
+            if let errDict = dict["errors"] as? [String : String], let errString = errDict.values.first {
+                errorBlock(errString)
+                return
             }
+            
+            if let errors = dict["errorMessages"] as? [String], let errorString = errors.first {
+                errorBlock(errorString)
+                return
+            }
+            successBlock(dict)
             
         } else if let array = json as? [Any] { // json is an array
             successBlock(array)

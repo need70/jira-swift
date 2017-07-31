@@ -10,7 +10,7 @@ protocol LogWorkDelegate {
     func logWorkUpdated()
 }
 
-class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegate {
+class LogWorkVC: UITableViewController {
 
     var viewModel = LogWorkViewModel()
     var _delegate: LogWorkDelegate?
@@ -80,14 +80,12 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         print("params = \(params)")
         
         viewModel.logWork(params: params, sBlock: { [weak self] (responceDict) in
-            guard let weakSelf = self else { return }
             ToastView.hide(fBlock: {
-                weakSelf.dismiss(animated: true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             })
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
-            ToastView.errHide(fBlock: { 
-                weakSelf.alert(title: "Error", message: errString)
+            ToastView.errHide(fBlock: {
+                self?.alert(title: "Error", message: errString)
             })
         }
     }
@@ -121,6 +119,15 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
         tfDate.text = string
     }
     
+     //MARK: - TableView
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+    }
+}
+
+extension LogWorkVC: JRDigitFieldDelegate, JRDateFieldDelegate {
+    
     //MARK: - DigitFieldDelegate
     
     func valueChanged() {
@@ -129,11 +136,5 @@ class LogWorkVC: UITableViewController, JRDigitFieldDelegate, JRDateFieldDelegat
     
     func selectedDate(date: Date, tag: Int) {
         setupDateField(date)
-    }
-    
-     //MARK: - TableView
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
     }
 }

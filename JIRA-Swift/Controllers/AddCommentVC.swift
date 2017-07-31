@@ -57,14 +57,12 @@ class AddCommentVC: UITableViewController {
     func addComment() {
         ToastView.show("Adding comment...")
         viewModel.addComment(body: tvCommentBody.text, fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
             ToastView.hide(fBlock: {
-                weakSelf.finish()
+                self?.finish()
             })
             
         }, eBlock: { [weak self] (errString) in
-            guard let weakSelf = self else { return }
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         })
     }
     

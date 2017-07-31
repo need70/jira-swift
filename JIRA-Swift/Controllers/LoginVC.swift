@@ -53,20 +53,18 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     func auth(login: String, pass: String, url: String) {
         
         viewModel.logIn(userName: login, password: pass, sBlock: { [weak self] in
-            guard let weakSelf = self else { return }
             
-            if weakSelf.switcher.isOn {
-                weakSelf.viewModel.saveLogin(login: login)
-                weakSelf.viewModel.savePassword(pass: pass)
+            if (self?.switcher.isOn)! {
+                self?.viewModel.saveLogin(login: login)
+                self?.viewModel.savePassword(pass: pass)
             }
             ToastView.hide() {
-                weakSelf.performSegue(withIdentifier: "segueToTabbarController", sender: self)
+                self?.performSegue(withIdentifier: "segueToTabbarController", sender: self)
             }
 
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             ToastView.errHide() {
-                weakSelf.alert(title: "Error", message: errString)
+                self?.alert(title: "Error", message: errString)
             }
         }
     }

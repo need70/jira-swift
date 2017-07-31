@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+class BoardDetailsVC: UIViewController {
 
     var viewModel = BoardDetailsViewModel()
     var currentColumn: Int = 0
@@ -19,29 +19,33 @@ class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.title = viewModel.title
         collection.roundCorners(radius: 5)
         collection.addBorder(color: RGBColor(241, 241, 241), width: 1)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNtf(ntf:)), name: NSNotification.Name(rawValue: "BoardIssueTapped"), object: nil)
         
         AKActivityView.add(to: view)
         getData()
     }
     
-    deinit {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNtf(ntf:)), name: NSNotification.Name(rawValue: "BoardIssueTapped"), object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
     func getData() {
         viewModel.getBoardColumns(fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
-            weakSelf.setupUI()
+            self?.setupUI()
             AKActivityView.remove(animated: true)
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
     
@@ -52,9 +56,12 @@ class BoardDetailsVC: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     
     func setupUI() {
         pageControl.numberOfPages = viewModel.count
-        lbColumnTitle.text = viewModel.columnName(index: currentColumn)
+        lbColumnTitle.text = viewModel.nameAndCount(index: currentColumn)
         collection.reloadData()
     }
+}
+
+extension BoardDetailsVC:  UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: Collection view
     

@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class TempoTeamsViewModel: BaseViewModel {
+class TempoTeamsViewModel: ViewModel {
     
     var tempoTeams: [TempoTeam] = []
     

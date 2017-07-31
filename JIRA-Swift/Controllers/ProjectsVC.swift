@@ -22,15 +22,13 @@ class ProjectsVC: UITableViewController {
         
     func getProjects() {
         viewModel.getProjects(fBlock: { [weak self] in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
+            self?.tableView.reloadData()
             AKActivityView.remove(animated: true)
-            weakSelf.refreshControl?.endRefreshing()
+            self?.refreshControl?.endRefreshing()
             
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
     

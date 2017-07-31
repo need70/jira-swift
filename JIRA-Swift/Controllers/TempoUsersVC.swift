@@ -22,14 +22,12 @@ class TempoUsersVC: UITableViewController {
     
     func getUsers() {
         viewModel.getTempoUsers(sBlock: { [weak self] (array) in
-            guard let weakSelf = self else { return }
-            weakSelf.tableView.reloadData()
-            weakSelf.tableView.separatorStyle = .singleLine
+            self?.tableView.reloadData()
+            self?.tableView.separatorStyle = .singleLine
             AKActivityView.remove(animated: true)
         }) { [weak self] (errString) in
-            guard let weakSelf = self else { return }
             AKActivityView.remove(animated: true)
-            weakSelf.alert(title: "Error", message: errString)
+            self?.alert(title: "Error", message: errString)
         }
     }
 
@@ -75,7 +73,6 @@ class TempoUsersCell: UITableViewCell {
             if let availability = user.membership?.availability {
                 lbAvailability.text = availability + "%"
             }
-
             iconImage.loadImage(url: user.member?.avatar!, placeHolder: UIImage(named: "ic_no_avatar"))
             
         }

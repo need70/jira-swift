@@ -75,14 +75,18 @@ extension Issue {
 
 class IssueType: Mappable {
     
+    var typeId: String?
     var name: String?
     var iconUrl: String?
+    var isSubtask: Bool?
     
     required init?(map: Map) { }
     
     func mapping(map: Map) {
+        typeId    <- map["id"]
         name      <- map["name"]
         iconUrl   <- map["iconUrl"]
+        isSubtask <- map["subtask"]
     }
 }
 
@@ -90,14 +94,16 @@ class IssueType: Mappable {
 
 class IssuePriority: Mappable {
     
+    var priorityId: String?
     var name: String?
     var iconUrl: String?
     
     required init?(map: Map) { }
     
     func mapping(map: Map) {
-        name      <- map["name"]
-        iconUrl   <- map["iconUrl"]
+        priorityId  <- map["id"]
+        name        <- map["name"]
+        iconUrl     <- map["iconUrl"]
     }
 }
 

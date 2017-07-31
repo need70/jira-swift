@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class AddCommentViewModel: BaseViewModel {
+class AddCommentViewModel: ViewModel {
     
     var issue: Issue?
     

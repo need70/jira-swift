@@ -69,8 +69,31 @@ class Presenter {
     
     class func presentCreateIssue(from: UIViewController?, issueKey: String?) {
         let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "CreateIssueVC") as! CreateIssueVC
-        vc.viewModel = CreateIssueViewModel(issueKey: issueKey)
         let nc = UINavigationController(rootViewController: vc)
         from?.present(nc, animated: true, completion: nil)
     }
+    
+    class func pushMetaPicker(from: UINavigationController?, delegate: UIViewController) {
+        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "MetaPickerVC") as! MetaPickerVC
+        vc.viewModel = MetaPickerViewModel()
+        vc.delegate = delegate as? MetaPickerDelegate
+        from?.pushViewController(vc, animated: true)
+    }
+    
+    class func pushProjectPicker(from: UINavigationController?, delegate: UIViewController?, items: [Any]) {
+        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "ProjectPickerVC") as! ProjectPickerVC
+        vc.viewModel = ProjectPickerViewModel(items: items)
+        vc.delegate = delegate as? ProjectPickerDelegate
+        from?.pushViewController(vc, animated: true)
+    }
+    
+    class func presentOrderBy(from: UIViewController?) {
+        let vc = kIssuesStoryboard.instantiateViewController(withIdentifier: "OrderByVC") as! OrderByVC
+        vc.viewModel = OrderByViewModel()
+        vc.viewModel._delegate = from as? OrderByDelegate
+        let nc = UINavigationController(rootViewController: vc)
+        from?.present(nc, animated: true, completion: nil)
+    }
+    
+
 }
