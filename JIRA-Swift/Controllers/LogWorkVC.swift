@@ -66,7 +66,7 @@ class LogWorkVC: UITableViewController {
         view.endEditing(true)
         ToastView.show("Logging Work...")
         
-        let startedDate = Utils.formattedStringDateFrom(date: Date())
+        let startedDate = Utils.formattedStringDateFrom(date: tfDate.picker.date)
         var params: [String : String] = ["timeSpent" : lbTimeSpent.text!]
         
         if tvWorkDescription.text != "" {

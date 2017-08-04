@@ -6,12 +6,17 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class AddCommentViewModel: ViewModel {
+protocol AddCommentViewModelProtocol {
+    
+    var title: String { get }
+    func addComment(body: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock)
+}
+
+class AddCommentViewModel: AddCommentViewModelProtocol {
     
     var issue: Issue?
     
-    convenience init(issue: Issue?) {
-        self.init()
+    init(issue: Issue?) {
         self.issue = issue
     }
     
@@ -24,11 +29,10 @@ class AddCommentViewModel: ViewModel {
     
     func addComment(body: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
+        guard let key = issue?.key else { return }
         let params = ["body" : body]
-        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", (issue?.issueId)!)
-        let path = baseURL + pathComponent
         
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.comments(key), params: params, successBlock: { (responseObj) in
             fBlock()
         }, errorBlock: { (error) in
             if let err = error {

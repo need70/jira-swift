@@ -14,7 +14,7 @@ protocol AddCommentDelegate {
 
 class AddCommentVC: UITableViewController {
 
-    var viewModel = AddCommentViewModel()
+    var viewModel = AddCommentViewModel(issue: nil)
     var delegate: AddCommentDelegate?
     
     @IBOutlet weak var tvCommentBody: UITextView!

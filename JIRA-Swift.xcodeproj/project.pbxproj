@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		890D5D811F0A206C00BCFE59 /* IssueDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */; };
-		890D5D831F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */; };
 		890D5D871F0CCD9500BCFE59 /* BoardCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */; };
 		890D5D891F0CCDD800BCFE59 /* BoardIssueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */; };
 		891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891835A21EE1EF48004209A7 /* ImageViewCache.swift */; };
@@ -88,7 +87,6 @@
 		8922F8A81F14CA4C00B37A4C /* TempoTeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8671F13811300B37A4C /* TempoTeamsViewModel.swift */; };
 		8922F8A91F14CA4C00B37A4C /* LogWorkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F86F1F13BB5500B37A4C /* LogWorkViewModel.swift */; };
 		8922F8AA1F14CA4C00B37A4C /* OrderByVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79CC01EFBC34500F0AAC8 /* OrderByVC.swift */; };
-		8922F8AB1F14CA4C00B37A4C /* BoardDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */; };
 		8922F8AC1F14CA4C00B37A4C /* CreateIssueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8651F13662D00B37A4C /* CreateIssueViewModel.swift */; };
 		8922F8AD1F14CA4C00B37A4C /* BoardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */; };
 		8922F8AE1F14CA4C00B37A4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A965D1E531FAD00B85B39 /* AppDelegate.swift */; };
@@ -97,7 +95,6 @@
 		8922F8B11F14CA4C00B37A4C /* AddCommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891900051EFD4F3900671DE2 /* AddCommentViewModel.swift */; };
 		8922F8B21F14CA4C00B37A4C /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C6B1EF418A200F0AAC8 /* SettingsVC.swift */; };
 		8922F8B31F14CA4C00B37A4C /* BoardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F86B1F139DC200B37A4C /* BoardsViewModel.swift */; };
-		8922F8B41F14CA4C00B37A4C /* BoardDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896001851F051A3B00F6255A /* BoardDetailsVC.swift */; };
 		8922F8B51F14CA4C00B37A4C /* AddCommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C611EF418A200F0AAC8 /* AddCommentVC.swift */; };
 		8922F8B61F14CA4C00B37A4C /* AttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8791F14C40800B37A4C /* AttachmentCell.swift */; };
 		8922F8B71F14CA4C00B37A4C /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F79C631EF418A200F0AAC8 /* CommentsVC.swift */; };
@@ -120,7 +117,16 @@
 		8922F8D31F160EF500B37A4C /* ProjectPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8D11F160E2D00B37A4C /* ProjectPickerVC.swift */; };
 		8960017D1F02A73500F6255A /* AttachmentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */; };
 		8960017F1F04D96000F6255A /* WorklogEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017E1F04D96000F6255A /* WorklogEditVC.swift */; };
-		896001861F051A3B00F6255A /* BoardDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896001851F051A3B00F6255A /* BoardDetailsVC.swift */; };
+		89A334F81F2F226600CEF3B2 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334F71F2F226600CEF3B2 /* Transition.swift */; };
+		89A334F91F2F230700CEF3B2 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334F71F2F226600CEF3B2 /* Transition.swift */; };
+		89A334FB1F2F50CE00CEF3B2 /* BoardInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334FA1F2F50CE00CEF3B2 /* BoardInfoVC.swift */; };
+		89A334FD1F2F518200CEF3B2 /* BoardInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334FC1F2F518200CEF3B2 /* BoardInfoViewModel.swift */; };
+		89A334FE1F2F52B200CEF3B2 /* BoardInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334FC1F2F518200CEF3B2 /* BoardInfoViewModel.swift */; };
+		89A334FF1F2F52BD00CEF3B2 /* BoardInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334FA1F2F50CE00CEF3B2 /* BoardInfoVC.swift */; };
+		89A335011F2F549600CEF3B2 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A335001F2F549600CEF3B2 /* BoardCell.swift */; };
+		89A335021F2F555800CEF3B2 /* BoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A335001F2F549600CEF3B2 /* BoardCell.swift */; };
+		89A335051F31C00300CEF3B2 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A335041F31C00200CEF3B2 /* Api.swift */; };
+		89A335061F31C32800CEF3B2 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A335041F31C00200CEF3B2 /* Api.swift */; };
 		89BEDCFB1F2735490009361D /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BEDCFA1F2735490009361D /* ChangePasswordVC.swift */; };
 		89BEDCFC1F2735800009361D /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BEDCFA1F2735490009361D /* ChangePasswordVC.swift */; };
 		89BEDD2B1F29D3C00009361D /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BEDD2A1F29D3C00009361D /* View.swift */; };
@@ -163,7 +169,6 @@
 		4F27488170956A6C4BFC8B65 /* Pods-JIRA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JIRA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JIRA-Swift/Pods-JIRA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		81B823DFD7936D634491DC9A /* Pods_JIRA_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JIRA_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		890D5D801F0A206C00BCFE59 /* IssueDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueDetailsViewModel.swift; sourceTree = "<group>"; };
-		890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDetailsViewModel.swift; sourceTree = "<group>"; };
 		890D5D861F0CCD9500BCFE59 /* BoardCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCollectionCell.swift; path = Cells/BoardCollectionCell.swift; sourceTree = "<group>"; };
 		890D5D881F0CCDD800BCFE59 /* BoardIssueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardIssueCell.swift; path = Cells/BoardIssueCell.swift; sourceTree = "<group>"; };
 		891835A21EE1EF48004209A7 /* ImageViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCache.swift; sourceTree = "<group>"; };
@@ -207,8 +212,12 @@
 		8922F8D11F160E2D00B37A4C /* ProjectPickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectPickerVC.swift; sourceTree = "<group>"; };
 		8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewModel.swift; sourceTree = "<group>"; };
 		8960017E1F04D96000F6255A /* WorklogEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorklogEditVC.swift; sourceTree = "<group>"; };
-		896001851F051A3B00F6255A /* BoardDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDetailsVC.swift; sourceTree = "<group>"; };
 		898637741E5634F30084369A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		89A334F71F2F226600CEF3B2 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		89A334FA1F2F50CE00CEF3B2 /* BoardInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardInfoVC.swift; sourceTree = "<group>"; };
+		89A334FC1F2F518200CEF3B2 /* BoardInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardInfoViewModel.swift; sourceTree = "<group>"; };
+		89A335001F2F549600CEF3B2 /* BoardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCell.swift; path = Cells/BoardCell.swift; sourceTree = "<group>"; };
+		89A335041F31C00200CEF3B2 /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		89BEDCFA1F2735490009361D /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		89BEDD2A1F29D3C00009361D /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -279,7 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				8922F86B1F139DC200B37A4C /* BoardsViewModel.swift */,
-				890D5D821F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift */,
+				89A334FC1F2F518200CEF3B2 /* BoardInfoViewModel.swift */,
 			);
 			name = Boards;
 			sourceTree = "<group>";
@@ -293,6 +302,7 @@
 				8922F8751F14B7C100B37A4C /* IssueCell.swift */,
 				8922F8771F14C01700B37A4C /* CommentCell.swift */,
 				8922F8791F14C40800B37A4C /* AttachmentCell.swift */,
+				89A335001F2F549600CEF3B2 /* BoardCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -301,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				891A96761E534DD900B85B39 /* Request.swift */,
+				89A335041F31C00200CEF3B2 /* Api.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -373,7 +384,7 @@
 			isa = PBXGroup;
 			children = (
 				89F79C931EF91DA000F0AAC8 /* BoardsVC.swift */,
-				896001851F051A3B00F6255A /* BoardDetailsVC.swift */,
+				89A334FA1F2F50CE00CEF3B2 /* BoardInfoVC.swift */,
 			);
 			name = Boards;
 			sourceTree = "<group>";
@@ -530,6 +541,7 @@
 				89F79CC61EFBF91900F0AAC8 /* TempoTeam.swift */,
 				8919FFFC1EFD040A00671DE2 /* TempoUser.swift */,
 				8919000E1F00E9B400671DE2 /* Worklog.swift */,
+				89A334F71F2F226600CEF3B2 /* Transition.swift */,
 			);
 			name = Models;
 			path = Mapping;
@@ -841,7 +853,9 @@
 				891835DC1EEAA1BC004209A7 /* LoadingCell.swift in Sources */,
 				8922F86A1F13848A00B37A4C /* TempoUsersViewModel.swift in Sources */,
 				8960017D1F02A73500F6255A /* AttachmentsViewModel.swift in Sources */,
+				89A334FD1F2F518200CEF3B2 /* BoardInfoViewModel.swift in Sources */,
 				89F79C731EF418A200F0AAC8 /* LoginVC.swift in Sources */,
+				89A334F81F2F226600CEF3B2 /* Transition.swift in Sources */,
 				891835A71EE1EF48004209A7 /* ImageViewCache.swift in Sources */,
 				89F79C741EF418A200F0AAC8 /* LogWorkVC.swift in Sources */,
 				89F79C8B1EF8165D00F0AAC8 /* Presenter.swift in Sources */,
@@ -849,7 +863,6 @@
 				8922F8681F13811300B37A4C /* TempoTeamsViewModel.swift in Sources */,
 				8922F8701F13BB5500B37A4C /* LogWorkViewModel.swift in Sources */,
 				89F79CC11EFBC34500F0AAC8 /* OrderByVC.swift in Sources */,
-				890D5D831F0CCB7B00BCFE59 /* BoardDetailsViewModel.swift in Sources */,
 				8922F8661F13662D00B37A4C /* CreateIssueViewModel.swift in Sources */,
 				89F79C941EF91DA000F0AAC8 /* BoardsVC.swift in Sources */,
 				891A965E1E531FAD00B85B39 /* AppDelegate.swift in Sources */,
@@ -858,9 +871,11 @@
 				89BEDCFB1F2735490009361D /* ChangePasswordVC.swift in Sources */,
 				891900061EFD4F3900671DE2 /* AddCommentViewModel.swift in Sources */,
 				89F79C761EF418A200F0AAC8 /* SettingsVC.swift in Sources */,
+				89A335051F31C00300CEF3B2 /* Api.swift in Sources */,
 				8922F86C1F139DC200B37A4C /* BoardsViewModel.swift in Sources */,
-				896001861F051A3B00F6255A /* BoardDetailsVC.swift in Sources */,
+				89A335011F2F549600CEF3B2 /* BoardCell.swift in Sources */,
 				89F79C6C1EF418A200F0AAC8 /* AddCommentVC.swift in Sources */,
+				89A334FB1F2F50CE00CEF3B2 /* BoardInfoVC.swift in Sources */,
 				8922F87A1F14C40800B37A4C /* AttachmentCell.swift in Sources */,
 				89F79C6E1EF418A200F0AAC8 /* CommentsVC.swift in Sources */,
 				8922F8D21F160E2D00B37A4C /* ProjectPickerVC.swift in Sources */,
@@ -879,6 +894,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8922F87E1F14CA4C00B37A4C /* User.swift in Sources */,
+				89A334FE1F2F52B200CEF3B2 /* BoardInfoViewModel.swift in Sources */,
 				8922F87F1F14CA4C00B37A4C /* Issue.swift in Sources */,
 				8922F8801F14CA4C00B37A4C /* ProjectsVC.swift in Sources */,
 				8922F8811F14CA4C00B37A4C /* Worklog.swift in Sources */,
@@ -917,6 +933,7 @@
 				8922F8A11F14CA4C00B37A4C /* TempoUsersViewModel.swift in Sources */,
 				8922F8A21F14CA4C00B37A4C /* AttachmentsViewModel.swift in Sources */,
 				8922F8A31F14CA4C00B37A4C /* LoginVC.swift in Sources */,
+				89A334F91F2F230700CEF3B2 /* Transition.swift in Sources */,
 				8922F8A41F14CA4C00B37A4C /* ImageViewCache.swift in Sources */,
 				8922F8A51F14CA4C00B37A4C /* LogWorkVC.swift in Sources */,
 				8922F8A61F14CA4C00B37A4C /* Presenter.swift in Sources */,
@@ -924,17 +941,18 @@
 				8922F8A81F14CA4C00B37A4C /* TempoTeamsViewModel.swift in Sources */,
 				8922F8A91F14CA4C00B37A4C /* LogWorkViewModel.swift in Sources */,
 				8922F8AA1F14CA4C00B37A4C /* OrderByVC.swift in Sources */,
-				8922F8AB1F14CA4C00B37A4C /* BoardDetailsViewModel.swift in Sources */,
 				8922F8AC1F14CA4C00B37A4C /* CreateIssueViewModel.swift in Sources */,
 				8922F8AD1F14CA4C00B37A4C /* BoardsVC.swift in Sources */,
 				8922F8AE1F14CA4C00B37A4C /* AppDelegate.swift in Sources */,
 				8922F8AF1F14CA4C00B37A4C /* ProjectsViewModel.swift in Sources */,
+				89A334FF1F2F52BD00CEF3B2 /* BoardInfoVC.swift in Sources */,
 				8922F8B01F14CA4C00B37A4C /* IssuesListViewModel.swift in Sources */,
 				89BEDCFC1F2735800009361D /* ChangePasswordVC.swift in Sources */,
 				8922F8B11F14CA4C00B37A4C /* AddCommentViewModel.swift in Sources */,
+				89A335061F31C32800CEF3B2 /* Api.swift in Sources */,
 				8922F8B21F14CA4C00B37A4C /* SettingsVC.swift in Sources */,
+				89A335021F2F555800CEF3B2 /* BoardCell.swift in Sources */,
 				8922F8B31F14CA4C00B37A4C /* BoardsViewModel.swift in Sources */,
-				8922F8B41F14CA4C00B37A4C /* BoardDetailsVC.swift in Sources */,
 				8922F8B51F14CA4C00B37A4C /* AddCommentVC.swift in Sources */,
 				8922F8B61F14CA4C00B37A4C /* AttachmentCell.swift in Sources */,
 				8922F8B71F14CA4C00B37A4C /* CommentsVC.swift in Sources */,

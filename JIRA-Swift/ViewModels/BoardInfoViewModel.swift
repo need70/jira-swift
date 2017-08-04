@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class BoardDetailsViewModel {
+class BoardInfoViewModel {
     
     var board: Board?
     fileprivate var columns: [BoardColumn?] = []
@@ -19,11 +19,17 @@ class BoardDetailsViewModel {
         return "Board"
     }
     
-    var count:Int {
+    var columnsCount:Int {
         return columns.count
     }
     
-    init(board: Board) {
+    var colTitles: [String] {
+        let actions: [String] = columns.map { $0!.name! }
+        return actions
+    }
+    
+    convenience init(board: Board) {
+        self.init()
         self.board = board
     }
     
@@ -36,7 +42,7 @@ class BoardDetailsViewModel {
     
     func nameAndCount(index: Int) -> String {
         if let col = columns[index], let name = col.name {
-            return String(format: "%@ (%zd)", name, issuesForColumn(name: name).count)
+            return String(format: "%@ (%zd)", name, boardIssues.count)
         }
         return ""
     }
@@ -45,6 +51,36 @@ class BoardDetailsViewModel {
         let filteredArray = boardIssues.filter() { $0.status?.name! == name }
         return filteredArray
     }
+    
+    func issueFor(index: Int) -> Issue? {
+        guard index < boardIssues.count else {
+            return nil
+        }
+        return boardIssues[index]
+    }
+    
+    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+        return boardIssues.count > 0 ? boardIssues.count : 1
+    }
+    
+    func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        
+        if boardIssues.count == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NoDataCell", for: indexPath)
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BoardCell") as! BoardCell
+        
+        if indexPath.row < boardIssues.count {
+            let boardIssue = boardIssues[indexPath.row]
+            cell.setup(for: boardIssue)
+        }
+        return cell
+    }
+    
+    
+    //MARK: requests
     
     func getBoardColumns(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
         
@@ -68,7 +104,7 @@ class BoardDetailsViewModel {
                     }
                 }
                 self.columns = objects
-                self.getBoardIssues(fBlock: fBlock, eBlock: eBlock)
+                fBlock()
             }
             
         }, errorBlock: { (error) in
@@ -79,11 +115,13 @@ class BoardDetailsViewModel {
         })
     }
     
-    func getBoardIssues(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
+    func getBoardIssues(index: Int, fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
         
         guard let boardId = board?.boardId else { return }
         
-        Request().send(method: .get, url: Api.boardIssues(boardId), params: nil, successBlock: { (responseObj) in
+        guard let col = columns[index] else { return }
+        
+        Request().send(method: .get, url: Api.boardIssues(boardId, col.name!), params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             
@@ -108,17 +146,4 @@ class BoardDetailsViewModel {
             }
         })
     }
-    
-    func cell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BoardCollectionCell", for: indexPath) as! BoardCollectionCell
-        
-        if indexPath.row < columns.count {
-            let colName = columnName(index: indexPath.row)
-            print(colName)
-            cell.issues = issuesForColumn(name: colName)
-            cell.customInit()
-        }
-        return cell
-    }
-    
 }

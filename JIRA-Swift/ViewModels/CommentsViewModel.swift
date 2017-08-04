@@ -6,7 +6,18 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class CommentsViewModel: ViewModel {
+protocol CommentsViewModelProtocol {
+    
+    var title: String { get }
+    var issue: Issue? { get }
+    
+    func remove()
+    func getComments(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock)
+    func numberOfRows(_ section: Int) -> Int
+    func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell
+}
+
+class CommentsViewModel: CommentsViewModelProtocol {
     
     var issue: Issue?
     fileprivate var comments:[Comment] = []
@@ -22,8 +33,7 @@ class CommentsViewModel: ViewModel {
         comments.removeAll()
     }
 
-    convenience init(issue: Issue?) {
-        self.init()
+    init(issue: Issue?) {
         self.issue = issue
         if let items = issue?.comments {
             comments = items
@@ -32,12 +42,9 @@ class CommentsViewModel: ViewModel {
     
     func getComments(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
         
-        guard let issueKey = issue?.key else { return }
+        guard let key = issue?.key else { return }
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@/comment", issueKey)
-        let path = baseURL + pathComponent
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.comments(key), params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             
@@ -77,7 +84,7 @@ class CommentsViewModel: ViewModel {
         return cell
     }
     
-    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+    func numberOfRows(_ section: Int) -> Int {
         if comments.count == 0 {
             return 1
         }

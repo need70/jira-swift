@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class BoardsViewModel: ViewModel {
+class BoardsViewModel {
     
     fileprivate var boards: [Board] = []
     
@@ -24,8 +24,7 @@ class BoardsViewModel: ViewModel {
     
     func getBoards(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        let path = baseURL + "/rest/agile/1.0/board/"
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.boards, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             if let array = dict["values"] as? [Any] {

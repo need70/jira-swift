@@ -8,13 +8,13 @@
 
 import UIKit
 
-enum DetailsSections: Int {
-    case info, comments, details, people, dates, timeTracking
-}
-
 class IssueDetailsVC: UITableViewController {
     
-    var viewModel = IssueDetailsViewModel()
+    private enum Sections: Int {
+        case info, comments, details, people, dates, timeTracking
+    }
+    
+    var viewModel = IssueDetailsViewModel(issueKey: nil)
 
     @IBOutlet weak var lbProjInfo: UILabel!
     @IBOutlet weak var lbSummary: UILabel!
@@ -153,6 +153,34 @@ class IssueDetailsVC: UITableViewController {
         }
     }
     
+    //MARK: - TableView
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch indexPath.section {
+        case Sections.details.rawValue:
+            if indexPath.row == 2 {
+                getStatuses()
+            }
+            break
+        default: break
+        }
+    }
+}
+
+extension IssueDetailsVC {
+    
+    //MARK: Actions
+    
     func showComments() {
         Presenter.pushComments(from: navigationController, issue: viewModel.issue)
     }
@@ -203,18 +231,41 @@ class IssueDetailsVC: UITableViewController {
         }
     }
     
-    //MARK: - TableView
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+    func getStatuses() {
+        ToastView.show("Processing...")
+        viewModel.getTransitions(fBlock: { [weak self] array in
+            
+            ToastView.errHide(fBlock: nil)
+            guard let transitions = array as? [Transition], transitions.count > 0 else {
+                return
+            }
+            
+            let actions: [String] = transitions.map { $0.name! }
+
+            self?.actionSheet(items: actions, title: "Move issue to") { [weak self] (index) in
+                
+                let transition = transitions[index]
+                self?.changeStatus(for: transition)
+            }
+            
+        }) { [weak self] (errString) in
+            ToastView.errHide(fBlock: {
+                self?.alert(title: "Error", message: errString)
+            })
+        }
     }
     
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    func changeStatus(for transition: Transition?) {
+        ToastView.show("Processing...")
+        viewModel.updateStatus(transition: transition, fBlock: { [weak self] in
+            ToastView.hide(fBlock: {
+                self?.refresh()
+            })
+        }) { [weak self] (errString) in
+            ToastView.errHide(fBlock: {
+                self?.alert(title: "Error", message: errString)
+            })
+        }
     }
 }
 

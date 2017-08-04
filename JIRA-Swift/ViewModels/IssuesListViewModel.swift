@@ -100,9 +100,8 @@ class IssuesListViewModel: ViewModel {
         jqlString += getOrderBy()
         
         let params = ["jql" : jqlString, "startAt" : String(count), "maxResults" : String(ISSUES_PER_PAGE)]
-        let path = baseURL + "/rest/api/2/search"
         
-        Request().send(method: .post, url: path, params: params, successBlock: { [weak self] (responseObj) in
+        Request().send(method: .post, url: Api.issuesList, params: params, successBlock: { [weak self] (responseObj) in
             print(responseObj as Any)
             
             let dict = responseObj as! [String : Any]

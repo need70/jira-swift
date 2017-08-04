@@ -23,9 +23,9 @@ class LoginViewModel: ViewModel {
     func logIn(userName: String, password: String, sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let params = ["username" : userName, "password" : password]
-        let path = baseURL + "/rest/auth/latest/session"
+//        let path = baseURL + "/rest/auth/latest/session"
         
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.login, params: params, successBlock: { (responseObj) in
             self.getCurrentUser(sBlock: sBlock, eBlock: eBlock)
         }, errorBlock: { (error) in
             if let err = error {

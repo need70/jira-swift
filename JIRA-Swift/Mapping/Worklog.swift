@@ -28,6 +28,9 @@ class Worklog: Mappable {
         author              <- map["author"]
         issue               <- map["issue"]
     }
+}
+
+extension Worklog {
     
     func formattedDateStarted() -> String {
         if let started = dateStarted {

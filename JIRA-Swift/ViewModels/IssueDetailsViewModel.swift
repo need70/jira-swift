@@ -6,13 +6,12 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class IssueDetailsViewModel: ViewModel {
+class IssueDetailsViewModel {
     
     fileprivate var issueKey: String?
     var issue: Issue?
     
-    convenience init(issueKey: String?) {
-        self.init()
+    init(issueKey: String?) {
         self.issueKey = issueKey
     }
     
@@ -193,15 +192,12 @@ class IssueDetailsViewModel: ViewModel {
 
     func getIssue(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        guard let issueKey = issueKey else {
+        guard let key = issueKey else {
             eBlock("Issue key not found!")
             return
         }
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@", issueKey)
-        let path = baseURL + pathComponent
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.issue(key), params: nil, successBlock: { (responseObj) in
             
             if let dict = responseObj as? [String : Any] {
                 self.issue = Issue(JSON: dict)!
@@ -230,11 +226,9 @@ class IssueDetailsViewModel: ViewModel {
             return
         }
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers", issueId)
-        let path = baseURL + pathComponent
         let params = String(format: "\"%@\"", username as String)
         
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.watchIssue(issueId), params: params, successBlock: { (responseObj) in
             print(responseObj as Any)
             sBlock()
         }, errorBlock: { (error) in
@@ -256,12 +250,61 @@ class IssueDetailsViewModel: ViewModel {
             return
         }
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers?%@", issueId, username)
-        let path = baseURL + pathComponent
-        
-        Request().send(method: .delete, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .delete, url: Api.unwatchIssue(issueId, username), params: nil, successBlock: { (responseObj) in
             print(responseObj as Any)
             sBlock()
+        }, errorBlock: { (error) in
+            if let err = error {
+                eBlock(err)
+            }
+        })
+    }
+    
+    func getTransitions(fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
+        
+        guard let key = issueKey else {
+            eBlock("Issue key not found!")
+            return
+        }
+        
+        Request().send(method: .get, url: Api.transitions(key), params: nil, successBlock: { (responseObj) in
+            
+            if let dict = responseObj as? [String : Any], let array =  dict["transitions"] as? [Any] {
+               
+                var objects: [Transition] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj: Transition = Transition(JSON: dict)!
+                    objects.append(obj)
+                }
+                fBlock(objects)
+            }
+            
+        }, errorBlock: { (error) in
+            if let err = error {
+                eBlock(err)
+            }
+        })
+    }
+    
+    func updateStatus(transition: Transition?, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+        
+        guard let key = issueKey else {
+            eBlock("Issue key not found!")
+            return
+        }
+        
+        guard transition != nil else {
+            eBlock("Transition not found!")
+            return
+        }
+        
+        let params = ["transition": ["id" : transition?.transitionId]]
+        
+        Request().send(method: .post, url: Api.transitions(key), params: params, successBlock: { (responseObj) in
+            fBlock()
+            
         }, errorBlock: { (error) in
             if let err = error {
                 eBlock(err)

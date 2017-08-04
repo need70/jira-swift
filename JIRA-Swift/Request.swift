@@ -74,10 +74,10 @@ class Request {
         
         let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
         
-        if json == nil { //maybe HTML recieved
-            errorBlock("Wrong JSON recieved!")
-            return
-        }
+//        if json == nil { //maybe HTML recieved
+//            errorBlock("Wrong JSON recieved!")
+//            return
+//        }
         
         if let dict = json as? [String : Any] { // json is a dictionary
 

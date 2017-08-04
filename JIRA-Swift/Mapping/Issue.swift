@@ -122,12 +122,16 @@ class IssueStatus: Mappable {
         iconUrl    <- map["iconUrl"]
         colorName  <- map["statusCategory.colorName"]
     }
+}
+
+extension IssueStatus {
     
     func getStatusColor() -> UIColor {
         
         switch colorName {
         case "green": return .green
         case "blue-gray": return .blue
+        case "yellow" : return .orange
         default: return .gray
         }
     }

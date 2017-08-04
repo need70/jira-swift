@@ -17,7 +17,7 @@ class BoardCollectionCell: UICollectionViewCell, UITableViewDelegate, UITableVie
     
     func customInit() {
         tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 50
+        tableView.estimatedRowHeight = 20
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.reloadData()
     }

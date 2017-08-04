@@ -10,7 +10,7 @@ import UIKit
 
 class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var viewModel = AttachmentsViewModel()
+    var viewModel = AttachmentsViewModel(issue: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()        
@@ -28,7 +28,7 @@ class AttachmentsVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-                return viewModel.cell(collectionView, indexPath)
+        return viewModel.cell(collectionView, indexPath)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

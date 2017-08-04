@@ -6,7 +6,17 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class AttachmentsViewModel: ViewModel {
+protocol AttachmentsViewModelProtocol {
+    
+    var title: String { get }
+    var count: Int { get }
+    func item(for index: Int) -> Attachment?
+    func sizeForItem(_ collection: UICollectionView, _ indexPath: IndexPath) -> CGSize
+    func cell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell
+    func numberOfRows(_ section: Int) -> Int
+}
+
+class AttachmentsViewModel: AttachmentsViewModelProtocol {
     
     fileprivate var issue: Issue?
     fileprivate var attachments:[Attachment] = []
@@ -22,8 +32,7 @@ class AttachmentsViewModel: ViewModel {
         return attachments.count
     }
     
-    convenience init(issue: Issue?) {
-        self.init()
+    init(issue: Issue?) {
         self.issue = issue
         if let items = issue?.attachments {
             attachments = items
@@ -51,7 +60,7 @@ class AttachmentsViewModel: ViewModel {
         return cell
     }
     
-    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+    func numberOfRows(_ section: Int) -> Int {
         if attachments.count == 0 {
             return 1
         }

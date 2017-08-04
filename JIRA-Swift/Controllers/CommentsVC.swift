@@ -10,11 +10,13 @@ import UIKit
 
 class CommentsVC: UITableViewController {
 
-    var viewModel = CommentsViewModel()
+    var viewModel = CommentsViewModel(issue: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -27,7 +29,7 @@ class CommentsVC: UITableViewController {
             
             self?.tableView.reloadData()
             self?.refreshControl?.endRefreshing()
-            self?.tableView.separatorStyle = .none
+//            self?.tableView.separatorStyle = .none
 
         }) { [weak self] (errString) in
             self?.alert(title: "Error", message: errString)
@@ -46,7 +48,7 @@ class CommentsVC: UITableViewController {
     // MARK: Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(tableView, section)
+        return viewModel.numberOfRows(section)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

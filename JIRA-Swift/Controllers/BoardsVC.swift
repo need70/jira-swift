@@ -55,8 +55,8 @@ class BoardsVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueBoardsToDetail" {
             let indexPath = sender as! IndexPath
-            let vc = segue.destination as! BoardDetailsVC
-            vc.viewModel = BoardDetailsViewModel(board: viewModel.board(index: indexPath.row))
+            let vc = segue.destination as! BoardInfoVC
+            vc.viewModel = BoardInfoViewModel(board: viewModel.board(index: indexPath.row))
         }
     }
 

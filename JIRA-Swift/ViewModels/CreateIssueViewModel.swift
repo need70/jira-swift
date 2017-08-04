@@ -1,5 +1,19 @@
 
-class CreateIssueViewModel: ViewModel {
+protocol CreateIssueViewModelProtocol {
+    
+    var isEpic: Bool { get }
+    var projectString: String? { get }
+    var projectIconUrl: String? { get }
+    var issuetypeString: String? { get }
+    var issuetypeIconUrl: String? { get }
+    var priorityString: String? { get }
+    var priorityIconUrl: String? { get }
+    func numberOfRows(_ section: Int) -> Int
+    func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock)
+    func createIssue(sBlock: @escaping stringBlock, eBlock: @escaping stringBlock)
+}
+
+class CreateIssueViewModel: CreateIssueViewModelProtocol {
     
     var projects: [Project] = []
     
@@ -59,7 +73,7 @@ class CreateIssueViewModel: ViewModel {
         return url
     }
     
-    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+    func numberOfRows(_ section: Int) -> Int {
         if section == 0 {
             return isEpic ? 3 : 2
         }
@@ -68,9 +82,7 @@ class CreateIssueViewModel: ViewModel {
     
     func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        let path = baseURL + "/rest/api/2/issue/createmeta"
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.createmeta, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             
@@ -93,7 +105,7 @@ class CreateIssueViewModel: ViewModel {
         })
     }
     
-    func constructBody() -> [String : Any] {
+    private func constructBody() -> [String : Any] {
         
         var dict = [String : Any]()
 
@@ -125,9 +137,8 @@ class CreateIssueViewModel: ViewModel {
     func createIssue(sBlock: @escaping stringBlock, eBlock: @escaping stringBlock) {
         
         let params = constructBody()
-        let path = baseURL + "/rest/api/2/issue/"
         
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.issueCreate, params: params, successBlock: { (responseObj) in
             let dict = responseObj as! [String : Any]
             
             if let key = dict["key"] as? String {

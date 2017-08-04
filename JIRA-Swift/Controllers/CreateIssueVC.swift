@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class CreateIssueVC: UITableViewController {
 
     var viewModel = CreateIssueViewModel()
@@ -35,7 +37,7 @@ class CreateIssueVC: UITableViewController {
         tvDescription.layer.borderColor = kSystemSeparatorColor.cgColor
         tvDescription.layer.borderWidth = 1
         tvDescription.layer.cornerRadius = 5.0
-        
+
         AKActivityView.add(to: view)
         getCreateMeta()
     }
@@ -58,7 +60,7 @@ class CreateIssueVC: UITableViewController {
     
     override func rightBarButtonPressed() {
         view.endEditing(true)
-        
+
         viewModel.summary = tvSummary.text
         viewModel.description = tvDescription.text
         viewModel.epicName = tfEpicName.text
@@ -111,7 +113,7 @@ class CreateIssueVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(tableView, section)
+        return viewModel.numberOfRows(section)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -144,9 +146,7 @@ class CreateIssueVC: UITableViewController {
                 break
             default: break
             }
-            
         }
-        
     }
 }
 

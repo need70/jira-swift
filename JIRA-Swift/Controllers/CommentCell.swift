@@ -16,7 +16,6 @@ class CommentCell: UITableViewCell {
     
     func setup(for item: Comment?) {
         guard let comment = item else { return }
-        
         lbAuthor.text = comment.author?.displayName
         lbDate.text = comment.formattedCreated()
         tvBody.text = comment.body
