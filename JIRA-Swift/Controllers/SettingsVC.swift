@@ -13,6 +13,7 @@ class SettingsVC: UITableViewController {
     @IBOutlet weak var avatarImage: ImageViewCache!
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var lbEmail: UILabel!
+    @IBOutlet weak var lbVersionInfo: UILabel!
 
     let viewModel = SettingsViewModel()
     
@@ -44,10 +45,12 @@ class SettingsVC: UITableViewController {
     func setupUI() {
         avatarImage.roundCorners()
         if let user = viewModel.currentUser {
-            avatarImage.loadImage(url: user.avatarUrl!, placeHolder: UIImage(named: "tab_issue"))
+            avatarImage.loadImage(url: user.avatarUrl!, placeHolder: UIImage(named: "ic_no_avatar"))
             lbName.text = user.displayName
             lbEmail.text = user.emailAddress
         }
+        lbVersionInfo.text = viewModel.appInfo
+        
     }
     
     override func rightBarButtonPressed() {

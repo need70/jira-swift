@@ -16,14 +16,14 @@ enum RequestMethod: String {
 
 class Request {
     
-    fileprivate var session: URLSession {
+    private var session: URLSession {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = kRequestTimeOut
         let session = URLSession(configuration: configuration)
         return session
     }
     
-    fileprivate func request(for method: RequestMethod, url: String, params: Any?) -> URLRequest {
+    private func request(for method: RequestMethod, url: String, params: Any?) -> URLRequest {
         
         var request = URLRequest(url: URL(string: url)!)
 
@@ -58,26 +58,27 @@ class Request {
                     errorBlock(err.localizedDescription)
                 }
                 
-                if let responseData = data {
-                    self.handleResponseData(data: responseData, successBlock: successBlock, errorBlock: errorBlock)
+                if let responseData = data, let httpResponse = response as? HTTPURLResponse {
+                    print("statusCode = \(httpResponse.statusCode)")
+                    self.handleResponseData(data: responseData, response: httpResponse, successBlock: successBlock, errorBlock: errorBlock)
                 }
             }
         })
         task.resume()
     }
     
-    fileprivate func handleResponseData(data: Data, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
+    private func handleResponseData(data: Data, response: HTTPURLResponse, successBlock: @escaping anyBlock, errorBlock: @escaping stringBlock) {
         
         if let convertedString = String(data: data, encoding: String.Encoding.utf8) {
             print("jsonString = \n \(convertedString)")
         }
         
-        let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
+        if response.statusCode == 404 { //check for tempo plugin)
+            errorBlock("Oops, you got 404, perhaps plugin not installed.")
+            return
+        }
         
-//        if json == nil { //maybe HTML recieved
-//            errorBlock("Wrong JSON recieved!")
-//            return
-//        }
+        let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)
         
         if let dict = json as? [String : Any] { // json is a dictionary
 
@@ -99,5 +100,4 @@ class Request {
             print("not JSON data recieved")
         }
     }
-    
 }

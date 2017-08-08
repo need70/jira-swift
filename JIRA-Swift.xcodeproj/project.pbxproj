@@ -115,6 +115,12 @@
 		8922F8D01F14ED8600B37A4C /* MetaPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8CE1F14EBE200B37A4C /* MetaPickerVC.swift */; };
 		8922F8D21F160E2D00B37A4C /* ProjectPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8D11F160E2D00B37A4C /* ProjectPickerVC.swift */; };
 		8922F8D31F160EF500B37A4C /* ProjectPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922F8D11F160E2D00B37A4C /* ProjectPickerVC.swift */; };
+		89497A001F39A6100028E5CE /* Boards.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 894979FF1F39A6100028E5CE /* Boards.storyboard */; };
+		89497A011F39A6340028E5CE /* Boards.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 894979FF1F39A6100028E5CE /* Boards.storyboard */; };
+		89497A031F39A7A30028E5CE /* Projects.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A021F39A7A30028E5CE /* Projects.storyboard */; };
+		89497A051F39A7D40028E5CE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A041F39A7D40028E5CE /* Settings.storyboard */; };
+		89497A061F39A7D40028E5CE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A041F39A7D40028E5CE /* Settings.storyboard */; };
+		89497A071F39A8050028E5CE /* Projects.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A021F39A7A30028E5CE /* Projects.storyboard */; };
 		8960017D1F02A73500F6255A /* AttachmentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */; };
 		8960017F1F04D96000F6255A /* WorklogEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017E1F04D96000F6255A /* WorklogEditVC.swift */; };
 		89A334F81F2F226600CEF3B2 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334F71F2F226600CEF3B2 /* Transition.swift */; };
@@ -210,6 +216,9 @@
 		8922F8CD1F14CA4C00B37A4C /* JIRA-Swift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "JIRA-Swift copy-Info.plist"; path = "/Users/Andmar/Projects/Practice/JIRA-Swift/JIRA-Swift copy-Info.plist"; sourceTree = "<absolute>"; };
 		8922F8CE1F14EBE200B37A4C /* MetaPickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaPickerVC.swift; sourceTree = "<group>"; };
 		8922F8D11F160E2D00B37A4C /* ProjectPickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectPickerVC.swift; sourceTree = "<group>"; };
+		894979FF1F39A6100028E5CE /* Boards.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Boards.storyboard; sourceTree = "<group>"; };
+		89497A021F39A7A30028E5CE /* Projects.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Projects.storyboard; sourceTree = "<group>"; };
+		89497A041F39A7D40028E5CE /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewModel.swift; sourceTree = "<group>"; };
 		8960017E1F04D96000F6255A /* WorklogEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorklogEditVC.swift; sourceTree = "<group>"; };
 		898637741E5634F30084369A /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
@@ -330,10 +339,13 @@
 		891835741EE0390F004209A7 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */,
 				891A96611E531FAD00B85B39 /* Main.storyboard */,
 				89F0EF911EF283FA00A7C97D /* Issues.storyboard */,
+				894979FF1F39A6100028E5CE /* Boards.storyboard */,
 				891900071F00DF0700671DE2 /* Tempo.storyboard */,
-				89F0EF8F1EF283C000A7C97D /* LaunchScreen.storyboard */,
+				89497A021F39A7A30028E5CE /* Projects.storyboard */,
+				89497A041F39A7D40028E5CE /* Settings.storyboard */,
 			);
 			name = Storyboards;
 			path = ..;
@@ -694,9 +706,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				891A96651E531FAD00B85B39 /* Assets.xcassets in Resources */,
+				89497A001F39A6100028E5CE /* Boards.storyboard in Resources */,
 				89F0EF921EF283FA00A7C97D /* Issues.storyboard in Resources */,
 				891900081F00DF0700671DE2 /* Tempo.storyboard in Resources */,
+				89497A031F39A7A30028E5CE /* Projects.storyboard in Resources */,
 				891A96631E531FAD00B85B39 /* Main.storyboard in Resources */,
+				89497A051F39A7D40028E5CE /* Settings.storyboard in Resources */,
 				89F0EF901EF283C000A7C97D /* LaunchScreen.storyboard in Resources */,
 				891835AA1EE1EF48004209A7 /* ToastView.xib in Resources */,
 			);
@@ -707,10 +722,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8922F8C11F14CA4C00B37A4C /* Assets.xcassets in Resources */,
+				89497A011F39A6340028E5CE /* Boards.storyboard in Resources */,
 				8922F8C21F14CA4C00B37A4C /* Issues.storyboard in Resources */,
+				89497A061F39A7D40028E5CE /* Settings.storyboard in Resources */,
 				8922F8C31F14CA4C00B37A4C /* Tempo.storyboard in Resources */,
 				8922F8C41F14CA4C00B37A4C /* Main.storyboard in Resources */,
 				8922F8C51F14CA4C00B37A4C /* LaunchScreen.storyboard in Resources */,
+				89497A071F39A8050028E5CE /* Projects.storyboard in Resources */,
 				8922F8C61F14CA4C00B37A4C /* ToastView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

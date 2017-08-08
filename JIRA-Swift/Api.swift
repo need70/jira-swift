@@ -18,7 +18,7 @@ final class Api {
     }
     
     static var login: String {
-        return Api.baseURL + "/rest/auth/latest/session"
+        return baseURL + "/rest/auth/latest/session"
     }
     
     static var issuesList: String {
@@ -27,7 +27,7 @@ final class Api {
     
     static func issue(_ key: String) -> String {
         let pathComponent = String(format: "/rest/api/2/issue/%@", key)
-        return Api.baseURL + pathComponent
+        return baseURL + pathComponent
     }
     
     static func watchIssue(_ key: String) -> String {
@@ -35,7 +35,7 @@ final class Api {
         return baseURL + pathComponent
     }
     static func unwatchIssue(_ key: String, _ name: String) -> String {
-        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers?%@", key, name)
+        let pathComponent = String(format: "/rest/api/2/issue/%@/watchers?username=%@", key, name)
         return baseURL + pathComponent
     }
     

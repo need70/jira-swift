@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="A68-et-COZ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Projects-->
+        <scene sceneID="I2p-LU-fmi">
+            <objects>
+                <tableViewController storyboardIdentifier="ProjectsVC" id="A68-et-COZ" customClass="ProjectsVC" customModule="JIRA_Swift_Dev" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="a1a-51-r2b">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProjectCell" rowHeight="45" id="7Ub-RX-hUm" customClass="ProjectCell" customModule="JIRA_Swift_Dev" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="45"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Ub-RX-hUm" id="th4-gu-JpA">
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wfi-kw-lW4" customClass="ImageViewCache" customModule="JIRA_Swift_Dev" customModuleProvider="target">
+                                            <rect key="frame" x="15" y="10" width="24" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="wfi-kw-lW4" secondAttribute="height" multiplier="1:1" id="Spu-wN-5pI"/>
+                                                <constraint firstAttribute="width" constant="24" id="vWN-Ir-nh6"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9GR-UA-WaQ">
+                                            <rect key="frame" x="54" y="0.0" width="273" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="9GR-UA-WaQ" firstAttribute="top" secondItem="th4-gu-JpA" secondAttribute="top" id="6TV-DQ-q06"/>
+                                        <constraint firstItem="wfi-kw-lW4" firstAttribute="centerY" secondItem="th4-gu-JpA" secondAttribute="centerY" id="DLC-lB-eV3"/>
+                                        <constraint firstAttribute="trailing" secondItem="9GR-UA-WaQ" secondAttribute="trailing" constant="15" id="EfT-nD-i6s"/>
+                                        <constraint firstItem="wfi-kw-lW4" firstAttribute="leading" secondItem="th4-gu-JpA" secondAttribute="leading" constant="15" id="c8o-JV-vhl"/>
+                                        <constraint firstAttribute="bottom" secondItem="9GR-UA-WaQ" secondAttribute="bottom" id="nBX-Sh-YbJ"/>
+                                        <constraint firstItem="9GR-UA-WaQ" firstAttribute="leading" secondItem="wfi-kw-lW4" secondAttribute="trailing" constant="15" id="qVo-v8-2RW"/>
+                                        <constraint firstItem="wfi-kw-lW4" firstAttribute="leading" secondItem="th4-gu-JpA" secondAttribute="leading" constant="15" id="uuf-Pn-KAh"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="iconImage" destination="wfi-kw-lW4" id="0Se-A9-Ii1"/>
+                                    <outlet property="lbTitle" destination="9GR-UA-WaQ" id="sP2-mQ-8rw"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="A68-et-COZ" id="cTC-J6-L8D"/>
+                            <outlet property="delegate" destination="A68-et-COZ" id="K0k-Qa-3lM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Projects" id="Rta-ie-uiP">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Ta8-fA-IpX"/>
+                    </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Gds-hm-sAh">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NL2-kg-lDT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3022" y="2178"/>
+        </scene>
+    </scenes>
+</document>

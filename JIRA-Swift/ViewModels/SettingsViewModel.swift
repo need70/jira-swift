@@ -14,6 +14,13 @@ class SettingsViewModel: ViewModel {
         super.init()
     }
     
+    var appInfo: String {        
+        guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            return ""
+        }
+        return "Version \(version)"
+    }
+    
     func getUser(name: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let path = baseURL + "/rest/api/2/user?username=" + name
