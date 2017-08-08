@@ -24,15 +24,12 @@ class LogWorkViewModel: ViewModel {
     
     func logWork(params: [String : String], sBlock: @escaping dictBlock, eBlock: @escaping stringBlock) {
         
-        guard let issueKey = issue?.key else {
+        guard let key = issue?.key else {
             eBlock("Missing issue key!")
             return
         }
         
-        let pathComponent = String(format: "/rest/api/2/issue/%@/worklog?adjustEstimate=auto", issueKey)
-        let path = baseURL + pathComponent
-        
-        Request().send(method: .post, url: path, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.logWork(key), params: params, successBlock: { (responseObj) in
             print(responseObj!)
             let dict = responseObj as! [String : Any]
             sBlock(dict)

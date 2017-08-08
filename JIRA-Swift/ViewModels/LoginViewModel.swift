@@ -23,9 +23,8 @@ class LoginViewModel: ViewModel {
     func logIn(userName: String, password: String, sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
         let params = ["username" : userName, "password" : password]
-//        let path = baseURL + "/rest/auth/latest/session"
         
-        Request().send(method: .post, url: Api.login, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.session, params: params, successBlock: { (responseObj) in
             self.getCurrentUser(sBlock: sBlock, eBlock: eBlock)
         }, errorBlock: { (error) in
             if let err = error {
@@ -36,10 +35,8 @@ class LoginViewModel: ViewModel {
     }
     
     func getCurrentUser(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
-        
-        let path = baseURL + "/rest/auth/latest/session"
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+                
+        Request().send(method: .get, url: Api.session, params: nil, successBlock: { (responseObj) in
             
             print(responseObj as! [String : Any])
             

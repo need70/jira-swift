@@ -38,11 +38,8 @@ class TempoUsersViewModel: ViewModel {
             eBlock("Tempo team id not found!")
             return
         }
-    
-        let pathComponent = String(format: "/rest/tempo-teams/2/team/%zd/member", teamId)
-        let path = baseURL + pathComponent
         
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.tempoUsers(teamId), params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

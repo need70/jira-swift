@@ -37,9 +37,7 @@ class ProjectsViewModel: ViewModel {
     
     func getProjects(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        let path = baseURL + "/rest/api/2/project"
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.projects, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

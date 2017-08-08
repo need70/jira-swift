@@ -55,9 +55,7 @@ class WorklogsViewModel: ViewModel {
             return
         }
         
-        let path = baseURL + "/rest/tempo-timesheets/3/worklogs/?username=" + name + "&dateFrom=" + from + "&dateTo=" + to
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.tempoWorklogs(name, from: from, to: to), params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

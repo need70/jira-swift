@@ -17,7 +17,7 @@ final class Api {
         return url as! String
     }
     
-    static var login: String {
+    static var session: String {
         return baseURL + "/rest/auth/latest/session"
     }
     
@@ -28,6 +28,11 @@ final class Api {
     static func issue(_ key: String) -> String {
         let pathComponent = String(format: "/rest/api/2/issue/%@", key)
         return baseURL + pathComponent
+    }
+    
+    static func user(_ name: String) -> String {
+        let path = baseURL + "/rest/api/2/user?username=" + name
+        return path
     }
     
     static func watchIssue(_ key: String) -> String {
@@ -46,6 +51,11 @@ final class Api {
     
     static func comments(_ key: String) -> String {
         let pathComponent = String(format: "/rest/api/2/issue/%@/comment", key)
+        return baseURL + pathComponent
+    }
+    
+    static func logWork(_ key: String) -> String {
+        let pathComponent = String(format: "/rest/api/2/issue/%@/worklog?adjustEstimate=auto", key)
         return baseURL + pathComponent
     }
     
@@ -74,6 +84,25 @@ final class Api {
         
         return path
     }
+    
+    static var projects: String {
+        return baseURL + "/rest/api/2/project"
+    }
 
-
+    //tempo
+    
+    static var tempoTeams: String {
+        return baseURL + "/rest/tempo-teams/1/team"
+    }
+    
+    static func tempoUsers(_ id: Int) -> String {
+        let pathComponent = String(format: "/rest/tempo-teams/2/team/%zd/member", id)
+        return baseURL + pathComponent
+    }
+    
+    static func tempoWorklogs(_ name: String, from: String, to: String) -> String {
+        let path = baseURL + "/rest/tempo-timesheets/3/worklogs/?username=" + name + "&dateFrom=" + from + "&dateTo=" + to
+        return path
+    }
 }
+
