@@ -8,7 +8,7 @@
 
 let ISSUES_PER_PAGE = 20
 
-class IssuesListViewModel: ViewModel {
+class IssuesListViewModel {
     
     fileprivate var issues: [Issue] = []
     fileprivate var pagingEnabled = false
@@ -17,14 +17,15 @@ class IssuesListViewModel: ViewModel {
     fileprivate var orderBy: String?
     fileprivate var categoryTitle: String?
     
-    convenience init(jql: String?, orderBy: String?, categoryTitle: String?) {
-        self.init()
+    init(jql: String?, orderBy: String?, categoryTitle: String?) {
         self.jql = jql
         self.orderBy = orderBy
         self.categoryTitle = categoryTitle
     }
     
-    var count: Int { return issues.count }
+    var count: Int {
+        return issues.count
+    }
     
     var title: String {
         guard let titleStr = categoryTitle else {

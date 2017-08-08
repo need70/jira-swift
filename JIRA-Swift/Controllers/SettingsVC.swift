@@ -19,7 +19,6 @@ class SettingsVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addRightBarButton(image: nil, title: "Log Out")
         getCurrentUser()
     }
     
@@ -53,12 +52,13 @@ class SettingsVC: UITableViewController {
         
     }
     
-    override func rightBarButtonPressed() {
+    @IBAction func logOutPressed(_ sender: UIButton) {
         actionSheet(items: ["Sure"], title: "Do You want to Log Out?") { [weak self] (index) in
             if index == 0 {
                 self?.logOutAction()
             }
         }
+
     }
     
     func logOutAction() {

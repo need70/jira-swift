@@ -1,7 +1,7 @@
 
 class IssuesListVC: UITableViewController {
     
-    var viewModel = IssuesListViewModel()
+    var viewModel = IssuesListViewModel(jql: nil, orderBy: nil, categoryTitle: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()

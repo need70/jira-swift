@@ -96,7 +96,25 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     //MARK: textField
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        switch textField {
+        case tfLogin:
+            tfPassword.becomeFirstResponder()
+            break
+        case tfPassword:
+            tfJiraUrl.becomeFirstResponder()
+            break
+        case tfJiraUrl:
+            view.endEditing(true)
+            validate()
+            break
+        default: break
+        }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {        
+        if textField == tfJiraUrl, textField.text == "" {
+            textField.text = "https://"
+        }
     }
 }
