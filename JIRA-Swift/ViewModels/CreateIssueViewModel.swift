@@ -82,7 +82,7 @@ class CreateIssueViewModel: CreateIssueViewModelProtocol {
     
     func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        Request().send(method: .get, url: Api.createmeta, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.createmeta.path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             
@@ -138,7 +138,7 @@ class CreateIssueViewModel: CreateIssueViewModelProtocol {
         
         let params = constructBody()
         
-        Request().send(method: .post, url: Api.issueCreate, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.issueCreate.path, params: params, successBlock: { (responseObj) in
             let dict = responseObj as! [String : Any]
             
             if let key = dict["key"] as? String {

@@ -28,7 +28,7 @@ class TempoTeamsViewModel: ViewModel {
     
     func getTempoTeams(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        Request().send(method: .get, url: Api.tempoTeams, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.tempoTeams.path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

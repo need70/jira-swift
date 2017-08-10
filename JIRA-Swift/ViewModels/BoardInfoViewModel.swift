@@ -86,7 +86,7 @@ class BoardInfoViewModel {
         
         guard let boardId = board?.boardId else { return }
         
-        Request().send(method: .get, url: Api.boardCols(boardId), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.boardCols(boardId).path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             let subDict = dict["columnConfig"] as! [String : Any]
@@ -121,7 +121,7 @@ class BoardInfoViewModel {
         
         guard let col = columns[index] else { return }
         
-        Request().send(method: .get, url: Api.boardIssues(boardId, col.name!), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.boardIssues(boardId, col.name!).path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             

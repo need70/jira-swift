@@ -10,7 +10,7 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var tfLogin: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
-    @IBOutlet weak var tfJiraUrl: UITextField!
+    @IBOutlet weak var tfJiraURL: UITextField!
     @IBOutlet weak var switcher: UISwitch!
     
     let viewModel = LoginViewModel()
@@ -37,10 +37,10 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     
     func validate() {
         
-        if let login = tfLogin.text, let pass = tfPassword.text, let url = tfJiraUrl.text {
+        if let login = tfLogin.text, let pass = tfPassword.text, let url = tfJiraURL.text {
             if login.characters.count > 0, pass.characters.count > 0, url.characters.count > 0 {
                 
-                viewModel.saveJiraUrl(url: url) //save jira url
+                viewModel.saveJiraURL(url: url) //save jira url
                 
                 ToastView.show("Logging In...")
                 auth(login: login, pass: pass, url: url)
@@ -71,7 +71,7 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     
     func tryAutoLogin() {
         
-        tfJiraUrl.text = viewModel.baseURL
+        tfJiraURL.text = viewModel.baseURL
         
         if viewModel.shouldAutoLogin() {
             let login = viewModel.getSavedLogin()
@@ -80,7 +80,7 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
             
             tfLogin.text = login
             tfPassword.text = pass
-            tfJiraUrl.text = url
+            tfJiraURL.text = url
             
             ToastView.show("Logging In...")
             auth(login: login, pass: pass, url: url)
@@ -101,9 +101,9 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
             tfPassword.becomeFirstResponder()
             break
         case tfPassword:
-            tfJiraUrl.becomeFirstResponder()
+            tfJiraURL.becomeFirstResponder()
             break
-        case tfJiraUrl:
+        case tfJiraURL:
             view.endEditing(true)
             validate()
             break
@@ -113,7 +113,7 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {        
-        if textField == tfJiraUrl, textField.text == "" {
+        if textField == tfJiraURL, textField.text == "" {
             textField.text = "https://"
         }
     }

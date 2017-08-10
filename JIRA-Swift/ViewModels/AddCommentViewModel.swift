@@ -32,7 +32,7 @@ class AddCommentViewModel: AddCommentViewModelProtocol {
         guard let key = issue?.key else { return }
         let params = ["body" : body]
         
-        Request().send(method: .post, url: Api.comments(key), params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.comments(key).path, params: params, successBlock: { (responseObj) in
             fBlock()
         }, errorBlock: { (error) in
             if let err = error {

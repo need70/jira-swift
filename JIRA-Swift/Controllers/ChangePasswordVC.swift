@@ -43,7 +43,7 @@ class ChangePasswordVC: UITableViewController {
 }
 
 
-class ChangePasswordViewModel: ViewModel {
+class ChangePasswordViewModel {
     
     
     

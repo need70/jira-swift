@@ -39,7 +39,7 @@ class TempoUsersViewModel: ViewModel {
             return
         }
         
-        Request().send(method: .get, url: Api.tempoUsers(teamId), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.tempoUsers(teamId).path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

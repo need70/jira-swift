@@ -29,7 +29,7 @@ class LogWorkViewModel: ViewModel {
             return
         }
         
-        Request().send(method: .post, url: Api.logWork(key), params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.logWork(key).path, params: params, successBlock: { (responseObj) in
             print(responseObj!)
             let dict = responseObj as! [String : Any]
             sBlock(dict)

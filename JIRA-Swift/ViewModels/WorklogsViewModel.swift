@@ -55,7 +55,7 @@ class WorklogsViewModel: ViewModel {
             return
         }
         
-        Request().send(method: .get, url: Api.tempoWorklogs(name, from: from, to: to), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.tempoWorklogs(name, from, to).path, params: nil, successBlock: { (responseObj) in
             print(responseObj as! [Any])
             
             let array = responseObj as! [Any]

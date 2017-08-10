@@ -6,7 +6,7 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-let ISSUES_PER_PAGE = 20
+let ISSUES_PER_PAGE = 15
 
 class IssuesListViewModel {
     
@@ -102,7 +102,7 @@ class IssuesListViewModel {
         
         let params = ["jql" : jqlString, "startAt" : String(count), "maxResults" : String(ISSUES_PER_PAGE)]
         
-        Request().send(method: .post, url: Api.issuesList, params: params, successBlock: { [weak self] (responseObj) in
+        Request().send(method: .post, url: Api.issuesList.path, params: params, successBlock: { [weak self] (responseObj) in
             print(responseObj as Any)
             
             let dict = responseObj as! [String : Any]

@@ -257,7 +257,7 @@
                     </tableView>
                     <connections>
                         <outlet property="switcher" destination="ws5-b7-GVB" id="7Pn-TT-Vi8"/>
-                        <outlet property="tfJiraUrl" destination="nQj-8a-XqI" id="GiZ-jE-aYA"/>
+                        <outlet property="tfJiraURL" destination="nQj-8a-XqI" id="GiZ-jE-aYA"/>
                         <outlet property="tfLogin" destination="hFA-PZ-Wge" id="Puq-lQ-6hj"/>
                         <outlet property="tfPassword" destination="Qc4-1L-X02" id="oYj-kF-ETT"/>
                         <segue destination="isU-jD-A0b" kind="presentation" identifier="segueToTabbarController" id="SBn-tV-OPf"/>

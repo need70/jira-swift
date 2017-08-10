@@ -24,7 +24,7 @@ class BoardsViewModel {
     
     func getBoards(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        Request().send(method: .get, url: Api.boards, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.boards.path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             if let array = dict["values"] as? [Any] {

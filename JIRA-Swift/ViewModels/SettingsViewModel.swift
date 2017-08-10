@@ -23,7 +23,7 @@ class SettingsViewModel: ViewModel {
     
     func getUser(name: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
         
-        Request().send(method: .get, url: Api.user(name), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.user(name).path, params: nil, successBlock: { (responseObj) in
             
             print(responseObj as! [String : Any])
             let dict = responseObj as! [String : Any]
@@ -41,7 +41,7 @@ class SettingsViewModel: ViewModel {
     
     func logOut(userName: String, password: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
                 
-        Request().send(method: .delete, url: Api.session, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .delete, url: Api.session.path, params: nil, successBlock: { (responseObj) in
             print(responseObj!)
             fBlock()
         }, errorBlock: { (error) in

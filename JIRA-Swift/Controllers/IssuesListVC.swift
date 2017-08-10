@@ -24,7 +24,6 @@ class IssuesListVC: UITableViewController {
     }
     
     func getIssues() {
-        
         viewModel.getIssues(fBlock: { [weak self] in
             self?.tableView.reloadData()
             self?.tableView.separatorStyle = .singleLine

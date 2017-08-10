@@ -121,6 +121,7 @@
 		89497A051F39A7D40028E5CE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A041F39A7D40028E5CE /* Settings.storyboard */; };
 		89497A061F39A7D40028E5CE /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A041F39A7D40028E5CE /* Settings.storyboard */; };
 		89497A071F39A8050028E5CE /* Projects.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89497A021F39A7A30028E5CE /* Projects.storyboard */; };
+		89497A0D1F3B10330028E5CE /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 891A96691E531FAD00B85B39 /* Info.plist */; };
 		8960017D1F02A73500F6255A /* AttachmentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017C1F02A73500F6255A /* AttachmentsViewModel.swift */; };
 		8960017F1F04D96000F6255A /* WorklogEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8960017E1F04D96000F6255A /* WorklogEditVC.swift */; };
 		89A334F81F2F226600CEF3B2 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A334F71F2F226600CEF3B2 /* Transition.swift */; };
@@ -469,7 +470,7 @@
 			isa = PBXGroup;
 			children = (
 				891A96641E531FAD00B85B39 /* Assets.xcassets */,
-				89F79C8A1EF8165D00F0AAC8 /* Presenter.swift */,
+				89497A081F3B06BB0028E5CE /* Navigation */,
 				89F79C601EF418A200F0AAC8 /* Views */,
 				89F79C8E1EF844FA00F0AAC8 /* ViewModels */,
 				89F79C771EF418B200F0AAC8 /* Models */,
@@ -478,6 +479,14 @@
 				891835731EE03904004209A7 /* Other */,
 			);
 			path = "JIRA-Swift";
+			sourceTree = "<group>";
+		};
+		89497A081F3B06BB0028E5CE /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				89F79C8A1EF8165D00F0AAC8 /* Presenter.swift */,
+			);
+			name = Navigation;
 			sourceTree = "<group>";
 		};
 		896001801F04D99F00F6255A /* Tempo */ = {
@@ -526,8 +535,8 @@
 		89F79C601EF418A200F0AAC8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				890D5D851F0CCD5400BCFE59 /* Cells */,
 				891835741EE0390F004209A7 /* Storyboards */,
+				890D5D851F0CCD5400BCFE59 /* Cells */,
 				891900041EFD4E6A00671DE2 /* Login */,
 				89F79C7B1EF419B100F0AAC8 /* Issues */,
 				891900021EFD4E5300671DE2 /* Boards */,
@@ -729,6 +738,7 @@
 				8922F8C41F14CA4C00B37A4C /* Main.storyboard in Resources */,
 				8922F8C51F14CA4C00B37A4C /* LaunchScreen.storyboard in Resources */,
 				89497A071F39A8050028E5CE /* Projects.storyboard in Resources */,
+				89497A0D1F3B10330028E5CE /* Info.plist in Resources */,
 				8922F8C61F14CA4C00B37A4C /* ToastView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

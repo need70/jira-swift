@@ -16,7 +16,7 @@ class IssueDetailsViewModel {
     }
     
     var title: String {
-        return issueKey ?? "IssueDetails"
+        return issueKey ?? "Issue Details"
     }
     
     var commentsCount: Int {
@@ -197,7 +197,7 @@ class IssueDetailsViewModel {
             return
         }
         
-        Request().send(method: .get, url: Api.issue(key), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.issue(key).path, params: nil, successBlock: { (responseObj) in
             
             if let dict = responseObj as? [String : Any] {
                 self.issue = Issue(JSON: dict)!
@@ -228,7 +228,7 @@ class IssueDetailsViewModel {
         
         let params = String(format: "\"%@\"", username as String)
         
-        Request().send(method: .post, url: Api.watchIssue(issueId), params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.watchIssue(issueId).path, params: params, successBlock: { (responseObj) in
             print(responseObj as Any)
             sBlock()
         }, errorBlock: { (error) in
@@ -250,7 +250,7 @@ class IssueDetailsViewModel {
             return
         }
         
-        Request().send(method: .delete, url: Api.unwatchIssue(issueId, username), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .delete, url: Api.unwatchIssue(issueId, username).path, params: nil, successBlock: { (responseObj) in
             print(responseObj as Any)
             sBlock()
         }, errorBlock: { (error) in
@@ -267,7 +267,7 @@ class IssueDetailsViewModel {
             return
         }
         
-        Request().send(method: .get, url: Api.transitions(key), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.transitions(key).path, params: nil, successBlock: { (responseObj) in
             
             if let dict = responseObj as? [String : Any], let array =  dict["transitions"] as? [Any] {
                
@@ -302,7 +302,7 @@ class IssueDetailsViewModel {
         
         let params = ["transition": ["id" : transition?.transitionId]]
         
-        Request().send(method: .post, url: Api.transitions(key), params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.transitions(key).path, params: params, successBlock: { (responseObj) in
             fBlock()
             
         }, errorBlock: { (error) in

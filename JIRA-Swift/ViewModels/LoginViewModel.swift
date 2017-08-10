@@ -11,7 +11,7 @@ import Foundation
 class ViewModel {
     
     var baseURL: String {
-        guard let url = UserDefaults.standard.value(forKey: "JiraUrl") else {
+        guard let url = UserDefaults.standard.value(forKey: "JiraURL") else {
             return ""
         }
         return url as! String
@@ -24,7 +24,7 @@ class LoginViewModel: ViewModel {
         
         let params = ["username" : userName, "password" : password]
         
-        Request().send(method: .post, url: Api.session, params: params, successBlock: { (responseObj) in
+        Request().send(method: .post, url: Api.session.path, params: params, successBlock: { (responseObj) in
             self.getCurrentUser(sBlock: sBlock, eBlock: eBlock)
         }, errorBlock: { (error) in
             if let err = error {
@@ -36,7 +36,7 @@ class LoginViewModel: ViewModel {
     
     func getCurrentUser(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
                 
-        Request().send(method: .get, url: Api.session, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.session.path, params: nil, successBlock: { (responseObj) in
             
             print(responseObj as! [String : Any])
             
@@ -57,9 +57,9 @@ class LoginViewModel: ViewModel {
     
     //MARK: save auth data
     
-    func saveJiraUrl(url: String?) {
+    func saveJiraURL(url: String?) {
         if let path = url {
-            UserDefaults.standard.set(path, forKey: "JiraUrl")
+            UserDefaults.standard.set(path, forKey: "JiraURL")
             UserDefaults.standard.synchronize()
         }
     }

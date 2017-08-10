@@ -279,7 +279,9 @@
                             <constraint firstItem="jMe-WX-UIv" firstAttribute="leading" secondItem="3ln-79-2c5" secondAttribute="leading" id="tXh-Zw-yaP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Board 2" id="EEy-0a-onF"/>
+                    <navigationItem key="navigationItem" title="Board 2" id="EEy-0a-onF">
+                        <barButtonItem key="backBarButtonItem" title=" " id="npX-bb-Cyh"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="btnColumn" destination="g2c-9f-cWb" id="khy-DY-QLQ"/>
                         <outlet property="btnNext" destination="JDk-8f-Sg7" id="F1b-xu-No4"/>

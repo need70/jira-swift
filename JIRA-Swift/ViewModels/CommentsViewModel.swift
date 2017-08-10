@@ -44,7 +44,7 @@ class CommentsViewModel: CommentsViewModelProtocol {
         
         guard let key = issue?.key else { return }
         
-        Request().send(method: .get, url: Api.comments(key), params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.comments(key).path, params: nil, successBlock: { (responseObj) in
             
             let dict = responseObj as! [String : Any]
             
