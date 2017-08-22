@@ -20,37 +20,44 @@ class ViewModel {
 
 class LoginViewModel: ViewModel {
         
-    func logIn(userName: String, password: String, sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func logIn(userName: String, password: String, completition: @escaping responseHandler) {
         
         let params = ["username" : userName, "password" : password]
         
-        Request().send(method: .post, url: Api.session.path, params: params, successBlock: { (responseObj) in
-            self.getCurrentUser(sBlock: sBlock, eBlock: eBlock)
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .post, url: Api.session.path, params: params, completition: { (result) in
+            
+            switch result {
+                
+            case .success(_):
+                self.getCurrentUser(completition: completition)
+                break
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }
     
-    func getCurrentUser(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getCurrentUser(completition: @escaping responseHandler) {
                 
-        Request().send(method: .get, url: Api.session.path, params: nil, successBlock: { (responseObj) in
+        Request().send(method: .get, url: Api.session.path, params: nil, completition: { (result) in
             
-            print(responseObj as! [String : Any])
-            
-            let dict = responseObj as! [String : Any]
-            
-            if let username = dict["name"] as? String {
-                UserDefaults.standard.set(username, forKey: "Username")
-                UserDefaults.standard.synchronize()
-            }
-            sBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [String : Any])
+                
+                let dict = responseObj as! [String : Any]
+                
+                if let username = dict["name"] as? String {
+                    UserDefaults.standard.set(username, forKey: "Username")
+                    UserDefaults.standard.synchronize()
+                }
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

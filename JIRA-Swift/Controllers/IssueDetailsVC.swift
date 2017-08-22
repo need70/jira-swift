@@ -62,15 +62,22 @@ class IssueDetailsVC: UITableViewController {
     }
     
     func getIssue() {
-        viewModel.getIssue(fBlock: { [weak self] in
-            self?.setupUI()
-            self?.tableView.reloadData()
-            AKActivityView.remove(animated: true)
-            self?.refreshControl?.endRefreshing()
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+        viewModel.getIssue(completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                self?.setupUI()
+                self?.tableView.reloadData()
+                AKActivityView.remove(animated: true)
+                self?.refreshControl?.endRefreshing()
+
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
     
     func refresh() {
@@ -207,65 +214,87 @@ extension IssueDetailsVC {
     
     func watch() {
         ToastView.show("Processing...")
-        viewModel.watchIssue( sBlock: { [weak self] in
-            ToastView.hide(fBlock: {
-                self?.refresh()
-            })
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        viewModel.watchIssue( completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                ToastView.hide(fBlock: {
+                    self?.refresh()
+                })
+                
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+            }
+        })
     }
     
     func removeFromWatchList() {
         ToastView.show("Processing...")
-        viewModel.removeFromWatchList(sBlock: { [weak self] in
-            ToastView.hide(fBlock: {
-                self?.refresh()
-            })
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        viewModel.removeFromWatchList(completition: { [weak self] (result) in
+            switch result {
+                
+            case .success(_):
+                ToastView.hide(fBlock: {
+                    self?.refresh()
+                })
+                
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+            }
+
+        })
     }
     
     func getStatuses() {
         ToastView.show("Processing...")
-        viewModel.getTransitions(fBlock: { [weak self] array in
+        viewModel.getTransitions(completition: { [weak self] (result) in
             
-            ToastView.errHide(fBlock: nil)
-            guard let transitions = array as? [Transition], transitions.count > 0 else {
-                return
-            }
-            
-            let actions: [String] = transitions.map { $0.name! }
-
-            self?.actionSheet(items: actions, title: "Move issue to") { [weak self] (index) in
+            switch result {
                 
-                let transition = transitions[index]
-                self?.changeStatus(for: transition)
+            case .success(let array):
+                
+                ToastView.errHide(fBlock: nil)
+                guard let transitions = array as? [Transition], transitions.count > 0 else {
+                    return
+                }
+                
+                let actions: [String] = transitions.map { $0.name! }
+                
+                self?.actionSheet(items: actions, title: "Move issue to") { [weak self] (index) in
+                    
+                    let transition = transitions[index]
+                    self?.changeStatus(for: transition)
+                }
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
             }
-            
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        })
     }
     
     func changeStatus(for transition: Transition?) {
         ToastView.show("Processing...")
-        viewModel.updateStatus(transition: transition, fBlock: { [weak self] in
-            ToastView.hide(fBlock: {
-                self?.refresh()
-            })
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        viewModel.updateStatus(transition: transition, completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                ToastView.hide(fBlock: {
+                    self?.refresh()
+                })
+                
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+            }
+        })
     }
 }
 

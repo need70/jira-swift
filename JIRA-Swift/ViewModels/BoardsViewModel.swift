@@ -22,31 +22,6 @@ class BoardsViewModel {
         return boards[index]
     }
     
-    func getBoards(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
-        
-        Request().send(method: .get, url: Api.boards.path, params: nil, successBlock: { (responseObj) in
-            
-            let dict = responseObj as! [String : Any]
-            if let array = dict["values"] as? [Any] {
-                var objects: [Board] = []
-                
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = Board(JSON: dict)!
-                    objects.append(obj)
-                }
-                self.boards = objects
-                sBlock()
-            }
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
-        })
-    }
-    
     func cell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
@@ -57,4 +32,34 @@ class BoardsViewModel {
         }
         return cell
     }
+    
+    func getBoards(completition: @escaping responseHandler) {
+        
+        request.send(method: .get, url: Api.boards.path, params: nil, completition: { (result) in
+            
+            switch result {
+                
+            case .success(let responseObj):
+                
+                let dict = responseObj as! [String : Any]
+                if let array = dict["values"] as? [Any] {
+                    var objects: [Board] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = Board(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    self.boards = objects
+                    completition(.success(nil))
+                }
+                
+            case .failed(let err):
+                completition(.failed(err))
+            }
+            
+        })
+    }
+    
+
 }

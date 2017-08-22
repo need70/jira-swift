@@ -32,33 +32,37 @@ class TempoUsersViewModel: ViewModel {
         return tempoUsers.count
     }
     
-    func getTempoUsers(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getTempoUsers(completition: @escaping responseHandler) {
     
         guard let teamId = tempoTeam?.teamId else {
-            eBlock("Tempo team id not found!")
+            completition(.failed("Tempo team id not found!"))
             return
         }
         
-        Request().send(method: .get, url: Api.tempoUsers(teamId).path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as! [Any])
-            
-            let array = responseObj as! [Any]
-            
-            var objects: [TempoUser] = []
-            
-            for index in 0..<array.count {
-                let dict = array[index] as! [String: Any]
-                let obj = TempoUser(JSON: dict)!
-                objects.append(obj)
+        request.send(method: .get, url: Api.tempoUsers(teamId).path, params: nil, completition: { (result) in
+  
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [Any])
+                
+                let array = responseObj as! [Any]
+                
+                var objects: [TempoUser] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = TempoUser(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.tempoUsers = objects
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
-            self.tempoUsers = objects
-            sBlock()
             
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
         })
     }
 }

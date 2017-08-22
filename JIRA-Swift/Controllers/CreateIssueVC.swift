@@ -43,14 +43,20 @@ class CreateIssueVC: UITableViewController {
     }
     
     func getCreateMeta() {
-        viewModel.getCreateMeta(sBlock: { [weak self] in
-            self?.setupUI()
-            AKActivityView.remove(animated: true)
+        viewModel.getCreateMeta(completition: { [weak self] (result) in
             
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+            switch result {
+                
+            case .success(_):
+                self?.setupUI()
+                AKActivityView.remove(animated: true)
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
 
     override func leftBarButtonPressed() {
@@ -79,19 +85,24 @@ class CreateIssueVC: UITableViewController {
     
     func createIssue() {
         ToastView.show("Creating...")
-        viewModel.createIssue(sBlock: { [weak self] (keyString) in
-            ToastView.hide(fBlock: {
-                let msg = String(format: "Issue %@ was succesfully created.", keyString!)
-                self?.alert(title: "Success", message: msg, block: {
-                    self?.dismiss(animated: true, completion: nil)
-                })
-            })
+        viewModel.createIssue(completition: { [weak self] (result) in
             
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+            switch result {
+                
+            case .success(let keyString):
+                ToastView.hide(fBlock: {
+                    let msg = String(format: "Issue %@ was succesfully created.", keyString as! String)
+                    self?.alert(title: "Success", message: msg, block: {
+                        self?.dismiss(animated: true, completion: nil)
+                    })
+                })
+                
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+            }
+        })
     }
     
     func setupUI() {

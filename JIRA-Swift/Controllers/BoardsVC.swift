@@ -22,14 +22,21 @@ class BoardsVC: UITableViewController {
     }
     
     func getBoards() {
-        viewModel.getBoards(sBlock: { [weak self] in
-            self?.tableView.reloadData()
-            self?.refreshControl?.endRefreshing()
-            AKActivityView.remove(animated: true)
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+        viewModel.getBoards(completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                self?.refreshControl?.endRefreshing()
+                AKActivityView.remove(animated: true)
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
     
     func refresh() {

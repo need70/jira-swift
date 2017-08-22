@@ -9,8 +9,8 @@ protocol CreateIssueViewModelProtocol {
     var priorityString: String? { get }
     var priorityIconUrl: String? { get }
     func numberOfRows(_ section: Int) -> Int
-    func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock)
-    func createIssue(sBlock: @escaping stringBlock, eBlock: @escaping stringBlock)
+    func getCreateMeta(completition: @escaping responseHandler)
+    func createIssue(completition: @escaping responseHandler)
 }
 
 class CreateIssueViewModel: CreateIssueViewModelProtocol {
@@ -80,27 +80,31 @@ class CreateIssueViewModel: CreateIssueViewModelProtocol {
         return 3
     }
     
-    func getCreateMeta(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getCreateMeta(completition: @escaping responseHandler) {
         
-        Request().send(method: .get, url: Api.createmeta.path, params: nil, successBlock: { (responseObj) in
+        request.send(method: .get, url: Api.createmeta.path, params: nil, completition: { (result) in
             
-            let dict = responseObj as! [String : Any]
-            
-            if let array = dict["projects"] as? [Any] {
+            switch result {
                 
-                var objects: [Project] = []
+            case .success(let responseObj):
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = Project(JSON: dict)!
-                    objects.append(obj)
+                let dict = responseObj as! [String : Any]
+                
+                if let array = dict["projects"] as? [Any] {
+                    
+                    var objects: [Project] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = Project(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    self.projects = objects
+                    completition(.success(nil))
                 }
-                self.projects = objects
-                sBlock()
-            }
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
+
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }
@@ -134,20 +138,25 @@ class CreateIssueViewModel: CreateIssueViewModelProtocol {
         return ["fields" : dict]
     }
     
-    func createIssue(sBlock: @escaping stringBlock, eBlock: @escaping stringBlock) {
+    func createIssue(completition: @escaping responseHandler) {
         
         let params = constructBody()
         
-        Request().send(method: .post, url: Api.issueCreate.path, params: params, successBlock: { (responseObj) in
-            let dict = responseObj as! [String : Any]
-            
-            if let key = dict["key"] as? String {
-                print(dict)
-                sBlock(key)
-            }
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
+        Request().send(method: .post, url: Api.issueCreate.path, params: params, completition: { (result) in
+      
+            switch result {
+                
+            case .success(let responseObj):
+                
+                let dict = responseObj as! [String : Any]
+                
+                if let key = dict["key"] as? String {
+                    print(dict)
+                    completition(.success(key))
+                }
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

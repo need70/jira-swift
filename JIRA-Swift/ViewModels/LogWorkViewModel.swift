@@ -6,12 +6,11 @@
 //  Copyright © 2017 home. All rights reserved.
 //
 
-class LogWorkViewModel: ViewModel {
+class LogWorkViewModel {
     
     fileprivate var issue: Issue?
     
-    convenience init(issue: Issue?) {
-        self.init()
+    init(issue: Issue?) {
         self.issue = issue
     }
     
@@ -22,21 +21,25 @@ class LogWorkViewModel: ViewModel {
         return "Log Work"
     }
     
-    func logWork(params: [String : String], sBlock: @escaping dictBlock, eBlock: @escaping stringBlock) {
+    func logWork(params: [String : String], completition: @escaping responseHandler) {
         
         guard let key = issue?.key else {
-            eBlock("Missing issue key!")
+            completition(.failed("Missing issue key!"))
             return
         }
         
-        Request().send(method: .post, url: Api.logWork(key).path, params: params, successBlock: { (responseObj) in
-            print(responseObj!)
-            let dict = responseObj as! [String : Any]
-            sBlock(dict)
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        Request().send(method: .post, url: Api.logWork(key).path, params: params, completition: { (result) in
+            
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj!)
+                let dict = responseObj as! [String : Any]
+                completition(.success(dict))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

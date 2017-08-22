@@ -26,27 +26,31 @@ class TempoTeamsViewModel: ViewModel {
         return tempoTeams.count
     }
     
-    func getTempoTeams(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getTempoTeams(completition: @escaping responseHandler) {
         
-        Request().send(method: .get, url: Api.tempoTeams.path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as! [Any])
-            
-            let array = responseObj as! [Any]
-            
-            var objects: [TempoTeam] = []
-            
-            for index in 0..<array.count {
-                let dict = array[index] as! [String: Any]
-                let obj = TempoTeam(JSON: dict)!
-                objects.append(obj)
-            }
-            self.tempoTeams = objects
-            fBlock()
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .get, url: Api.tempoTeams.path, params: nil, completition: { (result) in
+           
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [Any])
+                
+                let array = responseObj as! [Any]
+                
+                var objects: [TempoTeam] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = TempoTeam(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.tempoTeams = objects
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
+
             }
         })
     }

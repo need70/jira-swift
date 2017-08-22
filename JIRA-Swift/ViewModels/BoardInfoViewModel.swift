@@ -82,68 +82,72 @@ class BoardInfoViewModel {
     
     //MARK: requests
     
-    func getBoardColumns(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
+    func getBoardColumns(completition: @escaping responseHandler) {
         
         guard let boardId = board?.boardId else { return }
         
-        Request().send(method: .get, url: Api.boardCols(boardId).path, params: nil, successBlock: { (responseObj) in
+        request.send(method: .get, url: Api.boardCols(boardId).path, params: nil, completition: { (result) in
             
-            let dict = responseObj as! [String : Any]
-            let subDict = dict["columnConfig"] as! [String : Any]
-            
-            if let array = subDict["columns"] as? [Any] {
+            switch result {
+            case .success(let responseObj):
                 
-                var objects: [BoardColumn] = []
+                let dict = responseObj as! [String : Any]
+                let subDict = dict["columnConfig"] as! [String : Any]
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = BoardColumn(JSON: dict)!
+                if let array = subDict["columns"] as? [Any] {
                     
-                    if obj.statuses.count > 0 {
-                        objects.append(obj)
+                    var objects: [BoardColumn] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = BoardColumn(JSON: dict)!
+                        
+                        if obj.statuses.count > 0 {
+                            objects.append(obj)
+                        }
                     }
+                    self.columns = objects
+                    completition(.success(nil))
                 }
-                self.columns = objects
-                fBlock()
-            }
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+                
+            case .failed(let error):
+                completition(.failed(error))
             }
         })
     }
     
-    func getBoardIssues(index: Int, fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
+    func getBoardIssues(index: Int, completition: @escaping responseHandler) {
         
         guard let boardId = board?.boardId else { return }
         
         guard let col = columns[index] else { return }
         
-        Request().send(method: .get, url: Api.boardIssues(boardId, col.name!).path, params: nil, successBlock: { (responseObj) in
+        request.send(method: .get, url: Api.boardIssues(boardId, col.name!).path, params: nil, completition: { (result) in
             
-            let dict = responseObj as! [String : Any]
-            
-            if let array = dict["issues"] as? [Any] {
+            switch result {
                 
-                var objects: [Issue] = []
+            case .success(let responseObj):
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = Issue(JSON: dict)!
+                let dict = responseObj as! [String : Any]
+                
+                if let array = dict["issues"] as? [Any] {
                     
-                    objects.append(obj)
+                    var objects: [Issue] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = Issue(JSON: dict)!
+                        
+                        objects.append(obj)
+                    }
+                    self.boardIssues = objects
+                    completition(.success(nil))
                 }
-                self.boardIssues = objects
-                fBlock()
-            }
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+                
+            case .failed(let error):
+                completition(.failed(error))
             }
         })
     }
+
 }

@@ -21,33 +21,36 @@ class SettingsViewModel: ViewModel {
         return "Version \(version)"
     }
     
-    func getUser(name: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getUser(name: String, completition: @escaping responseHandler) {
         
-        Request().send(method: .get, url: Api.user(name).path, params: nil, successBlock: { (responseObj) in
-            
-            print(responseObj as! [String : Any])
-            let dict = responseObj as! [String : Any]
-            let user = User(JSON: dict)
-            self.currentUser = user
-            fBlock()
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .get, url: Api.user(name).path, params: nil, completition: { (result) in
+           
+            switch result {
+                
+            case .success(let responseObj):
+                
+                let dict = responseObj as! [String : Any]
+                let user = User(JSON: dict)
+                self.currentUser = user
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }
     
-    func logOut(userName: String, password: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func logOut(userName: String, password: String, completition: @escaping responseHandler) {
                 
-        Request().send(method: .delete, url: Api.session.path, params: nil, successBlock: { (responseObj) in
-            print(responseObj!)
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .delete, url: Api.session.path, params: nil, completition: { (result) in
+            
+            switch result {
+                
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

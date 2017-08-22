@@ -24,17 +24,21 @@ class IssuesListVC: UITableViewController {
     }
     
     func getIssues() {
-        viewModel.getIssues(fBlock: { [weak self] in
-            self?.tableView.reloadData()
-            self?.tableView.separatorStyle = .singleLine
+        viewModel.getIssues(completition: { [weak self] (result) in
+        
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                self?.tableView.separatorStyle = .singleLine
+                
+            case .failed(let err):
+                self?.alert(title: "Error", message: err)
+
+            }
             AKActivityView.remove(animated: true)
             self?.refreshControl?.endRefreshing()
-            
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.refreshControl?.endRefreshing()
-            self?.alert(title: "Error", message: errString)
-        }
+        })
     }
     
     //MARK:  TableView
@@ -44,7 +48,7 @@ class IssuesListVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(tableView, section)
+        return viewModel.numberOfRows(section)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -76,5 +80,4 @@ extension IssuesListVC: OrderByDelegate {
         AKActivityView.add(to: view)
         getIssues()
     }
-
 }

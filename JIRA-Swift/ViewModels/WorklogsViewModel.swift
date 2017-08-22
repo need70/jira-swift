@@ -48,51 +48,58 @@ class WorklogsViewModel: ViewModel {
         return worklogs.count
     }
     
-    func getWorklogs(from: String, to: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getWorklogs(from: String, to: String, completition: @escaping responseHandler) {
         
         guard let name = tempoUser?.member?.name else {
-             eBlock("Tempo user name not found!")
+            completition(.failed("Tempo user name not found!"))
             return
         }
         
-        Request().send(method: .get, url: Api.tempoWorklogs(name, from, to).path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as! [Any])
-            
-            let array = responseObj as! [Any]
-            
-            var objects: [Worklog] = []
-            
-            for index in 0..<array.count {
-                let dict = array[index] as! [String: Any]
-                let obj = Worklog(JSON: dict)!
-                objects.append(obj)
-            }
-            self.worklogs = objects
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .get, url: Api.tempoWorklogs(name, from, to).path, params: nil, completition: { (result) in
+   
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [Any])
+                
+                let array = responseObj as! [Any]
+                
+                var objects: [Worklog] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = Worklog(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.worklogs = objects
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }
     
-    func deleteWorklog(index: Int, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func deleteWorklog(index: Int, completition: @escaping responseHandler) {
         
         let item = worklogs[index]
         guard let worklogId = item.worklogId else {
-            eBlock("worklogId not found!")
+            completition(.failed("worklogId not found!"))
             return
         }
 
         let path = baseURL + "/rest/tempo-timesheets/3/worklogs/\(worklogId)"
         
-        Request().send(method: .delete, url: path, params: nil, successBlock: { (responseObj) in
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        request.send(method: .delete, url: path, params: nil, completition: { (result) in
+            
+            switch result {
+                
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

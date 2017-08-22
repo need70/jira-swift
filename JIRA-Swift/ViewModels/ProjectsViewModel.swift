@@ -35,27 +35,32 @@ class ProjectsViewModel: ViewModel {
         return projects[index]
     }
     
-    func getProjects(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getProjects(completition: @escaping responseHandler) {
         
-        Request().send(method: .get, url: Api.projects.path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as! [Any])
+        Request().send(method: .get, url: Api.projects.path, params: nil, completition: { (result) in
             
-            let array = responseObj as! [Any]
-            
-            var objects: [Project] = []
-            
-            for index in 0..<array.count {
-                let dict = array[index] as! [String: Any]
-                let obj = Project(JSON: dict)!
-                objects.append(obj)
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [Any])
+                
+                let array = responseObj as! [Any]
+                
+                var objects: [Project] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = Project(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.projects = objects
+                completition(.success(nil))
+
+            case .failed(let err):
+                completition(.failed(err))
             }
-            self.projects = objects
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
+        
         })
     }
 }

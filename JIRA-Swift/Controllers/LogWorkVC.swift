@@ -12,7 +12,7 @@ protocol LogWorkDelegate {
 
 class LogWorkVC: UITableViewController {
 
-    var viewModel = LogWorkViewModel()
+    var viewModel = LogWorkViewModel(issue: nil)
     var _delegate: LogWorkDelegate?
     
     @IBOutlet weak var tfWeek: JRDigitField!
@@ -79,15 +79,21 @@ class LogWorkVC: UITableViewController {
         
         print("params = \(params)")
         
-        viewModel.logWork(params: params, sBlock: { [weak self] (responceDict) in
-            ToastView.hide(fBlock: {
-                self?.dismiss(animated: true, completion: nil)
-            })
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        viewModel.logWork(params: params, completition: { [weak self] (result) in
+           
+            switch result {
+                
+            case .success(_):
+                ToastView.hide(fBlock: {
+                    self?.dismiss(animated: true, completion: nil)
+                })
+                
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+            }
+        })
     }
     
     func setupTimeLabel() {

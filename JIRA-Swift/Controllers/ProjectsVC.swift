@@ -21,15 +21,21 @@ class ProjectsVC: UITableViewController {
     }
         
     func getProjects() {
-        viewModel.getProjects(fBlock: { [weak self] in
-            self?.tableView.reloadData()
-            AKActivityView.remove(animated: true)
-            self?.refreshControl?.endRefreshing()
+        viewModel.getProjects(completition: { [weak self] (result) in
             
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                AKActivityView.remove(animated: true)
+                self?.refreshControl?.endRefreshing()
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+                
+            }
+        })
     }
     
     func refresh() {

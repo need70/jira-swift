@@ -74,29 +74,32 @@ class OrderByViewModel: ViewModel {
         _delegate?.selectedField(selectedField)
     }
     
-    func getOrderBy(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getOrderBy(completition: @escaping responseHandler) {
         
         let path = baseURL + "/rest/api/2/field"
         
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as! [Any])
-            
-            let array = responseObj as! [Any]
-            
-            var objects: [Field] = []
-            
-            for index in 0..<array.count {
-                let dict = array[index] as! [String: Any]
-                let obj = Field(JSON: dict)!
-                objects.append(obj)
-            }
-            self.fields = objects
-            fBlock()
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
+        Request().send(method: .get, url: path, params: nil, completition: { (result) in
+          
+            switch result {
+                
+            case .success(let responseObj):
+                
+                print(responseObj as! [Any])
+                
+                let array = responseObj as! [Any]
+                
+                var objects: [Field] = []
+                
+                for index in 0..<array.count {
+                    let dict = array[index] as! [String: Any]
+                    let obj = Field(JSON: dict)!
+                    objects.append(obj)
+                }
+                self.fields = objects
+                completition(.success(nil))
+
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

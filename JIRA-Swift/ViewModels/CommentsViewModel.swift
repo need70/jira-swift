@@ -12,7 +12,7 @@ protocol CommentsViewModelProtocol {
     var issue: Issue? { get }
     
     func remove()
-    func getComments(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock)
+    func getComments(completition: @escaping responseHandler)
     func numberOfRows(_ section: Int) -> Int
     func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell
 }
@@ -40,35 +40,6 @@ class CommentsViewModel: CommentsViewModelProtocol {
         }
     }
     
-    func getComments(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
-        
-        guard let key = issue?.key else { return }
-        
-        Request().send(method: .get, url: Api.comments(key).path, params: nil, successBlock: { (responseObj) in
-            
-            let dict = responseObj as! [String : Any]
-            
-            if let array = dict["comments"] as? [Any] {
-                
-                var objects: [Comment] = []
-                
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = Comment(JSON: dict)!
-                    objects.append(obj)
-                }
-                self.comments = objects
-                fBlock()
-            }
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
-        })
-    }
-    
     func cell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         if comments.count == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoDataCell")!
@@ -90,5 +61,39 @@ class CommentsViewModel: CommentsViewModelProtocol {
         }
         return comments.count
     }
+    
+    func getComments(completition: @escaping responseHandler) {
+        
+        guard let key = issue?.key else { return }
+        
+        Request().send(method: .get, url: Api.comments(key).path, params: nil, completition: { (result) in
+            
+            switch result {
+                
+            case .success(let responseObj):
+                
+                let dict = responseObj as! [String : Any]
+                
+                if let array = dict["comments"] as? [Any] {
+                    
+                    var objects: [Comment] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = Comment(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    self.comments = objects
+                    completition(.success(nil))
+                }
+                
+            case .failed(let err):
+                completition(.failed(err))
+
+            }
+        })
+    }
+    
+    
     
 }

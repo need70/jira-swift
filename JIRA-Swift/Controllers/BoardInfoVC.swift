@@ -36,25 +36,39 @@ class BoardInfoVC: UIViewController {
     }
     
     func getColumns() {
-        viewModel.getBoardColumns(fBlock: { [weak self] in
-            self?.getIssuesForColumn()
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+        viewModel.getBoardColumns(completition: { [weak self] (result) in
+           
+            switch result {
+                
+            case .success(_):
+                self?.getIssuesForColumn()
+
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+                
+            }
+        })
     }
     
     func getIssuesForColumn() {
         isLoading = true
-        viewModel.getBoardIssues(index: currentColumn, fBlock: { [weak self] in
-            AKActivityView.remove(animated: true)
-            self?.isLoading = false
-            self?.refreshControl.endRefreshing()
-            self?.setupUI()
-        }) {  [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+        viewModel.getBoardIssues(index: currentColumn, completition: { [weak self] (result) in
+           
+            switch result {
+                
+            case .success(_):
+                AKActivityView.remove(animated: true)
+                self?.isLoading = false
+                self?.refreshControl.endRefreshing()
+                self?.setupUI()
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
     
     func setupUI() {

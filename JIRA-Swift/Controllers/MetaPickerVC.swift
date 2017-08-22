@@ -29,16 +29,20 @@ class MetaPickerVC: UITableViewController {
     }
     
     func getPriorities() {
-        viewModel.getPriorities(fBlock: { [weak self] in
+        viewModel.getPriorities(completition: { [weak self] (result) in
             
-            self?.tableView.reloadData()
-            self?.tableView.separatorStyle = .singleLine
-            AKActivityView.remove(animated: true)
-            
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                self?.tableView.separatorStyle = .singleLine
+                AKActivityView.remove(animated: true)
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+            }
+        })
     }
 
     // MARK: - Table view data source
@@ -64,7 +68,7 @@ enum PickerType: String {
     case project, issueType, priority, assignee
 }
 
-class MetaPickerViewModel: ViewModel {
+class MetaPickerViewModel {
     
     var items: [Any] = []
     var type: PickerType?
@@ -103,30 +107,31 @@ class MetaPickerViewModel: ViewModel {
         return cell
     }
     
-    func getPriorities(fBlock: @escaping finishedBlock,  eBlock: @escaping stringBlock) {
+    func getPriorities(completition: @escaping responseHandler) {
         
-        let path = baseURL + "/rest/api/2/priority"
-        
-        Request().send(method: .get, url: path, params: nil, successBlock: { (responseObj) in
+        request.send(method: .get, url: Api.priority.path, params: nil, completition: { (result) in
                         
-            if let array = responseObj as? [Any] {
+            switch result {
                 
-                var objects: [IssuePriority] = []
+            case .success(let responseObj):
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj = IssuePriority(JSON: dict)!
-                    objects.append(obj)
+                if let array = responseObj as? [Any] {
+                    
+                    var objects: [IssuePriority] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj = IssuePriority(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    self.items = objects
+                    completition(.success(nil))
                 }
-                self.items = objects
-                fBlock()
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
             
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
         })
     }
 }

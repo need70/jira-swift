@@ -50,26 +50,39 @@ class WorklogsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
 
     func getWorklogs() {
-        viewModel.getWorklogs(from: tfFrom.text!, to: tfTo.text!, fBlock: { [weak self] in
-            self?.tableView.reloadData()
-            AKActivityView.remove(animated: true)
+        viewModel.getWorklogs(from: tfFrom.text!, to: tfTo.text!, completition: { [weak self] (result) in
             
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                AKActivityView.remove(animated: true)
+
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
     
     func deleteWorklog(index: Int) {
         ToastView.show("Deleting...")
-        viewModel.deleteWorklog(index: index, fBlock: { [weak self] in
-            ToastView.hide()
-            self?.validate()
-        }) { [weak self] (errString) in
-            ToastView.errHide(fBlock: {
-                self?.alert(title: "Error", message: errString)
-            })
-        }
+        viewModel.deleteWorklog(index: index, completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                ToastView.hide()
+                self?.validate()
+
+            case .failed(let err):
+                ToastView.errHide(fBlock: {
+                    self?.alert(title: "Error", message: err)
+                })
+
+            }
+        })
     }
     
     func validate() {

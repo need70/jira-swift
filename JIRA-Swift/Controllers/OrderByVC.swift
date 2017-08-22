@@ -26,15 +26,21 @@ class OrderByVC: UITableViewController, UISearchBarDelegate {
     }
     
     func getOrderBy() {
-        viewModel.getOrderBy(fBlock: { [weak self] (items) in
-            self?.tableView.separatorStyle = .singleLine
-            self?.tableView.reloadData()
-            AKActivityView.remove(animated: true)
+        viewModel.getOrderBy(completition: { [weak self] (result) in
             
-        }) {[weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+            switch result {
+                
+            case .success(_):
+                self?.tableView.separatorStyle = .singleLine
+                self?.tableView.reloadData()
+                AKActivityView.remove(animated: true)
+                
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+
+            }
+        })
     }
     
     override func rightBarButtonPressed() {

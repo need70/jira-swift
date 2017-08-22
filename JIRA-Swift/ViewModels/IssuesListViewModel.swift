@@ -34,13 +34,15 @@ class IssuesListViewModel {
         return titleStr
     }
     
-    func remove() { issues.removeAll() }
+    func remove() {
+        issues.removeAll()
+    }
     
     func setOrder(_ str: String?) {
         orderBy = str
     }
     
-    func numberOfRows(_ tableView: UITableView, _ section: Int) -> Int {
+    func numberOfRows(_ section: Int) -> Int {
         if issues.count == 0 {
             return 1
         }
@@ -86,7 +88,7 @@ class IssuesListViewModel {
         }
     }
     
-    func getIssues(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getIssues(completition: @escaping responseHandler) {
         
         if isLoading { return }
         pagingEnabled = true
@@ -102,31 +104,36 @@ class IssuesListViewModel {
         
         let params = ["jql" : jqlString, "startAt" : String(count), "maxResults" : String(ISSUES_PER_PAGE)]
         
-        Request().send(method: .post, url: Api.issuesList.path, params: params, successBlock: { [weak self] (responseObj) in
-            print(responseObj as Any)
-            
-            let dict = responseObj as! [String : Any]
-            if let array: [Any] = dict["issues"] as? [Any] {
+        request.send(method: .post, url: Api.issuesList.path, params: params, completition: { [weak self] (result) in
+           
+            switch result {
                 
-                self?.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
+            case .success(let responseObj):
                 
-                var objects: [Issue] = []
+                print(responseObj as Any)
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj: Issue = Issue(JSON: dict)!
-                    objects.append(obj)
+                let dict = responseObj as! [String : Any]
+                if let array: [Any] = dict["issues"] as? [Any] {
+                    
+                    self?.pagingEnabled = (array.count < ISSUES_PER_PAGE) ? false : true
+                    
+                    var objects: [Issue] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj: Issue = Issue(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    self?.issues += objects
+                    self?.isLoading = false
+                    completition(.success(nil))
                 }
-                self?.issues += objects
-                self?.isLoading = false
-                fBlock()
+                
+            case .failed(let err):
+                completition(.failed(err))
+
             }
             
-        }, errorBlock: { (error) in
-            if let err = error {
-                print(err)
-                eBlock(err)
-            }
         })
     }
 }

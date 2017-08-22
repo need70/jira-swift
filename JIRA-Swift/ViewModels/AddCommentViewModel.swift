@@ -9,7 +9,7 @@
 protocol AddCommentViewModelProtocol {
     
     var title: String { get }
-    func addComment(body: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock)
+    func addComment(body: String, completition: @escaping responseHandler)
 }
 
 class AddCommentViewModel: AddCommentViewModelProtocol {
@@ -27,16 +27,20 @@ class AddCommentViewModel: AddCommentViewModelProtocol {
         return "Add Comment"
     }
     
-    func addComment(body: String, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func addComment(body: String, completition: @escaping responseHandler) {
         
         guard let key = issue?.key else { return }
         let params = ["body" : body]
         
-        Request().send(method: .post, url: Api.comments(key).path, params: params, successBlock: { (responseObj) in
-            fBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
+        Request().send(method: .post, url: Api.comments(key).path, params: params, completition: { (result) in
+            
+            switch result {
+                
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
         })
     }

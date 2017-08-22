@@ -52,21 +52,26 @@ class LoginVC: UITableViewController, UITextFieldDelegate {
     
     func auth(login: String, pass: String, url: String) {
         
-        viewModel.logIn(userName: login, password: pass, sBlock: { [weak self] in
+        viewModel.logIn(userName: login, password: pass, completition: { [weak self] (result) in
             
-            if (self?.switcher.isOn)! {
-                self?.viewModel.saveLogin(login: login)
-                self?.viewModel.savePassword(pass: pass)
+            switch result {
+                
+            case .success(_):
+                
+                if (self?.switcher.isOn)! {
+                    self?.viewModel.saveLogin(login: login)
+                    self?.viewModel.savePassword(pass: pass)
+                }
+                ToastView.hide() {
+                    self?.performSegue(withIdentifier: "segueToTabbarController", sender: self)
+                }
+                
+            case .failed(let err):
+                ToastView.errHide() {
+                    self?.alert(title: "Error", message: err)
+                }
             }
-            ToastView.hide() {
-                self?.performSegue(withIdentifier: "segueToTabbarController", sender: self)
-            }
-
-        }) { [weak self] (errString) in
-            ToastView.errHide() {
-                self?.alert(title: "Error", message: errString)
-            }
-        }
+        })
     }
     
     func tryAutoLogin() {

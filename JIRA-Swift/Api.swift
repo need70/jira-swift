@@ -28,6 +28,7 @@ enum Api {
     case tempoTeams
     case tempoUsers(Int)
     case tempoWorklogs(String, String, String)
+    case priority
     
     private var baseURL: String  {
         guard let url = UserDefaults.standard.value(forKey: "JiraURL") else {
@@ -106,7 +107,11 @@ enum Api {
         case .tempoWorklogs(let name, let from, let to):
             let path = baseURL + "/rest/tempo-timesheets/3/worklogs/?username=" + name + "&dateFrom=" + from + "&dateTo=" + to
             return path
-
+            
+        case .priority:
+            return baseURL + "/rest/api/2/priority"
+            
         }
+        
     }
 }

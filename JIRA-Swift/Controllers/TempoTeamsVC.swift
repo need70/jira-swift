@@ -21,14 +21,21 @@ class TempoTeamsVC: UITableViewController {
     }
     
     func getTeams() {
-        viewModel.getTempoTeams(fBlock: { [weak self] (array) in
-            self?.tableView.reloadData()
-            self?.tableView.separatorStyle = .singleLine
-            AKActivityView.remove(animated: true)
-        }) { [weak self] (errString) in
-            AKActivityView.remove(animated: true)
-            self?.alert(title: "Error", message: errString)
-        }
+        viewModel.getTempoTeams(completition: { [weak self] (result) in
+            
+            switch result {
+                
+            case .success(_):
+                self?.tableView.reloadData()
+                self?.tableView.separatorStyle = .singleLine
+                AKActivityView.remove(animated: true)
+
+            case .failed(let err):
+                AKActivityView.remove(animated: true)
+                self?.alert(title: "Error", message: err)
+                
+            }
+        })
     }
 
     // MARK: - Table view data source

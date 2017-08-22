@@ -190,124 +190,143 @@ class IssueDetailsViewModel {
     
     //MARK: requests
 
-    func getIssue(fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getIssue(completition: @escaping responseHandler) {
         
         guard let key = issueKey else {
-            eBlock("Issue key not found!")
+            completition(.failed("Issue key not found!"))
             return
         }
         
-        Request().send(method: .get, url: Api.issue(key).path, params: nil, successBlock: { (responseObj) in
+        request.send(method: .get, url: Api.issue(key).path, params: nil, completition: { (result) in
             
-            if let dict = responseObj as? [String : Any] {
-                self.issue = Issue(JSON: dict)!
-                fBlock()
-            } else {
-                self.issue = Issue(JSON: [:])!
-                fBlock()
+            switch result {
+                
+            case .success(let responseObj):
+                
+                if let dict = responseObj as? [String : Any] {
+                    self.issue = Issue(JSON: dict)!
+                } else {
+                    self.issue = Issue(JSON: [:])!
+                }
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
             
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
-            }
         })
     }
     
-    func watchIssue(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func watchIssue(completition: @escaping responseHandler) {
         
         guard let issueId = issue?.issueId else {
-            eBlock("Fatal error!")
+            completition(.failed("Fatal error!"))
             return
         }
         
         guard let username = UserDefaults.standard.value(forKey: "Username") as? String else {
-            eBlock("Username not found!")
+            completition(.failed("Username not found!"))
             return
         }
         
         let params = String(format: "\"%@\"", username as String)
         
-        Request().send(method: .post, url: Api.watchIssue(issueId).path, params: params, successBlock: { (responseObj) in
-            print(responseObj as Any)
-            sBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
+        request.send(method: .post, url: Api.watchIssue(issueId).path, params: params, completition: { (result) in
+            
+            switch result {
+                
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
+            
         })
     }
     
-    func removeFromWatchList(sBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func removeFromWatchList(completition: @escaping responseHandler) {
         
         guard let issueId = issue?.issueId else {
-            eBlock("Fatal error!")
+            completition(.failed("Fatal error!"))
             return
         }
         
         guard let username = UserDefaults.standard.value(forKey: "Username") as? String else {
-            eBlock("Username not found!")
+            completition(.failed("Username not found!"))
             return
         }
         
-        Request().send(method: .delete, url: Api.unwatchIssue(issueId, username).path, params: nil, successBlock: { (responseObj) in
-            print(responseObj as Any)
-            sBlock()
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
-            }
-        })
-    }
-    
-    func getTransitions(fBlock: @escaping arrayBlock, eBlock: @escaping stringBlock) {
-        
-        guard let key = issueKey else {
-            eBlock("Issue key not found!")
-            return
-        }
-        
-        Request().send(method: .get, url: Api.transitions(key).path, params: nil, successBlock: { (responseObj) in
-            
-            if let dict = responseObj as? [String : Any], let array =  dict["transitions"] as? [Any] {
-               
-                var objects: [Transition] = []
+        request.send(method: .delete, url: Api.unwatchIssue(issueId, username).path, params: nil, completition: { (result) in
+
+            switch result {
                 
-                for index in 0..<array.count {
-                    let dict = array[index] as! [String: Any]
-                    let obj: Transition = Transition(JSON: dict)!
-                    objects.append(obj)
-                }
-                fBlock(objects)
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
             }
-            
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
-            }
+        
         })
     }
     
-    func updateStatus(transition: Transition?, fBlock: @escaping finishedBlock, eBlock: @escaping stringBlock) {
+    func getTransitions(completition: @escaping responseHandler) {
         
         guard let key = issueKey else {
-            eBlock("Issue key not found!")
+            completition(.failed("Issue key not found!"))
+            return
+        }
+        
+        Request().send(method: .get, url: Api.transitions(key).path, params: nil, completition: { (result) in
+            
+            switch result {
+                
+            case .success(let responseObj):
+                
+                if let dict = responseObj as? [String : Any], let array =  dict["transitions"] as? [Any] {
+                    
+                    var objects: [Transition] = []
+                    
+                    for index in 0..<array.count {
+                        let dict = array[index] as! [String: Any]
+                        let obj: Transition = Transition(JSON: dict)!
+                        objects.append(obj)
+                    }
+                    completition(.success(objects))
+                }
+                
+            case .failed(let err):
+                completition(.failed(err))
+            }
+            
+        })
+    }
+    
+    func updateStatus(transition: Transition?, completition: @escaping responseHandler) {
+        
+        guard let key = issueKey else {
+            completition(.failed("Issue key not found!"))
             return
         }
         
         guard transition != nil else {
-            eBlock("Transition not found!")
+            completition(.failed("Transition not found!"))
             return
         }
         
         let params = ["transition": ["id" : transition?.transitionId]]
         
-        Request().send(method: .post, url: Api.transitions(key).path, params: params, successBlock: { (responseObj) in
-            fBlock()
+        request.send(method: .post, url: Api.transitions(key).path, params: params, completition: { (result) in
             
-        }, errorBlock: { (error) in
-            if let err = error {
-                eBlock(err)
+            switch result {
+                
+            case .success(_):
+                completition(.success(nil))
+                
+            case .failed(let err):
+                completition(.failed(err))
+                
             }
         })
     }
